@@ -9,9 +9,11 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+<title>Cửa hàng đồ chơi</title>
+<link rel="shortcut icon" href='<c:url value="/resources/images/favicon.ico" />' type="image/x-icon">
+<link rel="icon" href='<c:url value="/resources/images/favicon.ico" />' type="image/x-icon">
 <link rel="stylesheet"
-	href="${ context }/resources/bootstrap-4.5.0-dist/css/bootstrap.min.css">
+	href='<c:url value="/resources/bootstrap-4.5.0-dist/css/bootstrap.min.css"></c:url>'>
 <link rel="stylesheet" href="${ context }/resources/css/main.css">
 <script src="${ context }/resources/js/jquery.min.js"></script>
 <script src="${ context }/resources/js/popper.min.js"></script>
@@ -21,7 +23,7 @@
 </head>
 
 <body>
-	<%@include file="navigationBar.jsp"%>
+	<%@include file="/WEB-INF/views/navigationBar.jsp"%>
 
 	<div class="p-3">
 		<div class="row mt-2">
@@ -37,17 +39,17 @@
 					<div class="carousel-inner" role="listbox">
 						<div class="carousel-item active">
 							<img
-								src="https://u6wdnj9wggobj.vcdn.cloud/media/catalog/product/cache/7c9924b6276ad76a951c1e786fcf2062/0/1/01_67.jpg"
+								src="${ context }/resources/images/batman.jpg"
 								alt="First slide">
 						</div>
 						<div class="carousel-item">
 							<img
-								src="https://u6wdnj9wggobj.vcdn.cloud/media/catalog/product/cache/7c9924b6276ad76a951c1e786fcf2062/6/0/60251_1.jpg"
+								src="${ context }/resources/images/legocar.jpg"
 								alt="Second slide">
 						</div>
 						<div class="carousel-item">
 							<img
-								src="https://u6wdnj9wggobj.vcdn.cloud/media/catalog/product/cache/7c9924b6276ad76a951c1e786fcf2062/6/0/6055946_2.jpg"
+								src="${ context }/resources/images/captain.jpg"
 								alt="Third slide">
 						</div>
 					</div>
@@ -283,7 +285,7 @@
 		</div>
 	</div>
 
-	<%@include file="footer.jsp"%>
+	<%@include file="/WEB-INF/views/footer.jsp"%>
 </body>
 
 </html>
