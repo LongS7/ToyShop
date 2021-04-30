@@ -17,7 +17,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.se.toyshop.dao.ProductDAO;
+import com.se.toyshop.dao.UserDao;
 import com.se.toyshop.dao.impl.ProductDAOImpl;
+import com.se.toyshop.dao.impl.UserImpl;
 
 @Configuration
 @ComponentScan("com.se.toyshop")
@@ -69,5 +71,10 @@ public class ApplicationConfig {
 	public ProductDAO getProductDAO() {
 		return new ProductDAOImpl();
 	}
+	
+//	@Bean
+//	public UserDao getUserDao() {
+//		return new UserImpl();
+//	}
 
 }

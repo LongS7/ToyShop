@@ -23,18 +23,26 @@ public class User {
 	private String role;
 	private String email;
 	private String phone;
-	
+
 	@ElementCollection
 	private List<ShoppingCartItem> listShoppingCartItem;
-	
+
 	@ElementCollection
 	private List<ShippingAddress> shippingAddresses;
-	
+
 	@OneToOne
 	private Account account;
-	
+
 	public User() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public User(ObjectId _id, String name, String photo, int gender, LocalDate birthday, String role, String email,
@@ -113,18 +121,19 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
+
 	public List<ShoppingCartItem> getListShoppingCartItem() {
 		return listShoppingCartItem;
 	}
-	
+
 	public void setListShoppingCartItem(List<ShoppingCartItem> listShoppingCartItem) {
 		this.listShoppingCartItem = listShoppingCartItem;
 	}
-	
+
 	public List<ShippingAddress> getShippingAddresses() {
 		return shippingAddresses;
 	}
+
 	public void setShippingAddresses(List<ShippingAddress> shippingAddresses) {
 		this.shippingAddresses = shippingAddresses;
 	}
@@ -134,5 +143,5 @@ public class User {
 		return "User [_id=" + _id + ", name=" + name + ", photo=" + photo + ", gender=" + gender + ", birthday="
 				+ birthday + ", role=" + role + ", email=" + email + ", phone=" + phone + "]";
 	}
-	
+
 }
