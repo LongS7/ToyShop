@@ -30,7 +30,7 @@
 <body>
 	<%@include file="/WEB-INF/views/navigationBar.jsp"%>
 
-	<div class="container pb-5 pt-5">
+	<div class="container mb-2">
 		<p>Đăng nhập để mua hàng và sử dụng những tiện ích mới nhất từ
 			XShop</p>
 		<p>
@@ -40,11 +40,15 @@
 			<div class="form-group">
 				<form:label path="username">Email:</form:label> 
 				<form:input type="email" class="form-control" id="email" placeholder="Nhập email" name="email" required="required" path="username"/>
+				<div class="valid-feedback">Hợp lệ</div>
+				<div class="invalid-feedback">Email không được để trống.</div>
 			</div>
 			<div class="form-group">
 				<form:label path="password">Mật khẩu:</form:label> <form:input type="password"
 					class="form-control" id="pwd" placeholder="Enter password"
-					name="password" required="required" path="password"/>
+					name="pswd" required="required" path="password"/>
+				<div class="valid-feedback">Hợp lệ.</div>
+				<div class="invalid-feedback">Mật khẩu không được để trống.</div>
 			</div>
 			<p>
 				Quên mật khẩu? Khôi phục mật khẩu <a href="#">tại đây</a>
