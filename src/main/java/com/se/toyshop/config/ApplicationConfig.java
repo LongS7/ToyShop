@@ -16,7 +16,9 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import com.se.toyshop.dao.CartDAO;
 import com.se.toyshop.dao.ProductDAO;
+import com.se.toyshop.dao.impl.CartDAOImpl;
 import com.se.toyshop.dao.impl.ProductDAOImpl;
 
 @Configuration
@@ -68,6 +70,11 @@ public class ApplicationConfig {
 	@Bean(name = "productDAO")
 	public ProductDAO getProductDAO() {
 		return new ProductDAOImpl();
+	}
+	
+	@Bean(name = "cartDAO")
+	public CartDAO getCartDAO() {
+		return new CartDAOImpl();
 	}
 
 }

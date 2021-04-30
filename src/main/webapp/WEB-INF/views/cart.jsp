@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,104 +46,97 @@ img {
 
 <body>
 	<%@include file="navigationBar.jsp"%>
+	
+	<fmt:setLocale value="vi_VN" scope="session"/>
+	
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col">
-				<h5>THÔNG TIN ĐƠN HÀNG (4 sản phẩm)</h5>
-				<form action="">
+		<c:if test="${ cart != null and cart.size() > 0 }">
+			<c:set var="total" value="0"></c:set>
+			<div class="row p-3">
+				<div class="col-sm-6">
+					<h5>THÔNG TIN GIỎ HÀNG (${ cart.size() } sản phẩm)</h5>
 					<table style="width: 100%">
-						<tr>
-							<td colspan="4">
-								<hr>
-							</td>
-						</tr>
-						<tr>
-							<td rowspan="2"><img src="../images/31204_1.jpg" alt=""></td>
-							<td><a href="#">1 x Trạm đỗ xe Ferrari đa chức năng, kèm
-									2 xe tỉ lệ 1:43</a></td>
-							<td class="text-danger"><strong>999,000 VNĐ</strong></td>
-							<td class="product-quantity">
-								<button type="button" class="btn btn-light btn-sm">
-									<i class="fas fa-plus"></i>
-								</button>
-								<input type="text" size="1">
-							<button type="button" class="btn btn-light btn-sm">
-									<i class="fas fa-minus"></i>
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td><button type="button" class="btn btn-light">Xóa</button></td>
-						</tr>
-						<tr>
-							<td colspan="4">
-								<hr>
-							</td>
-						</tr>
-						<tr>
-							<td rowspan="2"><img src="../images/e8721_1.jpg" alt=""></td>
-							<td><a href="#">1 x Bé Nana đi tắm</a></td>
-							<td class="text-danger"><strong>328,000 VNĐ</strong></td>
-							<td class="product-quantity">
-								<button type="button" class="btn btn-light btn-sm">
-									<i class="fas fa-plus"></i>
-								</button> <input type="text" size="1">
-								<button type="button" class="btn btn-light btn-sm">
-									<i class="fas fa-minus"></i>
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td><button type="button" class="btn btn-light">Xóa</button></td>
-						</tr>
-						<tr>
-							<td colspan="4">
-								<hr>
-							</td>
-						</tr>
-					</table>
-				</form>
-				<button class="btn btn-outline-danger">Tiếp tục mua sắm</button>
+						<c:forEach var="item" items="${ cart }">
+							<c:set var="total" value="${ total + item.product.price * item.quantity }"></c:set>
+							<tr>
+								<td colspan="4">
+									<hr>
+								</td>
+							</tr>
+							<tr>
+								<td rowspan="2"><img src="data:image/png;base64,${ item.product.images[0] }" alt="${ item.product.name }"></td>
+								<td><a href="/product?${ item.product._id }">${ item.product.name }</a></td>
+								<td class="text-danger"><strong><fmt:formatNumber value="${ item.product.price }" type="currency"/> </strong></td>
+							</tr>
+							<tr>
+								<td><button type="button" class="btn btn-light">Xóa</button></td>
+								<td class="product-quantity text-right">
+									<button type="button" class="btn btn-light btn-sm">
+										<i class="fas fa-plus"></i>
+									</button>
+								</td>
+								<td>
+									<input type="number" class="form-control text-center" value="${ item.quantity }">
+								</td>
+								<td>
+									<button type="button" class="btn btn-light btn-sm">
+										<i class="fas fa-minus"></i>
+									</button>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="4">
+									<hr>
+								</td>
+							</tr>
+						</c:forEach>
+					</table> 
+					<a href="/home" class="btn btn-outline-danger">Tiếp tục mua sắm</a>
+				</div>
+				<div class="col-sm-6">
+					<h4>TÓM TẮT ĐƠN HÀNG</h4>
+					<form action="#">
+						<table style="width: 100%">
+							<tr>
+								<td>TỔNG TIỀN</td>
+								<td class="text-right"><fmt:formatNumber value="${ total }" type="currency" /></td>
+							</tr>
+							<tr>
+								<td>GIẢM</td>
+								<td class="text-right">0 VNĐ</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<hr>
+								</td>
+							</tr>
+							<tr>
+								<td class="text-uppercase" style="font-size: 1.5em;"><strong>Thành tiền</strong></td>
+								<td class="text-right" style="font-size: 1.5em;">
+									<strong><fmt:formatNumber value="${ total }" type="currency" />
+									</strong>
+								</td>
+							</tr>
+							<tr>
+								<td><br></td>
+							</tr>
+							<tr>
+								<td colspan="2"><button type="button"
+										class="text-uppercase btn btn-danger btn-block"
+										style="font-size: 1.5em;">tiến hành thanh toán</button></td>
+							</tr>
+						</table>
+					</form>
+				</div>
 			</div>
-			<div class="col">
-				<h4>TÓM TẮT ĐƠN HÀNG</h4>
-				<form action="#">
-					<table style="width: 100%">
-						<tr>
-							<td>TỔNG TIỀN</td>
-							<td class="text-right">1,327,000 VNĐ</td>
-						</tr>
-						<tr>
-							<td>GIẢM</td>
-							<td class="text-right">0 VNĐ</td>
-						</tr>
-						<tr>
-							<td>VẬN CHUYỂN (GIAO HÀNG MIỄN PHÍ - FREE)</td>
-							<td class="text-right">0 VNĐ</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<hr>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-uppercase" style="font-size: 1.5em;"><strong>Thành
-									tiền</strong></td>
-							<td class="text-right" style="font-size: 1.5em;"><strong>1,327,000
-									VNĐ</strong></td>
-						</tr>
-						<tr>
-							<td><br></td>
-						</tr>
-						<tr>
-							<td colspan="2"><button type="button"
-									class="text-uppercase btn btn-danger btn-block"
-									style="font-size: 1.5em;">tiến hành thanh toán</button></td>
-						</tr>
-					</table>
-				</form>
+	
+		</c:if>
+		<c:if test="${ cart == null or cart.size() <= 0 }">
+			<div class="text-center p-5" style="height: 300px;">
+				<h4 class="mb-5">Bạn chưa có sản phẩm nào trong giỏ hàng!</h4>
+				<a href="/home" class="btn btn-outline-danger ml-auto mr-auto">Tiếp tục mua sắm</a>
 			</div>
-		</div>
+		</c:if>
 	</div>
 	<%@include file="footer.jsp"%>
 </body>

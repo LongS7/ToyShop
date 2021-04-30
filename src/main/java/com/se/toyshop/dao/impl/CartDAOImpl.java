@@ -1,7 +1,5 @@
 package com.se.toyshop.dao.impl;
 
-import java.util.List;
-
 import org.bson.types.ObjectId;
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
@@ -19,17 +17,15 @@ public class CartDAOImpl implements CartDAO {
 	public void setSessionFactory(OgmSessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-
-	public List<ShoppingCartItem> getListCartItem() {
-		List<ShoppingCartItem> cartItems = null;
-		
+	
+	public User getUser() {
 		OgmSession session = sessionFactory.getCurrentSession();
 		
 		Transaction tran = session.beginTransaction();
 		
+		User user = null;
 		try {
-			cartItems = session.createNativeQuery("db.users.aggregate([{$match: {cartItems: {$exists: true}}}, {$project: {_id: 0,address: 1}}])", 
-					ShoppingCartItem.class).getResultList();
+			user = session.createNativeQuery("db.users.find({})", User.class).getResultList().get(0);
 			
 			tran.commit();
 			
@@ -38,7 +34,7 @@ public class CartDAOImpl implements CartDAO {
 			tran.rollback();
 		}
 		
-		return cartItems;
+		return user;
 	}
 
 	public boolean addCartItem(User user, ShoppingCartItem cartItem) {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -24,7 +25,7 @@ public class User {
 	private String email;
 	private String phone;
 	
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	private List<ShoppingCartItem> listShoppingCartItem;
 	
 	@ElementCollection
