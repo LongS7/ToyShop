@@ -8,28 +8,28 @@ import javax.persistence.UniqueConstraint;
 import org.bson.types.ObjectId;
 
 @Entity
-@Table(name = "accounts", uniqueConstraints = { @UniqueConstraint(columnNames = {"userName"}) })
+@Table(name = "accounts", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
 public class Account {
 	@Id
 	private ObjectId _id;
-	private String userName;
+	private String username;
 	private String password;
-	
+
 	public Account() {
 	}
 
-	public Account(String userName, String password) {
+	public Account(String username, String password) {
 		super();
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -42,9 +42,7 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [userName=" + userName + ", password=" + password + "]";
+		return "Account [username=" + username + ", password=" + password + "]";
 	}
-	
-	
 
 }

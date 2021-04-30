@@ -9,7 +9,7 @@ import com.se.toyshop.dao.ProductDAO;
 import com.se.toyshop.entity.Product;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/product")
 public class ProductController {
 	@Autowired
 	private ProductDAO productDAO;
