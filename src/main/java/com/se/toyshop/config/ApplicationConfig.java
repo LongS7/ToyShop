@@ -65,7 +65,7 @@ public class ApplicationConfig {
 		return transactionManager;
 	}
 
-	@Bean(name = "applicantDAO")
+	@Bean(name = "productDAO")
 	public ProductDAO getProductDAO() {
 		return new ProductDAOImpl();
 	}
