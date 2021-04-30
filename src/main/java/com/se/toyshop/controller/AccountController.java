@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.se.toyshop.entity.Account;
+import com.se.toyshop.entity.User;
 
 @Configuration
 @RequestMapping("/account")
@@ -14,5 +15,12 @@ public class AccountController {
 		Account account = new Account();
 		model.addAttribute("account", account);
 		return "loginForm";
+	}
+	
+	@RequestMapping("/register")
+	public String showRegisterForm(Model model) {
+		User user = new User();
+		model.addAttribute("user", user);
+		return "registerForm";
 	}
 }
