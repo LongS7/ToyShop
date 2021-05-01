@@ -3,8 +3,12 @@ package com.se.toyshop.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -15,6 +19,7 @@ import org.bson.types.ObjectId;
 @Table(name = "users")
 public class User {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private ObjectId _id;
 	private String name;
 	private String photo;
@@ -24,13 +29,13 @@ public class User {
 	private String email;
 	private String phone;
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	private List<ShoppingCartItem> listShoppingCartItem;
 
 	@ElementCollection
 	private List<ShippingAddress> shippingAddresses;
 
-	@OneToOne
+	@OneToOne(cascade = {CascadeType.ALL})
 	private Account account;
 
 	public User() {
@@ -48,6 +53,14 @@ public class User {
 		this.role = role;
 		this.email = email;
 		this.phone = phone;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	public Account getAccount() {
+		return account;
 	}
 
 	public ObjectId get_id() {

@@ -31,7 +31,7 @@
 	<%@include file="/WEB-INF/views/navigationBar.jsp"%>
 	<div class="container  pb-5 pt-5">
 		<h4>ĐĂNG KÝ TÀI KHOẢN CỦA BẠN</h4>
-		<form:form action="/user/add" method="POST" modelAttribute="user">
+		<form:form method="POST" modelAttribute="user">
 			<div class="form-group">
 				<form:label path="name">Họ tên:</form:label>
 				<form:input path="name" placeholder="Nhập họ và tên"
@@ -52,17 +52,12 @@
 				<form:password path="account.password" class="form-control"
 					placeholder="Mật khẩu từ 6 đến 32 ký tự" />
 			</div>
-			<form:label path="gender">Giới tính</form:label><br>
-			<div class="form-check-inline">
-				<form:label path="gender" class="form-check-label">
-					<form:radiobutton class="form-check-input" path="gender" value="1" />Nam
-				</form:label>
-			</div>
-			<div class="form-check-inline">
-				<form:label path="gender" class="form-check-label">
-					<form:radiobutton class="form-check-input" path="gender" value="0" />
-				</form:label>
-				Nữ
+			<div class="form-group">
+				<form:label path="gender">Giới tính:</form:label>
+				<form:select path="gender" class="form-control">
+					<form:option value="1">Nam</form:option>
+					<form:option value="0">Nữ</form:option>
+				</form:select>
 			</div>
 			<div class="form-group">
 				<form:label path="birthday">Ngày sinh:</form:label>
