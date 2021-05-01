@@ -31,7 +31,7 @@
 	<%@include file="/WEB-INF/views/navigationBar.jsp"%>
 	<div class="container  pb-5 pt-5">
 		<h4>ĐĂNG KÝ TÀI KHOẢN CỦA BẠN</h4>
-		<form:form action="#" method="POST" modelAttribute="user">
+		<form:form action="/user/add" method="POST" modelAttribute="user">
 			<div class="form-group">
 				<form:label path="name">Họ tên:</form:label>
 				<form:input path="name" placeholder="Nhập họ và tên"
@@ -47,11 +47,11 @@
 				<form:input type="email" path="email" placeholder="Nhập email"
 					class="form-control" />
 			</div>
-			<%-- <div class="form-group">
-				<form:label path="password">Mật khẩu:</form:label>
-				<form:password path="password"
+			<div class="form-group">
+				<form:label path="account.password">Mật khẩu:</form:label>
+				<form:password path="account.password" class="form-control"
 					placeholder="Mật khẩu từ 6 đến 32 ký tự" />
-			</div> --%>
+			</div>
 			<form:label path="gender">Giới tính</form:label><br>
 			<div class="form-check-inline">
 				<form:label path="gender" class="form-check-label">

@@ -1,13 +1,13 @@
 package com.se.toyshop.controller;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.se.toyshop.entity.Account;
 import com.se.toyshop.entity.User;
 
-@Configuration
+@Controller
 @RequestMapping("/account")
 public class AccountController {
 	@RequestMapping("/login")

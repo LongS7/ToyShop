@@ -37,14 +37,6 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
 	public User(ObjectId _id, String name, String photo, int gender, LocalDate birthday, String role, String email,
 			String phone) {
 		super();
