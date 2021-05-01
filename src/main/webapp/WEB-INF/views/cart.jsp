@@ -15,6 +15,7 @@
 <link rel="stylesheet"
 	href='<c:url value="/resources/bootstrap-4.5.0-dist/css/bootstrap.min.css"></c:url>'>
 <link rel="stylesheet" href="${ context }/resources/css/main.css">
+<script src="${ context }/resources/js/cart.js"></script>
 <script src="${ context }/resources/js/jquery.min.js"></script>
 <script src="${ context }/resources/js/popper.min.js"></script>
 <script src="${ context }/resources/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
@@ -52,12 +53,14 @@ img {
 	<div class="container-fluid">
 		<c:if test="${ cart != null and cart.size() > 0 }">
 			<c:set var="total" value="0"></c:set>
+			<c:set var="totalDiscount" value="0"></c:set>
 			<div class="row p-3">
 				<div class="col-sm-6">
 					<h5>THÔNG TIN GIỎ HÀNG (${ cart.size() } sản phẩm)</h5>
 					<table style="width: 100%">
 						<c:forEach var="item" items="${ cart }">
 							<c:set var="total" value="${ total + item.product.price * item.quantity }"></c:set>
+							<c:set var="totalDiscount" value="${ totalDiscount + item.product.price * item.product.discount * item.quantity }"></c:set>
 							<tr>
 								<td colspan="4">
 									<hr>
@@ -66,22 +69,28 @@ img {
 							<tr>
 								<td rowspan="2"><img src="data:image/png;base64,${ item.product.images[0] }" alt="${ item.product.name }"></td>
 								<td><a href="/product?${ item.product._id }">${ item.product.name }</a></td>
-								<td class="text-danger"><strong><fmt:formatNumber value="${ item.product.price }" type="currency"/> </strong></td>
+								<td class="text-danger"><strong><fmt:formatNumber value="${ item.product.price * (1 - item.product.discount)}" type="currency"/> </strong></td>
+								<c:if test="${ item.product.discount > 0 }">
+									<td class="text-danger"><strong  style="text-decoration: line-through;"><fmt:formatNumber value="${ item.product.price }" type="currency"/> </strong></td>									
+								</c:if>
 							</tr>
 							<tr>
-								<td><button type="button" class="btn btn-light">Xóa</button></td>
-								<td class="product-quantity text-right">
-									<button type="button" class="btn btn-light btn-sm">
-										<i class="fas fa-plus"></i>
-									</button>
-								</td>
-								<td>
-									<input type="number" class="form-control text-center" value="${ item.quantity }">
-								</td>
-								<td>
-									<button type="button" class="btn btn-light btn-sm">
-										<i class="fas fa-minus"></i>
-									</button>
+								<td><a href="remove?productId=${ item.product._id }" type="button" class="btn btn-light">Xóa</a></td>
+								
+								<td></td>
+								<td >
+									<form action="list" method="post">
+										<input name="productId" type="text" value="${ item.product._id }" hidden="hidden">
+										<div class="input-group">
+											<div class="input-group-append">
+										    	<button class="btn btn-secondary" onclick="decreaseQuantity(this)"><i class="fas fa-minus"></i></button>
+										  	</div>
+										  	<input name="q" type="text" class="form-control text-center" value="${ item.quantity }" style="width: 20px;" >
+										  	<div class="input-group-append">
+										    	<button class="btn btn-secondary" onclick="increaseQuantity(this)"><i class="fas fa-plus"></i></button>
+										  	</div>
+										</div>
+									</form>
 								</td>
 							</tr>
 							<tr>
@@ -103,7 +112,7 @@ img {
 							</tr>
 							<tr>
 								<td>GIẢM</td>
-								<td class="text-right">0 VNĐ</td>
+								<td class="text-right"><fmt:formatNumber value="${ totalDiscount }" type="currency" /></td>
 							</tr>
 							<tr>
 								<td colspan="2">
@@ -113,7 +122,7 @@ img {
 							<tr>
 								<td class="text-uppercase" style="font-size: 1.5em;"><strong>Thành tiền</strong></td>
 								<td class="text-right" style="font-size: 1.5em;">
-									<strong><fmt:formatNumber value="${ total }" type="currency" />
+									<strong><fmt:formatNumber value="${ total - totalDiscount }" type="currency" />
 									</strong>
 								</td>
 							</tr>
