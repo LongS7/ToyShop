@@ -44,7 +44,7 @@ img {
 }
 </style>
 </head>
-
+<c:set var="context" value="${ pageContext.request.contextPath }" />
 <body>
 	<%@include file="navigationBar.jsp"%>
 	
@@ -68,7 +68,7 @@ img {
 							</tr>
 							<tr>
 								<td rowspan="2"><img src="data:image/png;base64,${ item.product.images[0] }" alt="${ item.product.name }"></td>
-								<td><a href="/product?${ item.product._id }">${ item.product.name }</a></td>
+								<td><a href="${ context }/product?${ item.product._id }">${ item.product.name }</a></td>
 								<td class="text-danger"><strong><fmt:formatNumber value="${ item.product.price * (1 - item.product.discount)}" type="currency"/> </strong></td>
 								<c:if test="${ item.product.discount > 0 }">
 									<td class="text-danger"><strong  style="text-decoration: line-through;"><fmt:formatNumber value="${ item.product.price }" type="currency"/> </strong></td>									
@@ -100,7 +100,7 @@ img {
 							</tr>
 						</c:forEach>
 					</table> 
-					<a href="/home" class="btn btn-outline-danger">Tiếp tục mua sắm</a>
+					<a href="${ context }" class="btn btn-outline-danger">Tiếp tục mua sắm</a>
 				</div>
 				<div class="col-sm-6">
 					<h4>TÓM TẮT ĐƠN HÀNG</h4>
@@ -130,9 +130,9 @@ img {
 								<td><br></td>
 							</tr>
 							<tr>
-								<td colspan="2"><button type="button"
+								<td colspan="2"><a href="${ context }/order/new"
 										class="text-uppercase btn btn-danger btn-block"
-										style="font-size: 1.5em;">tiến hành thanh toán</button></td>
+										style="font-size: 1.5em;">tiến hành thanh toán</a></td>
 							</tr>
 						</table>
 					</form>
@@ -143,7 +143,7 @@ img {
 		<c:if test="${ cart == null or cart.size() <= 0 }">
 			<div class="text-center p-5" style="height: 300px;">
 				<h4 class="mb-5">Bạn chưa có sản phẩm nào trong giỏ hàng!</h4>
-				<a href="/home" class="btn btn-outline-danger ml-auto mr-auto">Tiếp tục mua sắm</a>
+				<a href="${ context }" class="btn btn-outline-danger ml-auto mr-auto">Tiếp tục mua sắm</a>
 			</div>
 		</c:if>
 	</div>

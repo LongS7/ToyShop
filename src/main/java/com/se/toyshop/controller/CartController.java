@@ -25,7 +25,6 @@ public class CartController {
 	@RequestMapping(value = {"/list", "/"})
 	public ModelAndView showCart(HttpSession session) {
 		User user = (User) session.getAttribute("currentUser");
-//		user = cartDAO.getUser();
 		
 		ModelAndView modelAndView = new ModelAndView("cart");
 		
@@ -43,7 +42,7 @@ public class CartController {
 		
 		return modelAndView;
 	}
-	
+
 	@RequestMapping("/add")
 	public ModelAndView addCartItem(HttpSession session, @RequestParam("productId") String id) {
 		User user = (User) session.getAttribute("currentUser");
