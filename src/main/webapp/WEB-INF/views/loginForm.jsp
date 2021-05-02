@@ -36,15 +36,15 @@
 		<p>
 			Bạn chưa có tài khoản? <a href="#">ĐĂNG KÝ TÀI KHOẢN</a>
 		</p>
-		<form:form method="POST" action="#" modelAttribute="account">
+		<form:form method="POST" modelAttribute="user">
 			<div class="form-group">
-				<form:label path="username">Email:</form:label> 
-				<form:input type="email" class="form-control" id="email" placeholder="Nhập email" name="email" required="required" path="username"/>
+				<form:label path="account.username">Email:</form:label> 
+				<form:input type="email" class="form-control" id="email" placeholder="Nhập email" name="email" required="required" path="account.username"/>
 			</div>
 			<div class="form-group">
-				<form:label path="password">Mật khẩu:</form:label> <form:input type="password"
+				<form:label path="account.password">Mật khẩu:</form:label> <form:input type="password"
 					class="form-control" id="pwd" placeholder="Enter password"
-					name="password" required="required" path="password"/>
+					name="password" required="required" path="account.password"/>
 			</div>
 			<p>
 				Quên mật khẩu? Khôi phục mật khẩu <a href="#">tại đây</a>

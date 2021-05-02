@@ -18,8 +18,10 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.se.toyshop.dao.CartDAO;
 import com.se.toyshop.dao.ProductDAO;
+import com.se.toyshop.dao.UserDao;
 import com.se.toyshop.dao.impl.CartDAOImpl;
 import com.se.toyshop.dao.impl.ProductDAOImpl;
+import com.se.toyshop.dao.impl.UserImpl;
 
 @Configuration
 @ComponentScan("com.se.toyshop")
@@ -77,4 +79,9 @@ public class ApplicationConfig {
 		return new CartDAOImpl();
 	}
 
+	@Bean(name = "userDao")
+	public UserDao getUserDao() {
+		return new UserImpl();
+	}
+	
 }

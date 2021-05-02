@@ -1,6 +1,8 @@
 package com.se.toyshop.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -11,6 +13,7 @@ import org.bson.types.ObjectId;
 @Table(name = "accounts", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
 public class Account {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private ObjectId _id;
 	private String username;
 	private String password;
