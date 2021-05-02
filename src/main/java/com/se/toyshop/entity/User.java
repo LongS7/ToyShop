@@ -12,21 +12,43 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.bson.types.ObjectId;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table(name = "users")
 public class User {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private ObjectId _id;
+
+	@NotNull(message = "Tên không được để trống")
+	@Pattern(regexp = "^[\\p{L} .'-]+$", message = "Tên chỉ chứa chữ")
 	private String name;
+
 	private String photo;
+
+	@NotNull
 	private int gender;
+
+	@NotNull(message = "Ngày sinh không được để trống")
+	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate birthday;
+
 	private String role;
+
+	@NotNull(message = "Email không được để trống")
+	@Pattern(regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", message = "Email phải đúng định dạng")
 	private String email;
+
+	@NotNull(message = "Số điện thoại không được để trống")
+	@Pattern(regexp = "(84|0[3|5|7|8|9])+([0-9]{8})\\b", message = "Số điện thoại phải là số và từ 10 đến 11 số")
 	private String phone;
 
 	@ElementCollection(fetch = FetchType.EAGER)
@@ -35,7 +57,9 @@ public class User {
 	@ElementCollection
 	private List<ShippingAddress> shippingAddresses;
 
-	@OneToOne(cascade = {CascadeType.ALL})
+	@OneToOne(cascade = { CascadeType.ALL })
+	@NotNull()
+	@Valid
 	private Account account;
 
 	public User() {

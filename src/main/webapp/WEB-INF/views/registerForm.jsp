@@ -29,43 +29,48 @@
 
 <body>
 	<%@include file="/WEB-INF/views/navigationBar.jsp"%>
-	<div class="container  pb-5 pt-5">
+	<div class="container  pb-5 pt-5 col-lg-4">
 		<h4>ĐĂNG KÝ TÀI KHOẢN CỦA BẠN</h4>
 		<form:form method="POST" modelAttribute="user">
 			<div class="form-group">
-				<form:label path="name">Họ tên:</form:label>
+				<form:label path="name" class="font-weight-bold">Họ tên <span class="text-danger">*</span></form:label>
 				<form:input path="name" placeholder="Nhập họ và tên"
 					class="form-control" />
+				<form:errors path="name" cssClass="error text-danger"/>
 			</div>
 			<div class="form-group">
-				<form:label path="phone">Số điện thoại:</form:label>
+				<form:label path="phone" class="font-weight-bold">Số điện thoại <span class="text-danger">*</span></form:label>
 				<form:input path="phone" placeholder="Nhập số điện thoại"
 					class="form-control" />
+				<form:errors path="phone" cssClass="error text-danger"/>
 			</div>
 			<div class="form-group">
-				<form:label path="email">Email:</form:label>
-				<form:input type="email" path="email" placeholder="Nhập email"
+				<form:label path="email" class="font-weight-bold">Email <span class="text-danger">*</span></form:label>
+				<form:input path="email" placeholder="Nhập email"
 					class="form-control" />
+				<form:errors path="email" cssClass="error text-danger"/>
 			</div>
 			<div class="form-group">
-				<form:label path="account.password">Mật khẩu:</form:label>
+				<form:label path="account.password" class="font-weight-bold">Mật khẩu <span class="text-danger">*</span></form:label>
 				<form:password path="account.password" class="form-control"
 					placeholder="Mật khẩu từ 6 đến 32 ký tự" />
+				<form:errors path="account.password" cssClass="error text-danger"/>
 			</div>
 			<div class="form-group">
-				<form:label path="gender">Giới tính:</form:label>
+				<form:label path="gender" class="font-weight-bold">Giới tính <span class="text-danger">*</span></form:label>
 				<form:select path="gender" class="form-control">
 					<form:option value="1">Nam</form:option>
 					<form:option value="0">Nữ</form:option>
 				</form:select>
 			</div>
 			<div class="form-group">
-				<form:label path="birthday">Ngày sinh:</form:label>
+				<form:label path="birthday" class="font-weight-bold">Ngày sinh <span class="text-danger">*</span></form:label>
 				<form:input type="date" path="birthday"
 					placeholder="Nhập ngày tháng năm sinh" class="form-control" />
+				<form:errors path="birthday" cssClass="error text-danger" />
 			</div>
-			<button type="submit" class="btn btn-danger btn-block">Tạo
-				tài khoản</button>
+			<form:hidden path="role" value="Khách hàng" />
+			<button type="submit" class="btn btn-danger btn-block font-weight-bold">ĐĂNG KÝ</button>
 		</form:form>
 	</div>
 	<%@include file="/WEB-INF/views/footer.jsp"%>

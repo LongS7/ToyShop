@@ -30,26 +30,28 @@
 <body>
 	<%@include file="/WEB-INF/views/navigationBar.jsp"%>
 
-	<div class="container pb-5 pt-5">
+	<div class="container pb-5 pt-5 col-lg-4">
 		<p>Đăng nhập để mua hàng và sử dụng những tiện ích mới nhất từ
 			XShop</p>
 		<p>
-			Bạn chưa có tài khoản? <a href="#">ĐĂNG KÝ TÀI KHOẢN</a>
+			Bạn chưa có tài khoản? <a href="register" class="font-weight-bold">ĐĂNG KÝ TÀI KHOẢN</a>
 		</p>
 		<form:form method="POST" modelAttribute="user">
 			<div class="form-group">
-				<form:label path="account.username">Email:</form:label> 
-				<form:input type="email" class="form-control" id="email" placeholder="Nhập email" name="email" required="required" path="account.username"/>
+				<form:label path="account.username" class="font-weight-bold">Email <span class="text-danger">*</span></form:label> 
+				<form:input class="form-control" id="email" placeholder="Nhập email" name="email" path="account.username"/>
+				<form:errors path="account.username" cssClass="error text-danger"/>
 			</div>
 			<div class="form-group">
-				<form:label path="account.password">Mật khẩu:</form:label> <form:input type="password"
+				<form:label path="account.password" class="font-weight-bold">Mật khẩu <span class="text-danger">*</span></form:label> <form:input type="password"
 					class="form-control" id="pwd" placeholder="Enter password"
-					name="password" required="required" path="account.password"/>
+					name="password" path="account.password"/>
+					<form:errors path="account.password" cssClass="error text-danger"/>
 			</div>
 			<p>
 				Quên mật khẩu? Khôi phục mật khẩu <a href="#">tại đây</a>
 			</p>
-			<button type="submit" class="btn btn-danger btn-block">ĐĂNG
+			<button type="submit" class="btn btn-danger btn-block font-weight-bold">ĐĂNG
 				NHẬP</button>
 		</form:form>
 	</div>

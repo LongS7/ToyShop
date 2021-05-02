@@ -23,8 +23,8 @@
                             <i class="fas fa-user-alt"></i> Tài khoản
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Tạo tài khoản</a>
-                            <a class="dropdown-item" href="#">Đăng nhập</a>
+                            <a class="dropdown-item" href="user/register">Tạo tài khoản</a>
+                            <a class="dropdown-item" href="user/login">Đăng nhập</a>
                         </div>
                     </div>
                 </li>
