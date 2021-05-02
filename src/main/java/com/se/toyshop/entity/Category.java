@@ -1,5 +1,7 @@
 package com.se.toyshop.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -8,7 +10,11 @@ import org.bson.types.ObjectId;
 
 @Entity
 @Table(name = "categories")
-public class Category {
+public class Category  implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	private ObjectId _id;
 	private String categoryName;

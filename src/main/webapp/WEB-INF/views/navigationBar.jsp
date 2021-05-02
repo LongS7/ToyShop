@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
+<c:set var="context" value="${ pageContext.request.contextPath }" />
 <nav class="navbar navbar-expand-md bg-4 navbar-dark">
         <!-- Links -->
-        <a class="navbar-brand" href="#"><i class="fas fa-paw fa-2x"></i></a>
+        <a class="navbar-brand" href="${ context }"><i class="fas fa-paw fa-2x"></i></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -19,16 +21,27 @@
             <ul class="navbar-nav">
                 <li class="nav-item active">
                     <div class="dropdown">
-                        <a class="nav-link active" data-toggle="dropdown">
-                            <i class="fas fa-user-alt"></i> Tài khoản
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Tạo tài khoản</a>
-                            <a class="dropdown-item" href="#">Đăng nhập</a>
-                        </div>
+                    	<c:if test="${ currentUser == null }">
+	                        <a class="nav-link active" data-toggle="dropdown">
+	                            <i class="fas fa-user-alt"></i> Tài khoản
+	                        </a>
+	                        <div class="dropdown-menu">
+	                            <a class="dropdown-item" href="#">Tạo tài khoản</a>
+	                            <a class="dropdown-item" href="#">Đăng nhập</a>
+	                        </div>
+                        </c:if>
+                        <c:if test="${ currentUser != null }">
+	                        <a class="nav-link active" data-toggle="dropdown">
+	                            <i class="fas fa-user-alt"></i> ${ currentUser.name }
+	                        </a>
+	                        <div class="dropdown-menu">
+	                            <a class="dropdown-item" href="#">Quản lý tài khoản</a>
+	                            <a class="dropdown-item" href="#">Đơn hàng của tôi</a>
+	                        </div>
+                        </c:if>
                     </div>
                 </li>
-                <li class="nav-item active"><a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i> Giỏ hàng </a></li>
+                <li class="nav-item active"><a class="nav-link" href="${ context }/mycart/"><i class="fas fa-shopping-cart"></i> Giỏ hàng </a></li>
             </ul>
         </div>
     </nav>
