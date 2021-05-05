@@ -68,4 +68,8 @@ public class UserController {
 		return "redirect:/";
 	}
 
+	@RequestMapping(value = "/profile", method = RequestMethod.GET)
+	public String showUserProfile() {
+		return "profile";
+	}
 }

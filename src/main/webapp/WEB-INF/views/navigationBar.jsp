@@ -21,15 +21,6 @@
             <ul class="navbar-nav">
                 <li class="nav-item active">
                     <div class="dropdown">
-<<<<<<< HEAD
-                        <a class="nav-link active" data-toggle="dropdown">
-                            <i class="fas fa-user-alt"></i> Tài khoản
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="user/register">Tạo tài khoản</a>
-                            <a class="dropdown-item" href="user/login">Đăng nhập</a>
-                        </div>
-=======
                     	<c:if test="${ currentUser == null }">
 	                        <a class="nav-link active" data-toggle="dropdown">
 	                            <i class="fas fa-user-alt"></i> Tài khoản
@@ -48,7 +39,6 @@
 	                            <a class="dropdown-item" href="#">Đơn hàng của tôi</a>
 	                        </div>
                         </c:if>
->>>>>>> branch 'master' of https://github.com/LongS7/ToyShop.git
                     </div>
                 </li>
                 <li class="nav-item active"><a class="nav-link" href="${ context }/mycart/"><i class="fas fa-shopping-cart"></i> Giỏ hàng </a></li>

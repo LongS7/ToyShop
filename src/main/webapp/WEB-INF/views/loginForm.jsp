@@ -34,7 +34,7 @@
 		<p>Đăng nhập để mua hàng và sử dụng những tiện ích mới nhất từ
 			XShop</p>
 		<p>
-			Bạn chưa có tài khoản? <a href="register" class="font-weight-bold">ĐĂNG KÝ TÀI KHOẢN</a>
+			Bạn chưa có tài khoản? <a href="register"  class="font-weight-bold">ĐĂNG KÝ TÀI KHOẢN</a>
 		</p>
 		<form:form method="POST" modelAttribute="user">
 			<div class="form-group">
