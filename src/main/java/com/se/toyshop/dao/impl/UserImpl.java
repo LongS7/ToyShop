@@ -11,9 +11,16 @@ import com.se.toyshop.entity.User;
 public class UserImpl implements UserDao {
 	@Autowired
 	private OgmSessionFactory sessionFactory;
-	
-	public void setSessionFactory(OgmSessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+
+	private UserDao userDao;
+
+	@Autowired
+	public UserImpl(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	public UserImpl() {
+		super();
 	}
 
 	public void addUser(User user) {
@@ -29,4 +36,29 @@ public class UserImpl implements UserDao {
 			trans.rollback();
 		}
 	}
+
+	public User findByUsername(String username) {
+		User user = null;
+		OgmSession session = sessionFactory.getCurrentSession();
+
+		Transaction trans = session.beginTransaction();
+
+		try {
+			user = session
+					.createNativeQuery(
+							"db.users.aggregate([{'$match':{'account.username':'" + username
+									+ "'}}, {'$project':{'_id':0, 'account':1}}, {'$replaceWith':'$account'}])",
+							User.class)
+					.getSingleResult();
+			System.out.println(user);
+//			System.out.println(user.getAccount().getUsername());
+//			System.out.println(user.getAccount().getPassword());
+			trans.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			trans.rollback();
+		}
+		return user;
+	}
+
 }

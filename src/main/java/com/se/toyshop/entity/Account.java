@@ -1,26 +1,20 @@
 package com.se.toyshop.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.bson.types.ObjectId;
-
-@Entity
-@Table(name = "accounts", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
+//@Entity
+//@Table(name = "accounts", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
+@Embeddable
 public class Account {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private ObjectId _id;
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	private ObjectId _id;
 	
-	@NotNull(message = "Email không được để trống")
-	@Pattern(regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", message = "Email phải đúng định dạng")
+	@NotNull(message = "Tên đăng nhập không được để trống")
+	@Pattern(regexp = "^[a-zA-Z0-9_-]{3,16}$", message = "Tên đăng nhập phải đúng định dạng")
 	private String username;
 	
 	@NotNull(message = "Mật khẩu không được để trống")

@@ -51,6 +51,12 @@
 				<form:errors path="email" cssClass="error text-danger"/>
 			</div>
 			<div class="form-group">
+				<form:label path="account.username" class="font-weight-bold">Tên đăng nhập <span class="text-danger">*</span></form:label>
+				<form:input path="account.username" class="form-control"
+					placeholder="Tên đăng nhập từ 3 đến 16 ký tự" />
+				<form:errors path="account.username" cssClass="error text-danger"/>
+			</div>
+			<div class="form-group">
 				<form:label path="account.password" class="font-weight-bold">Mật khẩu <span class="text-danger">*</span></form:label>
 				<form:password path="account.password" class="form-control"
 					placeholder="Mật khẩu từ 6 đến 32 ký tự" />
@@ -69,7 +75,7 @@
 					placeholder="Nhập ngày tháng năm sinh" class="form-control" />
 				<form:errors path="birthday" cssClass="error text-danger" />
 			</div>
-			<form:hidden path="role" value="Khách hàng" />
+			<form:hidden path="role" value="User" />
 			<button type="submit" class="btn btn-danger btn-block font-weight-bold">ĐĂNG KÝ</button>
 		</form:form>
 	</div>
