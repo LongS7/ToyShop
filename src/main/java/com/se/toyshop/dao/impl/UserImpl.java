@@ -46,7 +46,7 @@ public class UserImpl implements UserDao {
 			user = session
 					.createNativeQuery(
 							"db.users.aggregate([{'$match':{'account.username':'" + username
-									+ "'}}, {'$project':{'account':1}}])",
+									+ "'}}])",
 							User.class)
 					.getSingleResult();
 			trans.commit();

@@ -61,7 +61,7 @@
 				</label>
 			</div>
 			<input type="hidden" name="${_csrf.parameterName }"
-				value="${csrf.token }" />
+				value="${_csrf.token }" />
 			<p>
 				Quên mật khẩu? Khôi phục mật khẩu <a href="#">tại đây</a>
 			</p>

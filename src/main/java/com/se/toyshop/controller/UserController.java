@@ -55,7 +55,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-	public String processLogin(@ModelAttribute("user") @Valid User user, BindingResult errors) {
+	public String processLogin(BindingResult errors) {
 		
 		return "redirect:/";
 	}
