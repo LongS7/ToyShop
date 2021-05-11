@@ -26,6 +26,7 @@
 </head>
 <body>
 	<%@include file="/WEB-INF/views/navigationBar.jsp"%>
+	<%@include file="/WEB-INF/views/sideNavigationBar.jsp" %>
 	<h1>Hello</h1>
 	<%@include file="/WEB-INF/views/footer.jsp"%>
 </body>
