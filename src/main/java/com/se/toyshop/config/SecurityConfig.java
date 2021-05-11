@@ -33,11 +33,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.userDetailsService(new CustomUserDetailsService(userImpl));
-		auth.inMemoryAuthentication()
-		.withUser("admin").password("password").roles("USER")
-		.and()
-		.withUser("user").password("password").roles("ADMIN");
+		auth.userDetailsService(new CustomUserDetailsService(userImpl));
+//		auth.inMemoryAuthentication()
+//		.withUser("admin").password("password").roles("USER")
+//		.and()
+//		.withUser("user").password("password").roles("ADMIN");
 	}
 
 }

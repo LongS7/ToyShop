@@ -33,7 +33,7 @@ public class User {
 	private String photo;
 
 	@NotNull
-	private int gender;
+	private Integer gender;
 
 	@NotNull(message = "Ngày sinh không được để trống")
 	@DateTimeFormat(iso = ISO.DATE)
@@ -57,15 +57,14 @@ public class User {
 
 //	@OneToOne(cascade = { CascadeType.ALL })
 	@Embedded
-	@NotNull()
-	@Valid
+//	@NotNull()
 	private Account account;
 
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(ObjectId _id, String name, String photo, int gender, LocalDate birthday, String role, String email,
+	public User(ObjectId _id, String name, String photo, Integer gender, LocalDate birthday, String role, String email,
 			String phone) {
 		super();
 		this._id = _id;

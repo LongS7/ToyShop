@@ -40,19 +40,15 @@ public class UserImpl implements UserDao {
 	public User findByUsername(String username) {
 		User user = null;
 		OgmSession session = sessionFactory.getCurrentSession();
-
 		Transaction trans = session.beginTransaction();
 
 		try {
 			user = session
 					.createNativeQuery(
 							"db.users.aggregate([{'$match':{'account.username':'" + username
-									+ "'}}, {'$project':{'_id':0, 'account':1}}, {'$replaceWith':'$account'}])",
+									+ "'}}, {'$project':{'account':1}}])",
 							User.class)
 					.getSingleResult();
-			System.out.println(user);
-//			System.out.println(user.getAccount().getUsername());
-//			System.out.println(user.getAccount().getPassword());
 			trans.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
