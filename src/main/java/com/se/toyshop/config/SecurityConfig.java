@@ -25,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserImpl userImpl;
 	
+	@Bean
 	public DaoAuthenticationProvider authProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 		authProvider.setUserDetailsService(new CustomUserDetailsService(userImpl));
@@ -41,15 +42,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.permitAll()
 		.and()
 		.rememberMe() //Default token valid for up to two weeks, default private key is SpringSecured
+		.userDetailsService(new CustomUserDetailsService(userImpl))
 		.and()
 		.logout()
 		.logoutSuccessUrl("/")
 		.and()
 		.authorizeRequests()
-		.antMatchers("/user/register").permitAll()
-		.antMatchers("/user/me").hasRole("USER")
-		.antMatchers("/resources/**").permitAll()
-		.anyRequest().authenticated();
+//		.antMatchers("/user/register").permitAll()
+		.antMatchers("/user/me").hasAnyRole("USER", "ADMIN")
+//		.antMatchers("/resources/**").permitAll()
+		.anyRequest().permitAll();
 //		.and()
 //		.requiresChannel()
 //		.antMatchers("/user/register").requiresSecure()
