@@ -55,8 +55,8 @@
 				<!-- <errors path="password" cssClass="error text-danger"/> -->
 			</div>
 			<div class="form-group form-check">
-				<label class="form-check-label"> <input
-					class="form-check-input" type="checkbox" name="remember">
+				<label class="form-check-label" for="remember_me"> <input
+					class="form-check-input" type="checkbox" name="remember-me" id="remember_me">
 					Remember me
 				</label>
 			</div>

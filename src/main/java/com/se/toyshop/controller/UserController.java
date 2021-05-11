@@ -75,14 +75,8 @@ public class UserController {
 		return "redirect:/";
 	}
 
-	@RequestMapping(value = "/profile", method = RequestMethod.GET)
+	@RequestMapping(value = "/me", method = RequestMethod.GET)
 	public String showUserProfile() {
 		return "profile";
-	}
-
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String testFindUserByUsername() {
-		System.out.println(userDao.findByUsername("binhht"));
-		return "redirect:/";
 	}
 }

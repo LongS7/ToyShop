@@ -75,7 +75,7 @@
 					placeholder="Nhập ngày tháng năm sinh" class="form-control" />
 				<form:errors path="birthday" cssClass="error text-danger" />
 			</div>
-			<form:hidden path="role" value="User" />
+			<form:hidden path="role" value="USER" />
 			<button type="submit" class="btn btn-danger btn-block font-weight-bold">ĐĂNG KÝ</button>
 		</form:form>
 	</div>

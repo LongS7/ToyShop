@@ -4,6 +4,7 @@ import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.se.toyshop.dao.UserDao;
 import com.se.toyshop.entity.User;
@@ -11,6 +12,9 @@ import com.se.toyshop.entity.User;
 public class UserImpl implements UserDao {
 	@Autowired
 	private OgmSessionFactory sessionFactory;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	private UserDao userDao;
 
@@ -29,6 +33,7 @@ public class UserImpl implements UserDao {
 		Transaction trans = session.beginTransaction();
 
 		try {
+			user.getAccount().setPassword(passwordEncoder.encode(user.getAccount().getPassword()));
 			session.save(user);
 			trans.commit();
 		} catch (Exception e) {
