@@ -9,6 +9,7 @@
 	<properties>
 		<java-version>1.7</java-version>
 		<org.springframework-version>4.2.0.RELEASE</org.springframework-version>
+		<spring.security.version>3.2.3.RELEASE</spring.security.version>
 	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
@@ -49,6 +50,25 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+        
+
+        <!-- Spring Security JSP Taglib -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
