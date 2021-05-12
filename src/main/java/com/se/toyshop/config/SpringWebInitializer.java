@@ -19,6 +19,7 @@ public class SpringWebInitializer implements WebApplicationInitializer  {
                 new DispatcherServlet(appContext));
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
+        
 	}
 	
 }

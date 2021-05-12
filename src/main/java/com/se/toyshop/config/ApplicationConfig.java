@@ -84,4 +84,9 @@ public class ApplicationConfig {
 		return new UserImpl();
 	}
 	
+	@Bean
+	public UserImpl getUserImpl() {
+		return new UserImpl();
+	}
+	
 }

@@ -1,21 +1,19 @@
 package com.se.toyshop.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import org.bson.types.ObjectId;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,7 +21,12 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private ObjectId _id;
@@ -51,15 +54,14 @@ public class User {
 	@Pattern(regexp = "(84|0[3|5|7|8|9])+([0-9]{8})\\b", message = "Số điện thoại phải là số và từ 10 đến 11 số")
 	private String phone;
 
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.LAZY)
 	private List<ShoppingCartItem> listShoppingCartItem;
 
 	@ElementCollection
 	private List<ShippingAddress> shippingAddresses;
 
-	@OneToOne(cascade = { CascadeType.ALL })
-	@NotNull()
-	@Valid
+//	@OneToOne(cascade = { CascadeType.ALL })
+	@Embedded
 	private Account account;
 
 	public User() {
