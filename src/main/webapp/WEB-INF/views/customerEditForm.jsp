@@ -26,20 +26,20 @@
 <link rel="stylesheet"
 	href="${ context }/resources/fontawesome-free-5.15.3-web/css/all.css">
 <script>
-        function showChangePassForm() {
-            var checkbox = document.getElementById('passCheck');
-            var form = document.getElementById('changePasswordForm');
-            if (checkbox.checked == true) {
-                form.style.display = "block";
-            } else {
-                form.style.display = "none";
-            }
-        }
-    </script>
+	function showChangePassForm() {
+		var checkbox = document.getElementById('passCheck');
+		var form = document.getElementById('changePasswordForm');
+		if (checkbox.checked == true) {
+			form.style.display = "block";
+		} else {
+			form.style.display = "none";
+		}
+	}
+</script>
 </head>
 
 <body>
-	<div class="container">
+	<div class="col-8">
 		<form action="">
 			<div class="form-group">
 				<label class="font-weight-bold" for="">Họ tên:</label> <input

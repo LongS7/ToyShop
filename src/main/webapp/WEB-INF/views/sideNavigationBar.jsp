@@ -29,19 +29,24 @@
 i {
 	margin: auto 10px;
 }
+
+a:hover {
+	background-color: #ececec;
+}
 </style>
 <script>
-        $(document).ready(function () {
-            $("#myTab a").click(function (e) {
-                e.preventDefault();
-                $(this).tab('show');
-            });
-        });
-    </script>
+//	$(document).ready(function() {
+//		$("#myTab a").click(function(e) {
+//			e.preventDefault();
+//			$(this).tab('show');
+//		});
+//	});
+</script>
 </head>
 
 <body>
-	<ul class="nav flex-column nav-pills col-3" id="myTab">
+	<!--
+	<ul class="nav flex-column nav-pills col-4" id="myTab">
 		<li class="nav-item"><a class="nav-link" href="#1"><i
 				class="fas fa-user fa-fw"></i> Thông tin tài khoản</a></li>
 		<li class="nav-item"><a class="nav-link" href="#2"><i
@@ -61,6 +66,29 @@ i {
 		<li class="nav-item"><a class="nav-link" href=""><i
 				class="fas fa-tag fa-fw"></i> Mã giảm giá</a></li>
 	</ul>
+	  -->
+	<nav class="navbar col-4 align-self-baseline">
+		<ul class="navbar-nav">
+			<li class="nav-item"><a class="nav-link" href="#1"><i
+					class="fas fa-user fa-fw"></i> Thông tin tài khoản</a></li>
+			<li class="nav-item"><a class="nav-link" href="#2"><i
+					class="fas fa-bell fa-fw"></i> Thông báo của tôi</a></li>
+			<li class="nav-item"><a class="nav-link" href=""><i
+					class="fas fa-file-invoice-dollar fa-fw"></i> Quản lý đơn hàng</a></li>
+			<li class="nav-item"><a class="nav-link" href=""><i
+					class="fas fa-map-marker-alt fa-fw"></i> Sổ địa chỉ</a></li>
+			<li class="nav-item"><a class="nav-link" href=""><i
+					class="far fa-credit-card fa-fw"></i> Thông tin thanh toán</a></li>
+			<li class="nav-item"><a class="nav-link" href=""><i
+					class="fas fa-edit fa-fw"></i> Nhận xét sản phẩm đã mua</a></li>
+			<li class="nav-item"><a class="nav-link" href=""><i
+					class="fas fa-heart fa-fw"></i> Sản phẩm yêu thích</a></li>
+			<li class="nav-item"><a class="nav-link" href=""><i
+					class="fas fa-star fa-fw"></i> Nhận xét của tôi</a></li>
+			<li class="nav-item"><a class="nav-link" href=""><i
+					class="fas fa-tag fa-fw"></i> Mã giảm giá</a></li>
+		</ul>
+	</nav>
 </body>
 
 </html>
