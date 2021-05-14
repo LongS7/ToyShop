@@ -36,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
+		.csrf().disable()
 		.formLogin()
 		.loginPage("/user/login")
 		.failureUrl("/user/login?error=true")
@@ -48,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.logoutSuccessUrl("/")
 		.and()
 		.authorizeRequests()
-		.antMatchers("/user/me").hasAnyRole("USER", "ADMIN")
+		.antMatchers("/user/edit").hasAnyRole("USER", "ADMIN")
 		.anyRequest().permitAll();
 	}
 

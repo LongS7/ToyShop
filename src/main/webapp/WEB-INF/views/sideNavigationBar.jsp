@@ -29,10 +29,6 @@
 i {
 	margin: auto 10px;
 }
-
-a:hover {
-	background-color: #ececec;
-}
 </style>
 <script>
 //	$(document).ready(function() {
@@ -69,7 +65,7 @@ a:hover {
 	  -->
 	<nav class="navbar col-4 align-self-baseline">
 		<ul class="navbar-nav">
-			<li class="nav-item"><a class="nav-link" href="#1"><i
+			<li class="nav-item"><a class="nav-link" href="${context }/user/edit"><i
 					class="fas fa-user fa-fw"></i> Thông tin tài khoản</a></li>
 			<li class="nav-item"><a class="nav-link" href="#2"><i
 					class="fas fa-bell fa-fw"></i> Thông báo của tôi</a></li>

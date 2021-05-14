@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,7 +38,7 @@
 						<i class="fas fa-user-circle fa-3x"></i>
 					</div>
 					<div class="col-10">
-						Tài khoản của <br> <strong>Huỳnh Thanh Bình</strong>
+						Tài khoản của <br> <strong>${user.name }</strong>
 					</div>
 				</div>
 			</div>

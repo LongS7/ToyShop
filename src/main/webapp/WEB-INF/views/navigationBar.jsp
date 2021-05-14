@@ -26,8 +26,8 @@
 	                            <i class="fas fa-user-alt"></i> Tài khoản
 	                        </a>
 	                        <div class="dropdown-menu">
-	                            <a class="dropdown-item" href="#">Tạo tài khoản</a>
-	                            <a class="dropdown-item" href="#">Đăng nhập</a>
+	                            <a class="dropdown-item" href="${context }/user/register">Tạo tài khoản</a>
+	                            <a class="dropdown-item" href="${context }/user/login">Đăng nhập</a>
 	                        </div>
                         </c:if>
                         <c:if test="${ currentUser != null }">
