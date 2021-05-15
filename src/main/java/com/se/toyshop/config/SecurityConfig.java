@@ -49,14 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.logoutSuccessUrl("/")
 		.and()
 		.authorizeRequests()
-//		.antMatchers("/user/register").permitAll()
-		.antMatchers("/user/me").hasAnyRole("USER", "ADMIN")
-//		.antMatchers("/resources/**").permitAll()
+		.antMatchers("/user/edit").hasAnyRole("USER", "ADMIN")
 		.anyRequest().permitAll();
-//		.and()
-//		.requiresChannel()
-//		.antMatchers("/user/register").requiresSecure()
-//		.antMatchers("/user/login").requiresSecure();
 	}
 
 	@Override

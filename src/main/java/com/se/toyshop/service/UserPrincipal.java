@@ -60,7 +60,9 @@ public class UserPrincipal implements UserDetails{
 		return user;
 	}
 	
-	
+	public String getName() {
+		return this.user.getName();
+	}
 
 	
 }

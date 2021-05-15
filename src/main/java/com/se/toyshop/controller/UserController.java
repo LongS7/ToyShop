@@ -4,9 +4,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -18,17 +18,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.se.toyshop.dao.UserDao;
 import com.se.toyshop.entity.User;
+import com.se.toyshop.service.UserPrincipal;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
-	private UserDao userDao;
-
 	@Autowired
-	public UserController(UserDao userDao) {
-		this.userDao = userDao;
-	}
+	private UserDao userDao;
 
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
@@ -53,12 +50,6 @@ public class UserController {
 		}
 		return new ModelAndView("loginForm", "errorMessage", errorMessage);
 	}
-	
-	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-	public String processLogin(BindingResult errors) {
-		
-		return "redirect:/";
-	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView showRegistrationForm() {
@@ -75,8 +66,15 @@ public class UserController {
 		return "redirect:/";
 	}
 
-	@RequestMapping(value = "/me", method = RequestMethod.GET)
-	public String showUserProfile() {
-		return "profile";
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView showUserProfile(@AuthenticationPrincipal UserPrincipal userDetails) {
+		String username = userDetails.getUsername();
+		User user = userDao.findByUsername(username);
+		return new ModelAndView("userInfo", "user", user);
+	}
+
+	@RequestMapping(value = "/address", method = RequestMethod.GET)
+	public String showAddressForm() {
+		return "addressForm";
 	}
 }
