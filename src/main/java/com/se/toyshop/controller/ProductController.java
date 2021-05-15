@@ -22,4 +22,10 @@ public class ProductController {
 		
 		return "userInfo";
 	}
+	@RequestMapping("/demo")
+	public String showDemo(Model model) {		
+
+		
+		return "product-detail";
+	}
 }
