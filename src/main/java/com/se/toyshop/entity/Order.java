@@ -1,12 +1,18 @@
 package com.se.toyshop.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.bson.types.ObjectId;
@@ -15,10 +21,16 @@ import org.bson.types.ObjectId;
 @Table(name = "orders")
 public class Order {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private ObjectId _id;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "userId")
+	private User user;
+	
 	private LocalDate orderDate;
 	
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	private List<OrderDetail> orderDetails;
 	
 	private int state;
@@ -29,19 +41,24 @@ public class Order {
 	private String phone;
 	
 	public Order() {
-		// TODO Auto-generated constructor stub
+		this.orderDetails = new ArrayList<OrderDetail>();
 	}
 
-	public Order(ObjectId _id, LocalDate orderDate, List<OrderDetail> orderDetails, int state,
-			ShippingAddress shippingAddress, String phone) {
+	
+
+	public Order(ObjectId _id, User user, LocalDate orderDate, int state, ShippingAddress shippingAddress,
+			String phone) {
 		super();
 		this._id = _id;
+		this.user = user;
 		this.orderDate = orderDate;
-		this.orderDetails = orderDetails;
 		this.state = state;
 		this.shippingAddress = shippingAddress;
 		this.phone = phone;
+		this.orderDetails = new ArrayList<OrderDetail>();
 	}
+
+
 
 	public ObjectId get_id() {
 		return _id;
@@ -65,6 +82,14 @@ public class Order {
 
 	public void setOrderDetails(List<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	/***
@@ -103,6 +128,24 @@ public class Order {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	
+	public void addOrderDetail(Product product, int quantity) {
+		if(orderDetails == null)
+			orderDetails = new ArrayList<OrderDetail>();
+		
+		orderDetails.add(new OrderDetail(product, quantity, product.getPrice(), product.getDiscount()));
+	}
+	
+	public double getTotal() {
+		if(orderDetails == null)
+			return 0;
+		
+		double total = 0;
+		for(OrderDetail item : orderDetails)
+			total += item.getLineTotal();
+		
+		return total;
 	}
 
 	@Override

@@ -25,6 +25,7 @@
 </head>
 <body>
 	<%@include file="navigationBar.jsp" %>
+	<fmt:setLocale value="vi_VN" scope="session"/>
 	
 	<div class="container mt-5 mb-5">
         <h4 class="text-secondary text-center mb-3">Thông tin đơn hàng</h4>
@@ -45,25 +46,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">Tổng tiền đơn hàng</span>
                 </div>
-                <input type="text" class="form-control text-right" value="1.000.000 đ" readonly>
-            </div>
-            <label>Địa chỉ giao hàng</label>
-            <div style="border: 1px solid rgb(197, 197, 197); padding: 5px; border-radius: 5px;">
-                <div class="custom-control custom-radio">
-                    <form:radiobutton class="custom-control-input" id="customRadio" path="shippingAddress" name="example" value="customEx"/>
-                    <label class="custom-control-label" for="customRadio">A</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <form:radiobutton class="custom-control-input" id="customRadio2" path="shippingAddress" name="example" value="customEx2"/>
-                    <label class="custom-control-label" for="customRadio2">A</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <form:radiobutton class="custom-control-input" id="customRadio3" path="shippingAddress" name="example" value="customEx3"/>
-                    <label class="custom-control-label" for="customRadio3">A</label>
-                </div>
-                <div class="text-center mt-2">
-                    <button class="btn btn-primary" id="btnAddAddress">Thêm địa chỉ mới</button>
-                </div>
+                <input type="text" class="form-control text-right" value="<fmt:formatNumber value="${ order.getTotal() }" type="currency"/>" readonly>
             </div>
             <div class="input-group mb-3 mt-3">
                 <div class="input-group-prepend">
