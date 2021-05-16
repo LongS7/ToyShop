@@ -10,14 +10,18 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cửa hàng đồ chơi</title>
-<link rel="shortcut icon" href='<c:url value="/resources/images/favicon.ico" />' type="image/x-icon">
-<link rel="icon" href='<c:url value="/resources/images/favicon.ico" />' type="image/x-icon">
+<link rel="shortcut icon"
+	href='<c:url value="/resources/images/favicon.ico" />'
+	type="image/x-icon">
+<link rel="icon" href='<c:url value="/resources/images/favicon.ico" />'
+	type="image/x-icon">
 <link rel="stylesheet"
 	href='<c:url value="/resources/bootstrap-4.5.0-dist/css/bootstrap.min.css"></c:url>'>
 <link rel="stylesheet" href="${ context }/resources/css/main.css">
 <script src="${ context }/resources/js/jquery.min.js"></script>
 <script src="${ context }/resources/js/popper.min.js"></script>
-<script src="${ context }/resources/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
+<script
+	src="${ context }/resources/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="${ context }/resources/fontawesome-free-5.15.3-web/css/all.css">
 </head>
