@@ -1,5 +1,7 @@
 package com.se.toyshop.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
@@ -123,6 +125,31 @@ public class CartDAOImpl implements CartDAO {
 		}
 		
 		return product;
+	}
+
+	@Override
+	public boolean removeCartItems(User user, List<ShoppingCartItem> cartItems) {
+		boolean result = false;
+		
+		for(int i = 0; i < cartItems.size(); i++) {
+			user.getListShoppingCartItem().remove(cartItems.get(i));
+		}
+		
+		OgmSession session = sessionFactory.getCurrentSession();
+		
+		Transaction tran = session.beginTransaction();
+		
+		try {
+			session.update(user);
+			
+			tran.commit();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+			result = false;
+		}
+		return result;
 	}
 
 

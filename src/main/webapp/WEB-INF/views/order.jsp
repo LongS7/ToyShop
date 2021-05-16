@@ -21,18 +21,6 @@
 <link rel="stylesheet"
 	href="${ context }/resources/fontawesome-free-5.15.3-web/css/all.css">
 <title>Insert title here</title>
-<style>
-	.order-product-name {
-	    overflow: hidden;
-	    text-overflow: ellipsis;
-	    display: -webkit-box;
-	    -webkit-box-orient: vertical;
-	    -webkit-line-clamp: 2;
-	}
-	.order-date, .order-total {
-	    color: rgb(70, 70, 70);
-	}
-</style>
 </head>
 <body>
 	<fmt:setLocale value="vi_VN"/>

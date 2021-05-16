@@ -22,25 +22,17 @@
 	href="${ context }/resources/fontawesome-free-5.15.3-web/css/all.css">
 <title>Insert title here</title>
 <style>
-	.thematic_break {
-	border-top: 1px solid black;
-}
-
-td {
-	padding: 5px;
-	padding-left: 0;
-}
-
-img {
-	border: 0.5px solid #C0C0C0;
-	border-radius: 5px;
-	width: 98px;
-	height: 98px;
-}
-
-.product-quantity {
-	text-align: center;
-}
+	.order-product-name {
+		font-size: 1.1rem;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    display: -webkit-box;
+	    -webkit-box-orient: vertical;
+	    -webkit-line-clamp: 2;
+	}
+	.order-date, .order-total {
+	    color: rgb(70, 70, 70);
+	}
 </style>
 </head>
 <body>
@@ -48,68 +40,56 @@ img {
 	
 	<%@include file="navigationBar.jsp" %>
 	
-	<div class="container p-5">
-		<c:set var="totalDiscount" value="0"></c:set>
-		<div class="row p-3">
-			<div class="col-sm-6">
-				<h5>THÔNG TIN ĐƠN HÀNG (${ order.orderDetails.size() } sản phẩm)</h5>
-				<table style="width: 100%">
-					<c:forEach var="item" items="${ order.orderDetails }">
-						<c:set var="totalDiscount" value="${ totalDiscount + item.getTotalDiscount() }"></c:set>
-						<tr>
-							<td colspan="4">
-								<hr>
-							</td>
-						</tr>
-						<tr>
-							<td rowspan="2"><img src="data:image/png;base64,${ item.product.images[0] }" alt="${ item.product.name }"></td>
-							<td><a href="${ context }/product?${ item.product._id }">${ item.product.name }</a></td>
-							<td class="text-danger"><strong><fmt:formatNumber value="${ item.product.price * (1 - item.product.discount)}" type="currency"/> </strong></td>
-							<c:if test="${ item.product.discount > 0 }">
-								<td class="text-danger"><strong  style="text-decoration: line-through;"><fmt:formatNumber value="${ item.product.price }" type="currency"/> </strong></td>									
-							</c:if>
-						</tr>
-						<tr>					
-							<td></td>
-							<td >
-								<span>Số lượng: ${ item.quantity }</span>
-							</td>
-						</tr>
-					</c:forEach>
-				</table> 
-				<a href="${ context }" class="btn btn-outline-danger">Tiếp tục mua sắm</a>
+	<div class="container p-2">
+		<h5 class="text-center">Thông tin đơn hàng <span style="font-size: 1.2rem; font-weight: bold;">#${ order._id }</span></h5>
+		
+		<div class="row p-2">
+			<div class="col-sm-6 col-12 border p-2">
+				<p><i class="far fa-calendar-alt"></i> Ngày đặt hàng: ${ order.orderDate }</p>
+				<p><i class="fas fa-tasks"></i>
+					<c:if test="${ order.state == -1 }">Đã hủy</c:if>
+					<c:if test="${ order.state == 0 }">Đang xử lý</c:if>
+					<c:if test="${ order.state == 1 }">Đã giao hàng</c:if>
+				</p>
+				<p><i class="fas fa-money-check-alt"></i> Thanh toán: Tiền mặt</p>
 			</div>
-			<div class="col-sm-6">
-				<h4>TÓM TẮT ĐƠN HÀNG</h4>
-				<form action="#">
-					<table style="width: 100%">
-						<tr>
-							<td>TỔNG TIỀN</td>
-							<td class="text-right"><fmt:formatNumber value="${ order.getTotal() }" type="currency" /></td>
-						</tr>
-						<tr>
-							<td>GIẢM</td>
-							<td class="text-right"><fmt:formatNumber value="${ totalDiscount }" type="currency" /></td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<hr>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-uppercase" style="font-size: 1.5em;"><strong>Thành tiền</strong></td>
-							<td class="text-right" style="font-size: 1.5em;">
-								<strong><fmt:formatNumber value="${ order.getTotal() - totalDiscount }" type="currency" />
-								</strong>
-							</td>
-						</tr>
-						<tr>
-							<td><br></td>
-						</tr>
-					</table>
-				</form>
+			<div class="col-sm-6 col-12 border p-2">
+				<p><i class="fas fa-user"></i> Khách hàng: ${ order.user.name }</p>
+				<p><i class="fas fa-phone-square-alt"></i> Số điện thoại: ${ order.phone }</p>
+				<p><i class="fas fa-map-marked-alt"></i> Địa chỉ giao hàng: ${ order.shippingAddress }</p>
 			</div>
 		</div>
+		<hr>
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr><td>Sản phẩm</td><td>Đơn giá</td><td>Số lượng</td><td>Giảm giá</td><td>Tạm tính</td></tr>
+				</thead>
+		        <tbody>
+		        	<c:forEach var="item" items="${ order.orderDetails }">
+			        	<tr>
+				            <td style="min-width: 300px;">
+				                <div class="order-item row">
+				                    <div class="col-sm-2 col-5 mt-auto mb-auto"><img src="data:image/png;base64,${ item.product.images[0] }" style="width: 100%;"/></div>
+				                    <div class="col-sm-10 col-7 mt-auto mb-auto">
+				                        <div class="order-product-name"> <a href="${ context }/product/${ item.product._id }">${ item.product.name }</a> </div>
+				                        <div class="order-product-origin"> Xuất xứ: ${ item.product.origin } </div>
+				                        <div class="order-product-sku"> Sku: ${ item.product.sku } </div>
+				                    </div>
+				                </div>
+				            </td>
+				            <td><fmt:formatNumber value="${ item.unitPrice }" type="currency"/></td>
+				            <td>${ item.quantity }</td>
+				            <td><fmt:formatNumber value="${ item.getTotalDiscount() }" type="currency"/></td>
+				            <td><fmt:formatNumber value="${ item.getLineTotal() }" type="currency"/></td>
+				        </tr>
+			        </c:forEach>
+		        </tbody>
+		    </table>
+		</div>
+		<p style="font-size: 1.2rem; font-weight: bold;">Tổng cộng: <fmt:formatNumber value="${ order.getTotal() }" type="currency"/> </p>
+		
+		<c:if test="${ order.state == 0 }"><a class="btn btn-danger btn-block mt-5" href="${ context }/order/cancel/${ order._id }">Hủy đơn hàng</a></c:if>
 	</div>
 	
 	<%@include file="footer.jsp" %>

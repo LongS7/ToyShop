@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.se.toyshop.dao.CartDAO;
 import com.se.toyshop.dao.OrderDAO;
 import com.se.toyshop.dao.UserDao;
 import com.se.toyshop.entity.Order;
@@ -29,6 +30,9 @@ import com.se.toyshop.entity.User;
 public class OrderController {
 	@Autowired
 	private OrderDAO orderDAO;
+	
+	@Autowired
+	private CartDAO cartDAO;
 	
 	@Autowired
 	private UserDao userDao;
@@ -95,7 +99,19 @@ public class OrderController {
 		
 		orderDAO.addOrder(order);
 		
-		System.out.println(order);
+		cartDAO.removeCartItems(user, cartItems);
+		
+		return "redirect:/order/my-order";
+	}
+	
+	@RequestMapping(value = "/cancel/{id}", method = RequestMethod.GET)
+	public String cancelOrder(@PathVariable String id) {
+		Order order = orderDAO.getOrder(id);
+		
+		if(order.getState() == 0) {
+			order.setState(-1);
+			orderDAO.updateOrder(order);
+		}
 		
 		return "redirect:/order/my-order";
 	}
