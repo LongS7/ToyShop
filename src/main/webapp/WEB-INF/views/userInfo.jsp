@@ -44,7 +44,7 @@
 	<%@include file="/WEB-INF/views/navigationBar.jsp"%>
 	<div class="container pb-5 pt-5">
 		<div class="row">
-			<div class="col-4">
+			<div class="col-sm-4 d-none d-sm-block">
 				<div class="row">
 					<div class="col-2">
 						<i class="fas fa-user-circle fa-3x"></i>

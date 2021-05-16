@@ -63,7 +63,7 @@ i {
 				class="fas fa-tag fa-fw"></i> Mã giảm giá</a></li>
 	</ul>
 	  -->
-	<nav class="navbar col-4 align-self-baseline">
+	<nav class="navbar col-sm-4 d-none d-sm-block align-self-baseline">
 		<ul class="navbar-nav">
 			<li class="nav-item"><a class="nav-link" href="${context }/user/edit"><i
 					class="fas fa-user fa-fw"></i> Thông tin tài khoản</a></li>

@@ -130,7 +130,7 @@ img {
 								<td><br></td>
 							</tr>
 							<tr>
-								<td colspan="2"><a href="${ context }/order/new"
+								<td colspan="2"><a href="${ context }/order/add"
 										class="text-uppercase btn btn-danger btn-block"
 										style="font-size: 1.5em;">tiến hành thanh toán</a></td>
 							</tr>
