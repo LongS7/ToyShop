@@ -24,7 +24,7 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private ObjectId _id;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "userId")
 	private User user;
 	
@@ -106,8 +106,7 @@ public class Order {
 	/***
 	 * state bằng -1 nếu đơn hàng đã bị hủy
 	 * state bằng 0 nếu đơn hàng đang được xử lý
-	 * state bằng 1 nếu đơn hàng đang được giao
-	 * state bằng 2 nếu đơn hàng đã được giao
+	 * state bằng 1 nếu đơn hàng đã được giao
 	 * @param state
 	 */
 	public void setState(int state) {

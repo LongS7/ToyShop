@@ -66,4 +66,8 @@ public class OrderDetail {
 	public double getLineTotal() {
 		return unitPrice * quantity * (1 - discount);
 	}
+	
+	public double getTotalDiscount() {
+		return unitPrice * quantity * discount;
+	}
 }

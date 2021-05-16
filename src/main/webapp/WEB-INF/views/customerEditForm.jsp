@@ -39,7 +39,7 @@
 </head>
 
 <body>
-	<div class="col-8">
+	<div class="col-sm-8 col-12">
 		<form:form action="" modelAttribute="user">
 			<div class="form-group">
 				<form:label class="font-weight-bold" path="name">Họ tên:</form:label> <form:input

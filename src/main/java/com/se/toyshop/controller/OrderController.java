@@ -1,11 +1,9 @@
 package com.se.toyshop.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,28 +42,36 @@ public class OrderController {
 		return new ModelAndView("order", "myOrders", orderDAO.getOrdersOfCustomer(user.get_id()));
 	}
 	
-	@RequestMapping("/new")
-	public void newOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.sendRedirect(request.getServletContext().getContextPath() + "/order/add");
+	@RequestMapping("/my-order/{id}")
+	public ModelAndView showMyOrders(@PathVariable String id) {
+		User user = getCurrentUser();
+		if(user == null)
+			return new ModelAndView("redirect:/user/login");
+		
+		return new ModelAndView("order-detail", "order", orderDAO.getOrder(id));
 	}
 	
-	@SuppressWarnings("unchecked")
+	@RequestMapping("/my-order/filter")
+	public ModelAndView showMyOrders(@RequestParam("state") int state) {
+		User user = getCurrentUser();
+		if(user == null)
+			return new ModelAndView("redirect:/user/login");
+		
+		return new ModelAndView("order", "myOrders", orderDAO.getOrdersOfCustomer(user.get_id(), state));
+	}
+	
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView addOrder(HttpSession session) {
 		Order order = new Order();
 		
 		User user = getCurrentUser();
 		
+		if(user == null)
+			return new ModelAndView("redirect:/user/login");
+		
 		order.setUser(user);
 				
-		List<ShoppingCartItem> cartItems = new ArrayList<ShoppingCartItem>();
-		
-		if(user == null) {
-			cartItems = (List<ShoppingCartItem>) session.getAttribute("myCart");
-			
-		} else {
-			cartItems = user.getListShoppingCartItem();
-		}
+		List<ShoppingCartItem> cartItems = user.getListShoppingCartItem();
 		
 		for(ShoppingCartItem item : cartItems) {
 			order.addOrderDetail(item.getProduct(), item.getQuantity());
@@ -74,10 +81,23 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public void addOrder(@ModelAttribute("order") Order order, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String addOrder(@ModelAttribute("order") Order order) throws IOException {
+		User user = getCurrentUser();
+		order.setUser(user);
+		
+		List<ShoppingCartItem> cartItems = user.getListShoppingCartItem();
+		
+		for(ShoppingCartItem item : cartItems) {
+			order.addOrderDetail(item.getProduct(), item.getQuantity());
+		}
+		
+		order.setOrderDate(LocalDate.now());
+		
 		orderDAO.addOrder(order);
 		
-		response.sendRedirect(request.getServletContext().getContextPath() + "/order/my-order");
+		System.out.println(order);
+		
+		return "redirect:/order/my-order";
 	}
 
 	private User getCurrentUser() {

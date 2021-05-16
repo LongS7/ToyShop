@@ -35,68 +35,72 @@
 </style>
 </head>
 <body>
+	<fmt:setLocale value="vi_VN"/>
+	
 	<%@include file="navigationBar.jsp" %>
 	
-	<div class="row p-3">
-        <div class="col-sm-2 d-none d-sm-block">
-            <div class="text-center">
-                <div class=""><i class="fas fa-user-circle fa-3x"></i></div>
-                <div>Điểu Long</div>
-            </div>
-            <div class="list-group list-group-flush text-center">
-                <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-user-circle fa-2x"></i><br> Thông tin tài khoản</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-bell fa-2x"></i><br>Thông báo</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-map-marker-alt fa-2x"></i><br>Các địa chỉ giao hàng</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-file-invoice fa-2x"></i><br>Đơn hàng của tôi</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-comments fa-2x"></i><br>Nhận xét của tôi</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-question-circle fa-2x"></i><br>Liên hệ</a>
-            </div>
-        </div>
-        <div class="col-sm-10 col-12">
-            <ul class="nav nav-tabs nav-justified">
-                <li class="nav-item">
-                  <a class="nav-link active" href="#">Tất cả</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Đang xử lý</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Đã giao hàng</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Đã hủy</a>
-                </li>
-            </ul>
-            <table class="table">
-                <tr>
-                    <td>
-                        <div class="order-item row">
-                            <div class="col-sm-2 col-5 mt-auto mb-auto"><img src="./resources/images/lego_car.jpg" style="width: 100%;"/></div>
-                            <div class="col-sm-10 col-7 mt-auto mb-auto">
-                                <div class="order-product-name">Điện Thoại Samsung Galaxy A02s (4GB/64GB) - ĐÃ KÍCH HOẠT BẢO HÀNH ĐIỆN TỬ - Hàng Chính Hãng - Đen	</div>
-                                <div class="order-total">Tổng: 2.855.000 ₫</div>
-                                <div class="order-date">Ngày mua: 14/04/2021</div>
-                                <div class="order-btn-detail"><a href="#" class="btn btn-primary">Xem chi tiết</a></div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="order-item row">
-                            <div class="col-sm-2 col-5 mt-auto mb-auto"><img src="./resources/images/lego_car.jpg" style="width: 100%;"/></div>
-                            <div class="col-sm-10 col-7 mt-auto mb-auto">
-                                <div class="order-product-name">Điện Thoại Samsung Galaxy A02s (4GB/64GB) - ĐÃ KÍCH HOẠT BẢO HÀNH ĐIỆN TỬ - Hàng Chính Hãng - Đen	</div>
-                                <div class="order-total">Tổng: 2.855.000 ₫</div>
-                                <div class="order-date">Ngày mua: 14/04/2021</div>
-                                <div class="order-btn-detail"><a href="#" class="btn btn-primary">Xem chi tiết</a></div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
+	<div class="container pb-5 pt-5">
+		<div class="row">
+			<div class="col-sm-4 d-none d-sm-block">
+				<div class="row">
+					<div class="col-2">
+						<i class="fas fa-user-circle fa-3x"></i>
+					</div>
+					<div class="col-10">
+						Tài khoản của <br> <strong>${user.name }</strong>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-8 col-12 text-center">
+				<h4>Đơn hàng của bạn</h4>
+			</div>
+		</div>
+		
+		<div class="row">
+			<%@include file="/WEB-INF/views/sideNavigationBar.jsp"%>
+		
+			<div class="col-sm-8 col-12">
+	            <ul class="nav nav-tabs nav-justified">
+	                <li class="nav-item">
+	                  <a class="nav-link <c:if test="${ param.state == null }">active</c:if>" href="${ context }/order/my-order/">Tất cả</a>
+	                </li>
+	                <li class="nav-item">
+	                  <a class="nav-link <c:if test="${ param.state == '0' }">active</c:if>" href="${ context }/order/my-order/filter?state=0">Đang xử lý</a>
+	                </li>
+	                <li class="nav-item">
+	                  <a class="nav-link <c:if test="${ param.state == '1' }">active</c:if>" href="${ context }/order/my-order/filter?state=1">Đã giao hàng</a>
+	                </li>
+	                <li class="nav-item">
+	                  <a class="nav-link <c:if test="${ param.state == '-1' }">active</c:if>" href="${ context }/order/my-order/filter?state=-1">Đã hủy</a>
+	                </li>
+	            </ul>
+	            <div class="table-responsive">
+	            	<table class="table">
+		            	<thead>
+		            		<tr>
+		            			<td>Mã đơn</td>
+		            			<td>Ngày đặt hàng</td>
+		            			<td>Tổng tiền</td>
+		            			<td>Trạng thái</td>
+		            		</tr>
+		            	</thead>
+		                <c:forEach var="order" items="${ myOrders }">
+		                	<tr>
+			                    <td> <a class="link" href="${ context }/order/my-order/${ order._id }">${ order._id }</a> </td>
+			                    <td> ${ order.orderDate } </td>
+			                    <td> <fmt:formatNumber value="${ order.getTotal() }" type="currency"/> </td>
+			                    <td> 
+			                    	<c:if test="${ order.state eq -1 }">Đã hủy</c:if> 
+			                    	<c:if test="${ order.state eq 0}">Đang xử lý</c:if> 
+			                    	<c:if test="${ order.state eq 1 }">Đã giao</c:if> 
+		                    	</td>
+			                </tr>
+		                </c:forEach>
+		            </table>
+	            </div>
+	        </div>
+		</div>
+	</div>
 	
 	<%@include file="footer.jsp" %>
 </body>
