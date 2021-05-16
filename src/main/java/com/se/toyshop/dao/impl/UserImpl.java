@@ -27,6 +27,7 @@ public class UserImpl implements UserDao {
 		super();
 	}
 
+	@Override
 	public void addUser(User user) {
 		OgmSession session = sessionFactory.getCurrentSession();
 
@@ -42,6 +43,7 @@ public class UserImpl implements UserDao {
 		}
 	}
 
+	@Override
 	public User findByUsername(String username) {
 		User user = null;
 		OgmSession session = sessionFactory.getCurrentSession();
@@ -62,4 +64,20 @@ public class UserImpl implements UserDao {
 		return user;
 	}
 
+	@Override
+	public boolean update(User user) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		
+		try {
+			session.update(user);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			trans.rollback();
+			return false;
+		}
+	}
+
+	
 }

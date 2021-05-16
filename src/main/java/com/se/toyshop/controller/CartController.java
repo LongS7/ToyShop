@@ -6,6 +6,9 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.se.toyshop.dao.CartDAO;
+import com.se.toyshop.dao.UserDao;
 import com.se.toyshop.entity.ShoppingCartItem;
 import com.se.toyshop.entity.User;
 
@@ -22,22 +26,32 @@ public class CartController {
 	@Autowired
 	private CartDAO cartDAO;
 	
+	@Autowired
+	private UserDao userDao;
+	
 	@RequestMapping(value = {"/list", "/"})
-	public ModelAndView showCart(HttpSession session) {
-		User user = (User) session.getAttribute("currentUser");
-		
+	public ModelAndView showCart(HttpSession session) {		
 		ModelAndView modelAndView = new ModelAndView("cart");
 		
-		if(user == null) {
-			//Get cart form Session
-			modelAndView.addObject("cart", session.getAttribute("myCart"));
-			
-		} else {
+		User user = getCurrentUser();
+		
+		if(user != null) {			
 			//Get cart from DB
 			List<ShoppingCartItem> list = user.getListShoppingCartItem();
+			if(list == null)
+				list = new ArrayList<ShoppingCartItem>();
 			
 			modelAndView.addObject("cart", list);
 			
+		} else {
+			//Get cart form Session
+			@SuppressWarnings("unchecked")
+			List<ShoppingCartItem> cartItems =  (List<ShoppingCartItem>) session.getAttribute("myCart");
+			
+			if(cartItems == null)
+				cartItems = new ArrayList<ShoppingCartItem>();
+				
+			modelAndView.addObject("cart", cartItems);
 		}
 		
 		return modelAndView;
@@ -45,7 +59,7 @@ public class CartController {
 
 	@RequestMapping("/add")
 	public ModelAndView addCartItem(HttpSession session, @RequestParam("productId") String id) {
-		User user = (User) session.getAttribute("currentUser");
+		User user = getCurrentUser();
 		
 		ShoppingCartItem cartItem = new ShoppingCartItem(cartDAO.getProduct(id), 1);
 		
@@ -71,7 +85,7 @@ public class CartController {
 	
 	@RequestMapping("/remove")
 	public ModelAndView removeCartItem(HttpSession session, @RequestParam("productId") String id) {
-		User user = (User) session.getAttribute("currentUser");
+		User user = getCurrentUser();
 		
 		ShoppingCartItem cartItem = new ShoppingCartItem(cartDAO.getProduct(id), 1);
 		
@@ -97,7 +111,7 @@ public class CartController {
 	
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	public ModelAndView updateCartItem(HttpSession session, @RequestParam("productId") String id, @RequestParam("q") String quantity) {
-		User user = (User) session.getAttribute("currentUser");
+		User user = getCurrentUser();
 		
 		ShoppingCartItem cartItem = new ShoppingCartItem(cartDAO.getProduct(id), Integer.parseInt(quantity));
 		
@@ -119,5 +133,23 @@ public class CartController {
 		cartDAO.updateCartItem(user, cartItem);
 		
 		return new ModelAndView("cart", "cart", user.getListShoppingCartItem());
+	}
+	
+	private User getCurrentUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		if(authentication.isAuthenticated()) {
+			String username;
+			if(authentication.getPrincipal() instanceof UserDetails)
+				username = ((UserDetails) authentication.getPrincipal()).getUsername();
+			else
+				username = authentication.getPrincipal().toString();
+			
+			User user = userDao.findByUsername(username);
+			
+			return user;
+		}
+		
+		return null;
 	}
 }

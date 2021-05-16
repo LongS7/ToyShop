@@ -31,7 +31,6 @@
 	<%@include file="/WEB-INF/views/navigationBar.jsp"%>
 	<div class="container  pb-5 pt-5 col-lg-4">
 		<h4>ĐĂNG KÝ TÀI KHOẢN CỦA BẠN</h4>
-		<h1>${errorMessage }</h1>
 		<form:form method="POST" modelAttribute="user">
 			<div class="form-group">
 				<form:label path="name" class="font-weight-bold">Họ tên <span class="text-danger">*</span></form:label>
@@ -76,7 +75,7 @@
 					placeholder="Nhập ngày tháng năm sinh" class="form-control" />
 				<form:errors path="birthday" cssClass="error text-danger" />
 			</div>
-			<form:hidden path="role" value="USER" />
+			<form:hidden path="role" value="ROLE_USER" />
 			<button type="submit" class="btn btn-danger btn-block font-weight-bold">ĐĂNG KÝ</button>
 		</form:form>
 	</div>

@@ -17,9 +17,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.se.toyshop.dao.CartDAO;
+import com.se.toyshop.dao.OrderDAO;
 import com.se.toyshop.dao.ProductDAO;
 import com.se.toyshop.dao.UserDao;
 import com.se.toyshop.dao.impl.CartDAOImpl;
+import com.se.toyshop.dao.impl.OrderDaoImpl;
 import com.se.toyshop.dao.impl.ProductDAOImpl;
 import com.se.toyshop.dao.impl.UserImpl;
 
@@ -87,6 +89,11 @@ public class ApplicationConfig {
 	@Bean
 	public UserImpl getUserImpl() {
 		return new UserImpl();
+	}
+	
+	@Bean(name = "orderDao")
+	public OrderDAO getOrderDAO() {
+		return new OrderDaoImpl();
 	}
 	
 }

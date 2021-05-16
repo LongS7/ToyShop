@@ -7,6 +7,7 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -71,6 +72,40 @@ public class UserController {
 		String username = userDetails.getUsername();
 		User user = userDao.findByUsername(username);
 		return new ModelAndView("userInfo", "user", user);
+	}
+
+//	@RequestMapping(value = "/editUser", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+//	public ModelAndView updateUserProfile(@Valid @ModelAttribute("user") User user, BindingResult errors,
+//			@RequestParam(value = "newPassword", required = false) String newPassword,
+//			@RequestParam(value = "reNewPassword", required = false) String reNewPassword) {
+//		if (errors.hasErrors()) {
+//			return new ModelAndView("userInfo");
+//		}
+//
+//		boolean isUpdated = false;
+//
+//		User tempUser = userDao.findByUsername(user.getAccount().getUsername());
+//
+//		if (!tempUser.getAccount().getPassword().isEmpty() && newPassword != null && reNewPassword != null) {
+//			if (user.getAccount().getPassword().equals(tempUser.getAccount().getPassword())
+//					&& newPassword.equals(reNewPassword)) {
+//				tempUser.getAccount().setPassword(newPassword);
+//				isUpdated = userDao.update(tempUser);
+//			}
+//		} else {
+//			isUpdated = userDao.update(user);
+//		}
+//
+//		if (isUpdated) {
+//			return new ModelAndView("userInfo", "message", "Cập nhật thành công");
+//		} else {
+//			return new ModelAndView("userInfo", "message", "Cập nhật thất bại");
+//		}
+//	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public String testEdit() {
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/address", method = RequestMethod.GET)

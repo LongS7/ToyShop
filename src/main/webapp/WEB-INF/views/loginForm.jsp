@@ -60,8 +60,8 @@
 					Remember me
 				</label>
 			</div>
-			<input type="hidden" name="${_csrf.parameterName }"
-				value="${_csrf.token }" />
+			<!-- <input type="hidden" name="${_csrf.parameterName }"
+				value="${_csrf.token }" /> -->
 			<p>
 				Quên mật khẩu? Khôi phục mật khẩu <a href="#">tại đây</a>
 			</p>

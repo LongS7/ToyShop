@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -54,7 +55,7 @@ public class User implements Serializable{
 	@Pattern(regexp = "(84|0[3|5|7|8|9])+([0-9]{8})\\b", message = "Số điện thoại phải là số và từ 10 đến 11 số")
 	private String phone;
 
-	@ElementCollection(fetch = FetchType.LAZY)
+	@ElementCollection(fetch = FetchType.EAGER)
 	private List<ShoppingCartItem> listShoppingCartItem;
 
 	@ElementCollection
@@ -62,6 +63,8 @@ public class User implements Serializable{
 
 //	@OneToOne(cascade = { CascadeType.ALL })
 	@Embedded
+	@NotNull()
+	@Valid
 	private Account account;
 
 	public User() {

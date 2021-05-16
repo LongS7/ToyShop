@@ -20,12 +20,12 @@ public class Account implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	//	@NotNull(message = "Tên đăng nhập không được để trống")
-//	@Pattern(regexp = "^[a-zA-Z0-9_-]{3,16}$", message = "Tên đăng nhập phải đúng định dạng")
+	@NotNull(message = "Tên đăng nhập không được để trống")
+	@Pattern(regexp = "^[a-zA-Z0-9_-]{3,16}$", message = "Tên đăng nhập phải đúng định dạng")
 	private String username;
 	
-//	@NotNull(message = "Mật khẩu không được để trống")
-//	@Size(min = 6, max = 32, message = "Mật khẩu phải từ 6 đến 32 ký tự")
+	@NotNull(message = "Mật khẩu không được để trống")
+	@Size(min = 6, max = 32, message = "Mật khẩu phải từ 6 đến 32 ký tự")
 	private String password;
 
 	public Account() {

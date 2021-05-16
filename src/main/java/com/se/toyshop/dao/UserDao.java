@@ -6,4 +6,6 @@ public interface UserDao {
 	void addUser(User user);
 
 	User findByUsername(String username);
+	
+	boolean update(User user);
 }
