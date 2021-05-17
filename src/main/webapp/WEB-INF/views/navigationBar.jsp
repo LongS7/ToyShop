@@ -50,7 +50,47 @@
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="#">Sản phẩm</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Thương hiệu</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Danh mục</a></li>
+                <li class="nav-item dropdown"><a class="nav-link"
+				data-toggle="dropdown">Danh mục</a>
+				<div class=" dropright" style="margin-right: 94px;">
+					<div class="dropdown-menu " style="min-width: 250px;">
+						<button type="button" class="btn btn-secondary"
+							style="background: transparent; border: none; color: black;">
+							<a href="${ pageContext.request.contextPath }/danh-muc/do-choi">Phương tiện giao thông</a>
+						</button>
+						<button type="button"
+							class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+							style="float: right; margin-right: 2px; background: transparent; color: black; border: none;">
+							<span class="sr-only">Toggle Dropright</span>
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="${ pageContext.request.contextPath }/danh-muc/do-choi/do-choi-da-ngoai">Đồ chơi dã ngoại</a> <a
+								class="dropdown-item" href="#">Đồ chơi hhà bếp</a> <a
+								class="dropdown-item" href="#">Con quay</a> <a
+								class="dropdown-item" href="#">Đồ chơi dưới nước</a> <a
+								class="dropdown-item" href="#">Thảm quay</a>
+						</div>
+						<div class="mt-1"></div>
+						<button type="button" class="btn btn-secondary"
+							style="background: transparent; border: none; color: black;">
+							<a href="2.html">bb</a>
+						</button>
+						<button type="button"
+							class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+							style="float: right; margin-right: 2px; background: transparent; color: black; border: none;">
+							<span class="sr-only">Toggle Dropright</span>
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="#">0 - 12 tháng</a> <a
+								class="dropdown-item" href="#">1 - 3 tuổi</a> <a
+								class="dropdown-item" href="#">4 - 6 tuổi</a> <a
+								class="dropdown-item" href="#">6 - 11 tuổi</a> <a
+								class="dropdown-item" href="#">12 tuổi trở lên</a>
+						</div>
+					</div>
+				</div></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">Độ tuổi</a>
                     <div class="dropdown-menu ">
