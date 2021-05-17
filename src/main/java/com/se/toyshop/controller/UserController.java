@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,9 @@ import com.se.toyshop.service.UserPrincipal;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private UserDao userDao;
@@ -74,38 +78,38 @@ public class UserController {
 		return new ModelAndView("userInfo", "user", user);
 	}
 
-//	@RequestMapping(value = "/editUser", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-//	public ModelAndView updateUserProfile(@Valid @ModelAttribute("user") User user, BindingResult errors,
-//			@RequestParam(value = "newPassword", required = false) String newPassword,
-//			@RequestParam(value = "reNewPassword", required = false) String reNewPassword) {
-//		if (errors.hasErrors()) {
-//			return new ModelAndView("userInfo");
-//		}
-//
-//		boolean isUpdated = false;
-//
-//		User tempUser = userDao.findByUsername(user.getAccount().getUsername());
-//
-//		if (!tempUser.getAccount().getPassword().isEmpty() && newPassword != null && reNewPassword != null) {
-//			if (user.getAccount().getPassword().equals(tempUser.getAccount().getPassword())
-//					&& newPassword.equals(reNewPassword)) {
-//				tempUser.getAccount().setPassword(newPassword);
-//				isUpdated = userDao.update(tempUser);
-//			}
-//		} else {
-//			isUpdated = userDao.update(user);
-//		}
-//
-//		if (isUpdated) {
-//			return new ModelAndView("userInfo", "message", "Cập nhật thành công");
-//		} else {
-//			return new ModelAndView("userInfo", "message", "Cập nhật thất bại");
-//		}
-//	}
-	
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public String testEdit() {
-		return "redirect:/";
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	public ModelAndView updateUserProfile(@Valid @ModelAttribute("user") User user, BindingResult errors,
+			@RequestParam(required = false) String oldPassword, @RequestParam(required = false) String newPassword,
+			@RequestParam(required = false) String reNewPassword) {
+
+		if (errors.hasErrors()) {
+			return new ModelAndView("userInfo");
+		}
+
+		boolean isUpdated = false;
+		
+		System.out.println(user);
+		
+		User tempUser = userDao.findByUsername(user.getAccount().getUsername());
+
+		if (oldPassword != null && newPassword != null && reNewPassword != null) {
+			if (passwordEncoder.matches(oldPassword, tempUser.getAccount().getPassword())
+					&& newPassword.equals(reNewPassword)) {
+				user.getAccount().setPassword(passwordEncoder.encode(newPassword));
+				user.set_id(tempUser.get_id());
+				isUpdated = userDao.update(user);
+			}
+		} else {
+			user.set_id(tempUser.get_id());
+			isUpdated = userDao.update(user);
+		}
+
+		if (isUpdated) {
+			return new ModelAndView("userInfo", "message", "Cập nhật thành công");
+		} else {
+			return new ModelAndView("userInfo", "message", "Cập nhật thất bại");
+		}
 	}
 
 	@RequestMapping(value = "/address", method = RequestMethod.GET)

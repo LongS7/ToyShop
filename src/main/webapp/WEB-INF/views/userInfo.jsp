@@ -6,6 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
+
 <head>
 <c:set var="context" value="${ pageContext.request.contextPath }" />
 <meta charset="UTF-8">
@@ -32,14 +33,22 @@
 	function showChangePassForm() {
 		var checkbox = document.getElementById('passCheck');
 		var form = document.getElementById('changePasswordForm');
+		var inputs = document.getElementsByClassName('inputDisabled');
 		if (checkbox.checked == true) {
 			form.style.display = "block";
+			for (var i = 0; i < inputs.length; i++) {
+				inputs[i].disabled = false;
+			}
 		} else {
 			form.style.display = "none";
+			for (var i = 0; i < inputs.length; i++) {
+				inputs[i].disabled = true;
+			}
 		}
 	}
 </script>
 </head>
+
 <body>
 	<%@include file="/WEB-INF/views/navigationBar.jsp"%>
 	<div class="container pb-5 pt-5">
@@ -61,14 +70,24 @@
 		<div class="row">
 			<%@include file="/WEB-INF/views/sideNavigationBar.jsp"%>
 			<div class="col-8">
+				<c:if test="${not empty message}">
+					<div class="alert alert-success"><i class="fas fa-check-circle"></i> ${message}</div>
+				</c:if>
 				<form:form method="POST" modelAttribute="user">
+					<div class="form-group">
+						<form:label class="font-weight-bold" path="account.username">Tên đăng nhập:</form:label>
+						<form:input class="form-control" path="account.username"
+							value="${user.account.username}" readonly="true" />
+						<form:errors path="account.username" cssClass="error text-danger" />
+					</div>
 					<div class="form-group">
 						<form:label class="font-weight-bold" path="name">Họ tên:</form:label>
 						<form:input class="form-control" path="name" value="${user.name}" />
 						<form:errors path="name" cssClass="error text-danger" />
 					</div>
 					<div class="form-group">
-						<form:label class="font-weight-bold" path="phone">Số điện thoại:</form:label>
+						<form:label class="font-weight-bold" path="phone">Số điện thoại:
+												</form:label>
 						<form:input class="form-control" path="phone"
 							value="${user.phone }" />
 						<form:errors path="phone" cssClass="error text-danger" />
@@ -84,21 +103,23 @@
 					<div class="custom-control custom-radio custom-control-inline">
 						<form:radiobutton path="gender" value="1"
 							class="custom-control-input" id="male" name="gender" />
-						<form:label path="gender" class="custom-control-label" for="male">Nam</form:label>
+						<form:label path="gender" class="custom-control-label" for="male">Nam
+												</form:label>
 					</div>
 					<div class="custom-control custom-radio custom-control-inline">
 						<form:radiobutton path="gender" value="0"
 							class="custom-control-input" id="female" name="gender" />
 						<form:label path="gender" class="custom-control-label"
-							for="female">Nữ</form:label>
+							for="female">Nữ
+												</form:label>
 					</div>
 					<div class="form-group">
-						<form:label class="font-weight-bold" path="birthday">Ngày sinh:</form:label>
+						<form:label class="font-weight-bold" path="birthday">Ngày sinh:
+												</form:label>
 						<form:input type="date" class="form-control" path="birthday"
 							value="${user.birthday }" />
 						<form:errors path="birthday" cssClass="error text-danger" />
 					</div>
-					<h6>${result.message}</h6>
 					<div class="custom-control custom-checkbox">
 						<input type="checkbox" class="custom-control-input" id="passCheck"
 							name="passwordForm" onclick="showChangePassForm()"> <label
@@ -108,21 +129,25 @@
 					<div id="changePasswordForm" style="display: none;">
 						<br>
 						<div class="form-group">
-							<form:label class="font-weight-bold" path="account.password">Mật khẩu cũ:</form:label>
-							<form:password path="account.password" class="form-control" />
-							<form:errors path="account.password" cssClass="error text-danger" />
+							<label class="font-weight-bold" for="oldPassword">Mật
+								khẩu cũ:</label> <input type="password" name="oldPassword"
+								id="oldPassword" class="form-control inputDisabled" disabled>
 						</div>
 						<div class="form-group">
 							<label class="font-weight-bold" for="newPassword">Mật
-								khẩu mới:</label> <input type="password" class="form-control"
-								name="newPassword" id="newPassword">
+								khẩu mới:</label> <input type="password"
+								class="form-control inputDisabled" name="newPassword"
+								id="newPassword" disabled>
 						</div>
 						<div class="form-group">
 							<label class="font-weight-bold" for="reNewPassword">Nhập
-								lại:</label> <input type="password" class="form-control"
-								name="reNewPassword" id="reNewPassword">
+								lại:</label> <input type="password" class="form-control inputDisabled"
+								name="reNewPassword" id="reNewPassword" disabled>
 						</div>
 					</div>
+					<form:input path="account.password"
+						value="${user.account.password }" type="hidden" />
+					<form:input path="role" value="${user.role }" type="hidden" />
 					<br>
 					<button type="submit" class="btn btn-warning">Cập nhật</button>
 				</form:form>
@@ -132,4 +157,5 @@
 
 	<%@include file="/WEB-INF/views/footer.jsp"%>
 </body>
+
 </html>

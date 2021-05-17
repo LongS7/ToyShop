@@ -25,7 +25,7 @@ public class Account implements Serializable{
 	private String username;
 	
 	@NotNull(message = "Mật khẩu không được để trống")
-	@Size(min = 6, max = 32, message = "Mật khẩu phải từ 6 đến 32 ký tự")
+	@Size(min = 6, max = 60, message = "Mật khẩu phải từ 6 ký tự")
 	private String password;
 
 	public Account() {

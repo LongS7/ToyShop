@@ -71,6 +71,7 @@ public class UserImpl implements UserDao {
 		
 		try {
 			session.update(user);
+			trans.commit();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

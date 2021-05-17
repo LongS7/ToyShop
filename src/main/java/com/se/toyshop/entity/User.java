@@ -83,6 +83,16 @@ public class User implements Serializable{
 		this.email = email;
 		this.phone = phone;
 	}
+	
+	public User(ObjectId _id, String name, int gender, LocalDate birthday, String email, String phone) {
+		super();
+		this._id = _id;
+		this.name = name;
+		this.gender = gender;
+		this.birthday = birthday;
+		this.email = email;
+		this.phone = phone;
+	}
 
 	public void setAccount(Account account) {
 		this.account = account;
