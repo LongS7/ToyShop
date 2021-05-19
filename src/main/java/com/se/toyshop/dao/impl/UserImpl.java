@@ -1,18 +1,21 @@
 package com.se.toyshop.dao.impl;
 
+import org.bson.types.ObjectId;
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
+import org.hibernate.query.NativeQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.se.toyshop.dao.UserDao;
+import com.se.toyshop.entity.ShippingAddress;
 import com.se.toyshop.entity.User;
 
 public class UserImpl implements UserDao {
 	@Autowired
 	private OgmSessionFactory sessionFactory;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -50,12 +53,8 @@ public class UserImpl implements UserDao {
 		Transaction trans = session.beginTransaction();
 
 		try {
-			user = session
-					.createNativeQuery(
-							"db.users.aggregate([{'$match':{'account.username':'" + username
-									+ "'}}])",
-							User.class)
-					.getSingleResult();
+			user = session.createNativeQuery("db.users.aggregate([{'$match':{'account.username':'" + username + "'}}])",
+					User.class).getSingleResult();
 			trans.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,7 +67,7 @@ public class UserImpl implements UserDao {
 	public boolean update(User user) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction trans = session.beginTransaction();
-		
+
 		try {
 			session.update(user);
 			trans.commit();
@@ -80,5 +79,22 @@ public class UserImpl implements UserDao {
 		}
 	}
 
-	
+	@Override
+	public User getUser(String id) {
+		OgmSession session = sessionFactory.getCurrentSession();
+
+		Transaction trans = session.beginTransaction();
+
+		User user = new User();
+
+		try {
+			user = session.find(User.class, new ObjectId(id));
+			trans.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			trans.rollback();
+		}
+		return user;
+	}
+
 }

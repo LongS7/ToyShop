@@ -1,6 +1,8 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/se/toyshop/controller/UserController.java=UTF-8
+encoding//src/main/java/com/se/toyshop/dao/impl/UserImpl.java=UTF-8
 encoding//src/main/java/com/se/toyshop/entity/Account.java=UTF-8
+encoding//src/main/java/com/se/toyshop/entity/ShippingAddress.java=UTF-8
 encoding//src/main/java/com/se/toyshop/entity/User.java=UTF-8
 encoding//src/main/webapp/WEB-INF/views/loginForm.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/registerForm.jsp=UTF-8

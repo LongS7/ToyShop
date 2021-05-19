@@ -1,9 +1,11 @@
 package com.se.toyshop.entity;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class ShippingAddress {
+	@NotNull(message = "Địa chỉ không được để trống")
 	private String street;
 	private String ward;
 	private String district;

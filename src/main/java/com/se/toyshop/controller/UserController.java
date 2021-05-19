@@ -1,24 +1,27 @@
 package com.se.toyshop.controller;
 
+import java.io.UnsupportedEncodingException;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.se.toyshop.dao.UserDao;
+import com.se.toyshop.entity.ShippingAddress;
 import com.se.toyshop.entity.User;
 import com.se.toyshop.service.UserPrincipal;
 
@@ -78,7 +81,7 @@ public class UserController {
 		return new ModelAndView("userInfo", "user", user);
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public ModelAndView updateUserProfile(@Valid @ModelAttribute("user") User user, BindingResult errors,
 			@RequestParam(required = false) String oldPassword, @RequestParam(required = false) String newPassword,
 			@RequestParam(required = false) String reNewPassword) {
@@ -88,9 +91,7 @@ public class UserController {
 		}
 
 		boolean isUpdated = false;
-		
-		System.out.println(user);
-		
+
 		User tempUser = userDao.findByUsername(user.getAccount().getUsername());
 
 		if (oldPassword != null && newPassword != null && reNewPassword != null) {
@@ -113,7 +114,35 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/address", method = RequestMethod.GET)
-	public String showAddressForm() {
-		return "addressForm";
+	public ModelAndView showUserAddress(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+		String username = userPrincipal.getUsername();
+		User user = userDao.findByUsername(username);
+		return new ModelAndView("userAddress", "user", user);
+	}
+
+	@RequestMapping(value = "/address/create/{id}", method = RequestMethod.GET)
+	public ModelAndView showAddressForm(@PathVariable String id) {
+		return new ModelAndView("addressForm", "id", id);
+	}
+
+	@RequestMapping(value = "/address/create/{id}", method = RequestMethod.POST)
+	public ModelAndView processAddressForm(@PathVariable String id, @RequestParam(required = false) String provinceList,
+			@RequestParam(required = false) String districtList, @RequestParam(required = false) String wardList,
+			@RequestParam(required = false) String street) {
+		ShippingAddress shippingAddress = new ShippingAddress(street, wardList, districtList, provinceList);
+		
+		User user = userDao.getUser(id);
+		
+		user.getShippingAddresses().add(shippingAddress);
+		
+		boolean result = userDao.update(user);
+		
+		String message = null;
+		if (result) {
+			message = "Thêm địa chỉ thành công";
+		} else {
+			message = "Thêm địa chỉ thất bại";
+		}
+		return new ModelAndView("addressForm", "message", message);
 	}
 }

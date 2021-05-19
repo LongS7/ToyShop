@@ -2,6 +2,7 @@ package com.se.toyshop.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -48,7 +50,8 @@ public class User implements Serializable{
 	private String role;
 
 	@NotNull(message = "Email không được để trống")
-	@Pattern(regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", message = "Email phải đúng định dạng")
+//	@Pattern(regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", message = "Email phải đúng định dạng")
+	@Email(message = "Email không đúng định dạng")
 	private String email;
 
 	@NotNull(message = "Số điện thoại không được để trống")
@@ -58,8 +61,8 @@ public class User implements Serializable{
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<ShoppingCartItem> listShoppingCartItem;
 
-	@ElementCollection
-	private List<ShippingAddress> shippingAddresses;
+	@ElementCollection(fetch = FetchType.EAGER)
+	private List<ShippingAddress> shippingAddresses = new ArrayList<ShippingAddress>();
 
 //	@OneToOne(cascade = { CascadeType.ALL })
 	@Embedded

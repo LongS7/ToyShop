@@ -4,6 +4,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 
@@ -27,8 +28,6 @@
 	src="${ context }/resources/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="${ context }/resources/fontawesome-free-5.15.3-web/css/all.css">
-<style type="text/css">
-</style>
 <script>
 	function showChangePassForm() {
 		var checkbox = document.getElementById('passCheck');
@@ -73,7 +72,7 @@
 				<c:if test="${not empty message}">
 					<div class="alert alert-success"><i class="fas fa-check-circle"></i> ${message}</div>
 				</c:if>
-				<form:form method="POST" modelAttribute="user">
+				<form:form method="POST" modelAttribute="user" class="border" style="padding: 20px;">
 					<div class="form-group">
 						<form:label class="font-weight-bold" path="account.username">Tên đăng nhập:</form:label>
 						<form:input class="form-control" path="account.username"

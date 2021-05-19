@@ -1,5 +1,6 @@
 package com.se.toyshop.dao;
 
+import com.se.toyshop.entity.ShippingAddress;
 import com.se.toyshop.entity.User;
 
 public interface UserDao {
@@ -8,4 +9,6 @@ public interface UserDao {
 	User findByUsername(String username);
 	
 	boolean update(User user);
+	
+	User getUser(String id);
 }
