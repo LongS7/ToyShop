@@ -57,13 +57,13 @@
 						<c:forEach var="map" items="${ categories }">
 							<button type="button" class="btn btn-secondary"
 								style="background: transparent; border: none; color: black;">
-								${ map.key }
+								<a href="${ context }/danh-muc?des=${ map.key }">${ map.key }</a>
 							</button>
 							<button type="button"
 								class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
 								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
 								style="float: right; margin-right: 2px; background: transparent; color: black; border: none;">
-								<span class="sr-only">Toggle Dropright</span>
+								<span class="sr-only"></span>
 							</button>
 							<div class="dropdown-menu">
 								<c:forEach var="cate" items="${ map.value }">
