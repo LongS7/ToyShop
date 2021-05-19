@@ -1,16 +1,20 @@
 package com.se.toyshop.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,7 +69,9 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public ModelAndView addOrder(HttpSession session) {
+	public ModelAndView addOrder(HttpSession session, HttpServletRequest req) throws UnsupportedEncodingException {
+		req.setCharacterEncoding("UTF-8");
+		
 		Order order = new Order();
 		
 		User user = getCurrentUser();
@@ -74,8 +80,12 @@ public class OrderController {
 			return new ModelAndView("redirect:/user/login");
 		
 		order.setUser(user);
+		order.setPhone(user.getPhone());
 				
 		List<ShoppingCartItem> cartItems = user.getListShoppingCartItem();
+		
+		if(cartItems.size() == 0)
+			return new ModelAndView("redirect:/mycart/");
 		
 		for(ShoppingCartItem item : cartItems) {
 			order.addOrderDetail(item.getProduct(), item.getQuantity());
@@ -85,9 +95,19 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addOrder(@ModelAttribute("order") Order order) throws IOException {
+	public String addOrder(@Valid @ModelAttribute("order") Order order, @RequestParam("address") int pos, 
+			BindingResult bindingResult) throws IOException {
 		User user = getCurrentUser();
 		order.setUser(user);
+		
+		if(pos != -1)
+			order.setShippingAddress(user.getShippingAddresses().get(pos));
+		else {
+			if(bindingResult.hasErrors())
+				return "redirect:/order/add";
+			user.getShippingAddresses().add(order.getShippingAddress());
+			userDao.update(user);
+		}
 		
 		List<ShoppingCartItem> cartItems = user.getListShoppingCartItem();
 		

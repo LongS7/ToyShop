@@ -35,8 +35,8 @@
 	                            <i class="fas fa-user-alt"></i> ${ currentUser.name }
 	                        </a>
 	                        <div class="dropdown-menu">
-	                            <a class="dropdown-item" href="#">Quản lý tài khoản</a>
-	                            <a class="dropdown-item" href="#">Đơn hàng của tôi</a>
+	                            <a class="dropdown-item" href="${ context }/user/edit">Quản lý tài khoản</a>
+	                            <a class="dropdown-item" href="${ context }/order/my-order">Đơn hàng của tôi</a>
 	                        </div>
                         </c:if>
                     </div>
@@ -50,7 +50,30 @@
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="#">Sản phẩm</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Thương hiệu</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Danh mục</a></li>
+                <li class="nav-item dropdown"><a class="nav-link"
+				data-toggle="dropdown">Danh mục</a>
+				<div class=" dropright" style="margin-right: 94px;">
+					<div class="dropdown-menu " style="min-width: 250px;">
+						<c:forEach var="map" items="${ categories }">
+							<button type="button" class="btn btn-secondary"
+								style="background: transparent; border: none; color: black;">
+								<a href="${ context }/danh-muc?des=${ map.key }">${ map.key }</a>
+							</button>
+							<button type="button"
+								class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+								style="float: right; margin-right: 2px; background: transparent; color: black; border: none;">
+								<span class="sr-only"></span>
+							</button>
+							<div class="dropdown-menu">
+								<c:forEach var="cate" items="${ map.value }">
+									<a class="dropdown-item" href="${ pageContext.request.contextPath }/danh-muc/${ cate._id }">${ cate.categoryName }</a>
+								</c:forEach>
+							</div>
+							<div class="mt-1"></div>
+						</c:forEach>
+					</div>
+				</div></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">Độ tuổi</a>
                     <div class="dropdown-menu ">

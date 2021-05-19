@@ -30,6 +30,7 @@ a:hover { text-decoration: none; color: black; cursor: pointer;}
 .rating .checked {
     color: gold;
 }
+.error { color: red; font-style: italic;}
 .rating .num-of-rate { font-size: .8rem; }
 
 #wrapper {
