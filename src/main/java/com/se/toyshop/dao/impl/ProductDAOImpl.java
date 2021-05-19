@@ -1,5 +1,9 @@
 package com.se.toyshop.dao.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bson.types.ObjectId;
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
@@ -33,6 +37,44 @@ public class ProductDAOImpl implements ProductDAO {
 		}
 
 		return product;
+	}
+
+	@Override
+	public List<Product> getProductByCategoryId(ObjectId caregory_id) {
+		
+		OgmSession session = sessionFactory.getCurrentSession();
+		List<Product> products = new ArrayList();
+		Transaction tran = session.beginTransaction();
+		
+		try {
+			products  = session.createNativeQuery("db.products.find({category_id:ObjectId('"+caregory_id+"')})", Product.class).getResultList();
+			
+			tran.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		}
+		return products;
+	}
+
+	@Override
+	public List<Product> getAllProducts() {
+
+		OgmSession session = sessionFactory.getCurrentSession();
+		List<Product> products = new ArrayList();
+		Transaction tran = session.beginTransaction();
+		
+		try {
+			products  = session.createNativeQuery("db.products.find()", Product.class).getResultList();
+			
+			tran.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		}
+		return products;
 	}
 
 	

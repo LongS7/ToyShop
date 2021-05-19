@@ -79,6 +79,8 @@ public class Product  implements Serializable {
 		this.ages = ages;
 		this.gender = gender;
 	}
+	
+
 
 	public ObjectId get_id() {
 		return _id;
