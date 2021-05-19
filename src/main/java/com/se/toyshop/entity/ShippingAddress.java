@@ -2,11 +2,16 @@ package com.se.toyshop.entity;
 
 import javax.persistence.Embeddable;
 
+import org.hibernate.validator.constraints.Length;
+
 @Embeddable
 public class ShippingAddress {
 	private String street;
+	@Length(min = 2, message = "Không để trống")
 	private String ward;
+	@Length(min = 2, message = "Không để trống")
 	private String district;
+	@Length(min = 2, message = "Không để trống")
 	private String province;
 	
 	public ShippingAddress() {
@@ -55,8 +60,7 @@ public class ShippingAddress {
 
 	@Override
 	public String toString() {
-		return "ShippingAddress [street=" + street + ", ward=" + ward + ", district=" + district + ", province="
-				+ province + "]";
+		return street + ", " + ward + ", " + district + ", " + province;
 	}
 	
 }

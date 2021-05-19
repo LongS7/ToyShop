@@ -58,7 +58,7 @@ public class User implements Serializable{
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<ShoppingCartItem> listShoppingCartItem;
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	private List<ShippingAddress> shippingAddresses;
 
 //	@OneToOne(cascade = { CascadeType.ALL })
