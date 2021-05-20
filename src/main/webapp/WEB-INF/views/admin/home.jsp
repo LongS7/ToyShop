@@ -6,7 +6,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>  </title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Quản lý </title>
+<link rel="shortcut icon"
+	href='<c:url value="/resources/images/favicon.ico" />'
+	type="image/x-icon">
+<link rel="icon" href='<c:url value="/resources/images/favicon.ico" />'
+	type="image/x-icon">
 <!-- Custom fonts for this template-->
 <link href="${ context }/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
