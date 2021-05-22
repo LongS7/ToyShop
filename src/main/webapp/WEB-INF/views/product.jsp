@@ -23,6 +23,7 @@
 	src="${ context }/resources/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="${ context }/resources/fontawesome-free-5.15.3-web/css/all.css">
+
 </head>
 <body>
 	<%@include file="navigationBar.jsp"%>
@@ -162,48 +163,79 @@
 							thấp</a> &nbsp;&nbsp; <a><i class="fas fa-star"></i>Nổi bật</a>
 					</div>
 				</nav>
-				<div class="container">
-					<div class="list-product row">
-						<c:forEach var="product" items="${ products }">
-													<div class="product col-6 col-sm-3 p-1">
-							<div class="border p-2">
-								<a class="product-image" href="#"> <img
-									src="data:image/png;base64,${product.images[0] }" style="width: 100%;">
-								</a>
-								<div class="product-name text-left">
-									<a href="#">${ product.name }</a>
-								</div>
-								<div class="rating text-left">
-									<span class="fa fa-star checked"></span> <span
-										class="fa fa-star checked"></span> <span
-										class="fa fa-star checked"></span> <span
-										class="fa fa-star checked"></span> <span class="fa fa-star"></span>
-									<span class="num-of-rate">(7)</span>
-								</div>
-								<div class="product-price text-left font-weight-bold">
-									<span>${ product.price } VNĐ</span>
-								</div>
-							</div>
+				<c:if test="${empty products}">
+					<div class="container">
+						>
+						<div class="d-flex justify-content-center">
+							<h3>Không có sản phẩm nào</h3>
 						</div>
-						</c:forEach>
+					</div>
+
+				</c:if>
+				<c:if test="${products.size() gt 0}">
+
+					<div class="container">
+						<div class="list-product row">
+							<c:forEach var="product" items="${ products }">
+								<div class="product col-6 col-sm-3 p-1">
+									<div class="border p-2">
+										<a class="product-image" href="#"> <img
+											src="data:image/png;base64,${product.images[0] }"
+											style="width: 100%;">
+										</a>
+										<div class="product-name text-left">
+											<a href="#">${ product.name }</a>
+										</div>
+										<div class="rating text-left">
+											<span class="fa fa-star checked"></span> <span
+												class="fa fa-star checked"></span> <span
+												class="fa fa-star checked"></span> <span
+												class="fa fa-star checked"></span> <span class="fa fa-star"></span>
+											<span class="num-of-rate">(7)</span>
+										</div>
+										<div class="product-price text-left font-weight-bold">
+											<span>${ product.price } VNĐ</span>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+
+						</div>
+						<div class="d-flex justify-content-center">
+							<ul class="pagination" id="pagination"></ul>
+						</div>
 
 					</div>
-				</div>
+				</c:if>
+
+
 			</div>
 		</div>
 		<br>
 	</div>
 	<%@include file="footer.jsp"%>
+	<script src=" <c:url value='/resources/js/jquery.twbsPagination.js'/>"></script>
 	<script src="./resources/js/sb-admin-2.min.js"></script>
 	<script>
-        var slider = document.getElementById("priceRange");
-        var output = document.getElementById("priceTag");
-        output.innerHTML = slider.value; // Display the default slider value
+		var slider = document.getElementById("priceRange");
+		var output = document.getElementById("priceTag");
+		output.innerHTML = slider.value; // Display the default slider value
 
-        // Update the current slider value (each time you drag the slider handle)
-        slider.oninput = function() {
-            output.innerHTML = this.value;
-        }
-    </script>
+		// Update the current slider value (each time you drag the slider handle)
+		slider.oninput = function() {
+			output.innerHTML = this.value;
+		}
+	</script>
+	<script>
+		$(function() {
+			window.pagObj = $('#pagination').twbsPagination({
+				totalPages : 35,
+				visiblePages : 10,
+				onPageClick : function(event, page) {
+					console.info(page + ' (from options)');
+				}
+			});
+		});
+	</script>
 </body>
 </html>

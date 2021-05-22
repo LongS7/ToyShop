@@ -43,7 +43,7 @@ public class ProductDAOImpl implements ProductDAO {
 	public List<Product> getProductByCategoryId(ObjectId caregory_id) {
 		
 		OgmSession session = sessionFactory.getCurrentSession();
-		List<Product> products = new ArrayList();
+		List<Product> products = null;
 		Transaction tran = session.beginTransaction();
 		
 		try {
@@ -62,7 +62,7 @@ public class ProductDAOImpl implements ProductDAO {
 	public List<Product> getAllProducts() {
 
 		OgmSession session = sessionFactory.getCurrentSession();
-		List<Product> products = new ArrayList();
+		List<Product> products = null;
 		Transaction tran = session.beginTransaction();
 		
 		try {

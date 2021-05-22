@@ -22,11 +22,10 @@ public class CategoryController {
 	@RequestMapping("/{category_id}")
 	public String showProductsByCategoryId(@PathVariable("category_id") ObjectId id,Model model) {
 		System.out.println(id);
-		List<Product> list =  new ArrayList();
+		List<Product> list =  null;
 		list = productDAO.getProductByCategoryId(id);
-		System.out.println(list.size());
+		System.out.println(list.isEmpty());
 		model.addAttribute("products", list);
-		
 		return "product";
 	}
 }
