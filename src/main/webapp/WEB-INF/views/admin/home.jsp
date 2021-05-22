@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${ pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html>
@@ -20,6 +21,7 @@
 <link href="${ context }/resources/css/sb-admin-2.min.css" rel="stylesheet">
 </head>
 <body>
+	<fmt:setLocale value="vi_VN" scope="session"/>
 	<div id="wrapper">
 		<%@include file="sidebar.jsp" %>
         <!-- Content Wrapper -->
@@ -52,8 +54,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                Doanh thu (Tháng này)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> <fmt:formatNumber value="${ totalOfMonth }" type="currency" /> </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -70,8 +72,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                Doanh thu (Hôm nay)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><fmt:formatNumber value="${ totalOfDay }" type="currency" /></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -377,5 +379,21 @@
     <!-- End of Page Wrapper -->
 
     <%@include file="end.jsp" %>
+    <c:forEach var="lab" items="${ labels }"></c:forEach>
+    
+    <script type="text/javascript">
+    	var labels = new Array()
+    	var data = new Array()
+    	<c:forEach var="lab" items="${ labels }">
+    		labels.push("${lab}")
+    	</c:forEach>
+   		<c:forEach var="dat" items="${ data }">
+    		data.push("${dat}")
+    	</c:forEach>
+    		
+    	console.log(data)
+    		
+    	loadDataToChart(labels, data)
+    </script>
 </body>
 </html>

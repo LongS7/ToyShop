@@ -1,6 +1,8 @@
 package com.se.toyshop.dao;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.bson.types.ObjectId;
 
@@ -13,4 +15,8 @@ public interface OrderDAO {
 	List<Order> getOrdersOfCustomer(ObjectId userId);
 	List<Order> getOrdersOfCustomer(ObjectId userId, int state);
 	Order getOrder(String id);
+	double getTotalMoneyOfDay(LocalDate date);
+	double getTotalMoneyOfMonth(LocalDate date);
+	Map<Integer, Double> getTotalMoneyOfYear(int year);
+	int getOrderCount();
 }
