@@ -3,9 +3,11 @@ package com.se.toyshop.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -43,13 +45,19 @@ public class ProductController {
 		model.addAttribute("page", page);
 		return "product";
 	}
-	@RequestMapping("/demo")
-	public String showDemo(Model model) {
-		
-		System.out.println(categoryDAO.getAllDescriptions());
+	@RequestMapping("/{_id}")
+	public String showProductDetail(@PathVariable("_id") ObjectId id,Model model) {
 		
 		
-		System.out.println(categoryDAO.getAllCategories());
+	
+		Product product = productDAO.getProductById(id);
+		System.out.println(product.toString());
+		model.addAttribute("product",product);
+		
+		
+		
 		return "product-detail";
 	}
+	
+
 }

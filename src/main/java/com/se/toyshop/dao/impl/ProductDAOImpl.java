@@ -114,6 +114,26 @@ public class ProductDAOImpl implements ProductDAO {
 		return products;
 	}
 
+	@Override
+	public Product getProductById(ObjectId id) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		
+		Transaction tran = session.beginTransaction();
+
+		Product product = null;
+		try {
+			product  = session.get(Product.class, id);
+			
+			tran.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		}
+
+		return product;
+	}
+
 	
 
 

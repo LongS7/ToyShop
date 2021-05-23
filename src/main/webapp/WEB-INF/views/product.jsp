@@ -179,12 +179,12 @@
 							<c:forEach var="product" items="${ products }">
 								<div class="product col-6 col-sm-3 p-1">
 									<div class="border p-2">
-										<a class="product-image" href="#"> <img
+										<a class="product-image" href="<c:url value='/${product._id}'/>"> <img
 											src="data:image/png;base64,${product.images[0] }"
 											style="width: 100%;">
 										</a>
 										<div class="product-name text-left">
-											<a href="#">${ product.name }</a>
+											<a href="">${ product.name }</a>
 										</div>
 										<div class="rating text-left">
 											<span class="fa fa-star checked"></span> <span
