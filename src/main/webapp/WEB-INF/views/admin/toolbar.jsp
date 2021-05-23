@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Topbar -->
 <nav
 	class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -163,9 +166,13 @@
 			class="nav-link dropdown-toggle" href="#" id="userDropdown"
 			role="button" data-toggle="dropdown" aria-haspopup="true"
 			aria-expanded="false"> <span
-				class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas
-					McGee</span> <img class="img-profile rounded-circle"
-				src="${ context }/resources/images/undraw_profile.svg">
+				class="mr-2 d-none d-lg-inline text-gray-600 small">${ currentUser.name }</span> 
+				<c:if test="${ currentUser.photo == null }">
+					<img class="img-profile rounded-circle" src="${ context }/resources/images/undraw_profile.svg">
+				</c:if>
+				<c:if test="${ currentUser.photo != null }">
+					<img class="img-profile rounded-circle" src="data:image/png;base64,${ currentUser.photo }">
+				</c:if>
 		</a> <!-- Dropdown - User Information -->
 			<div
 				class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

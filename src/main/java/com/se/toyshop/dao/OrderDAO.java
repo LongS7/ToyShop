@@ -9,7 +9,7 @@ import org.bson.types.ObjectId;
 import com.se.toyshop.entity.Order;
 
 public interface OrderDAO {
-	List<Order> getAll();
+	List<Order> getAll(int page, int sortDate);
 	void addOrder(Order order);
 	void updateOrder(Order order);
 	List<Order> getOrdersOfCustomer(ObjectId userId);

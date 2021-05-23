@@ -19,7 +19,7 @@ public class OrderDaoImpl implements OrderDAO {
 	private OgmSessionFactory sessionFactory;
 
 	@Override
-	public List<Order> getAll() {
+	public List<Order> getAll(int page, int sortDate) {
 		OgmSession session = sessionFactory.getCurrentSession();
 
 		List<Order> result = null;
@@ -27,7 +27,11 @@ public class OrderDaoImpl implements OrderDAO {
 		Transaction tran = session.beginTransaction();
 
 		try {
-			result = session.createNativeQuery("db.orders.find({})", Order.class).getResultList();
+			result = session.createNativeQuery("db.orders.aggregate(["
+					+ "{'$sort': {'orderDate': " + sortDate + "}}, "
+					+ "{'$skip': " + (page - 1) * 10 + "}, "
+					+ "{'$limit': 10}])", Order.class)
+					.getResultList();
 
 			tran.commit();
 
