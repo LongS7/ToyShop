@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="context" value="${ pageContext.request.contextPath }" />
 <!-- Sidebar -->
 <ul
 	class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
@@ -47,7 +49,7 @@
 	</li>
 	<!-- Nav Item - Pages Collapse Menu -->
 	<li class="nav-item">
-		<a class="nav-link" href="#"> <i class="fas fa-file-invoice-dollar fa-fw"></i> <span>Đơn hàng</span></a>
+		<a class="nav-link" href="${ context }/admin/manage-orders/"> <i class="fas fa-file-invoice-dollar fa-fw"></i> <span>Đơn hàng</span></a>
 	</li>
 	<!-- Nav Item - Pages Collapse Menu -->
 	<li class="nav-item">
