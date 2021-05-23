@@ -62,6 +62,9 @@ public class ShippingAddress {
 
 	@Override
 	public String toString() {
+		if(street == null)
+			street = "";
+		
 		return street + ", " + ward + ", " + district + ", " + province;
 	}
 	

@@ -3,6 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${ pageContext.request.contextPath }" />
+<c:set var="formAction" value="${ context }/admin/manage-orders/" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +40,59 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Quản lý hóa đơn</h1>
-
+                    <c:if test="${ param.message != null }">
+                    	<div class="alert alert-success alert-dismissible">
+						  <button type="button" class="close" data-dismiss="alert">&times;</button>
+						  ${ param.message }
+						</div>
+                    </c:if>
+                    <c:if test="${ param.sort_date == null || param.sort_date == -1 }">
+                     	<c:set var="sort_date" value="1"/>
+                     	<c:set var="sort_icon" value="fas fa-sort-up"/>
+                   	</c:if>
+                   	<c:if test="${ param.sort_date == 1 }">
+                   		<c:set var="sort_date" value="-1"/>
+                   		<c:set var="sort_icon" value="fas fa-sort-down"/>
+                   	</c:if>
+                   	<c:if test="${ param.p == null }">
+                    	<c:set var="page" value="1"/>
+                     </c:if>
+                     <c:if test="${ param.p != null }">
+                     	<c:set var="page" value="${ param.p }"/>
+                     </c:if>
+                    <h1 class="h5">Bộ lọc</h1>
+					<form class="mb-2">
+						<input type="text" name="p" value="${ page }" hidden="true">
+						<input type="text" name="sort_date" value="${ param.sort_date }" hidden="true">
+						<div class="row">
+						    <div class="col">
+						      <label>Từ ngày</label>
+						    </div>
+						    <div class="col">
+						      <label>Đến ngày</label>
+						    </div>
+						</div>
+						<div class="row">
+						    <div class="col">
+						      <input type="date" class="form-control" name="dateFrom">
+						    </div>
+						    <div class="col">
+						      <input type="date" class="form-control" name="dateTo">
+						    </div>
+						</div>
+						<select name="state" class="custom-select mt-2 mb-2">
+						    <option selected value="">Chọn trạng thái</option>
+						    <option value="0">Đang xử lý</option>
+						    <option value="1">Đã giao</option>
+						    <option value="-1">Đã hủy</option>
+						  </select>
+						<button class="btn btn-primary mt-2 mb-2" type="submit">
+							<span class="icon text-white-50">
+                                <i class="fas fa-filter"></i>
+                            </span>
+                            <span class="text">Lọc</span>
+						</button>
+					</form>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -47,21 +100,13 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                        	<c:if test="${ param.sort_date == null || param.sort_date == -1 }">
-                                        		<c:set var="sort_date" value="1"/>
-                                        		<c:set var="sort_icon" value="fas fa-sort-up"/>
-                                        	</c:if>
-                                        	<c:if test="${ param.sort_date == 1 }">
-                                        		<c:set var="sort_date" value="-1"/>
-                                        		<c:set var="sort_icon" value="fas fa-sort-down"/>
-                                        	</c:if>
                                             <th>Mã HD</th>
                                             <th><div>
                                             	<span>Ngày đặt</span>
-                                            	<a class="float-right" href="?sort_date=${ sort_date }"><i class="${ sort_icon }"></i></a>
+                                            	<a class="float-right" href="?p=${ page }&sort_date=${ sort_date }&dateFrom=${ param.dateFrom }&&dateTo=${ param.dateTo }&&state=${ param.state }"><i class="${ sort_icon }"></i></a>
                                            	</div></th>
                                             <th>Tổng tiền</th>
                                             <th>Trạng thái đơn hàng</th>
@@ -73,28 +118,23 @@
                                     		<tr>
                                     			<td><a href="${ context }/admin/manage-orders/${ order._id }">${ order._id }</a></td>
                                     			<td>${ order.orderDate }</td>
-                                    			<td>${ order.getTotal() }</td>
+                                    			<td> <fmt:formatNumber value="${ order.getTotal() }" type="currency" /> </td>
                                     			<td>
                                     				<c:if test="${ order.state eq -1 }">Đã hủy</c:if> 
 							                    	<c:if test="${ order.state eq 0}">Đang xử lý</c:if> 
 							                    	<c:if test="${ order.state eq 1 }">Đã giao</c:if> 
                                     			</td>
-                                    			<td class="text-center"> <a class="btn btn-primary" href="${ context }/admin/manage-orders/update/${ order._id }">Cập nhật trạng thái</a> </td>
+                                    			<td class="text-center"> 
+                                    				<c:if test="${ order.state == 0 }">
+                                    					<a class="btn btn-primary" href="${ context }/admin/manage-orders/update/${ order._id }">Cập nhật trạng thái</a> 
+                                   					</c:if>
+                                   				</td>
                                     		</tr>
                                     	</c:forEach>
                                     </tbody>
                                 </table>
                             </div>
-                            <c:if test="${ param.p == null }">
-                            	<c:set var="p" value="1"/>
-                            </c:if>
                             <ul class="pagination justify-content-end">
-                            	<c:if test="${ param.p == null }">
-                           			<c:set var="page" value="1"/>
-                           		</c:if>
-                           		<c:if test="${ param.p != null }">
-                           			<c:set var="page" value="${ param.p }"/>
-                           		</c:if>
                             	<c:if test="${ page > 1 }">
                            			<li class="page-item"><a class="page-link" href="list-order?p=${ page - 1 }">Previous</a></li>
                             	</c:if>
@@ -111,7 +151,7 @@
 
                 </div>
                 <!-- /.container-fluid -->
-                
+                                
                 <!-- End of your code -->
 
             </div>

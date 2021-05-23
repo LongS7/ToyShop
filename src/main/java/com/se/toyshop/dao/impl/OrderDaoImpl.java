@@ -333,4 +333,27 @@ public class OrderDaoImpl implements OrderDAO {
 		return 0;
 	}
 
+	@Override
+	public List<Order> find(String keyword) {
+		OgmSession session = sessionFactory.getCurrentSession();
+
+		List<Order> result = null;
+
+		Transaction tran = session.beginTransaction();
+
+		try {
+//			session.createNativeQuery("db.orders.createIndex( { comments: \"text\" } )").executeUpdate();
+//			
+//			result = session.createNativeQuery("db.orders.find({'state': " + state + "})", Order.class).getResultList();
+//
+//			tran.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		}
+
+		return result;
+	}
+
 }

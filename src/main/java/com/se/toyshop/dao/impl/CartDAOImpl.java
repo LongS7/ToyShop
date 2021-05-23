@@ -131,7 +131,7 @@ public class CartDAOImpl implements CartDAO {
 	public boolean removeCartItems(User user, List<ShoppingCartItem> cartItems) {
 		boolean result = false;
 		
-		for(int i = 0; i < cartItems.size(); i++) {
+		for(int i = cartItems.size() - 1; i >= 0; i--) {
 			user.getListShoppingCartItem().remove(cartItems.get(i));
 		}
 		
