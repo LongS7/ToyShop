@@ -9,5 +9,6 @@ import com.se.toyshop.entity.Product;
 public interface ProductDAO {
 	Product getProduct();
 	List<Product> getProductByCategoryId(ObjectId caregory_id);
+	List<Product> getProductByCategoryId(ObjectId caregory_id,int page,int limit);
 	List<Product> getAllProducts();
 }

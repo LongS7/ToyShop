@@ -173,7 +173,8 @@
 
 				</c:if>
 				<c:if test="${products.size() gt 0}">
-
+					<form action="<c:url value='/danh-muc/${id}'/>" id="formSubmit" method="get">
+					
 					<div class="container">
 						<div class="list-product row">
 							<c:forEach var="product" items="${ products }">
@@ -195,6 +196,7 @@
 										</div>
 										<div class="product-price text-left font-weight-bold">
 											<span>${ product.price } VNĐ</span>
+											
 										</div>
 									</div>
 								</div>
@@ -203,9 +205,12 @@
 						</div>
 						<div class="d-flex justify-content-center">
 							<ul class="pagination" id="pagination"></ul>
+							<input type="hidden" value="" id="page" name="page"/>
+							<input type="hidden" value="" id="limit" name="limit"/>
 						</div>
 
 					</div>
+					</form>
 				</c:if>
 
 
@@ -227,12 +232,21 @@
 		}
 	</script>
 	<script>
+		var totalPages = ${totalPage};
+		var currentPage = ${page};
+	
 		$(function() {
 			window.pagObj = $('#pagination').twbsPagination({
-				totalPages : 35,
-				visiblePages : 10,
+				totalPages : totalPages,
+				visiblePages : 5,
+				startPage : currentPage,
 				onPageClick : function(event, page) {
-					console.info(page + ' (from options)');
+					if(currentPage != page){
+						$('#limit').val(20);
+						$('#page').val(page);
+						$('#formSubmit').submit();
+					}
+					
 				}
 			});
 		});

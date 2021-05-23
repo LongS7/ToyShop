@@ -60,7 +60,7 @@
 							      	<a class="btn" href="${ context }/danh-muc?des=${ map.key }"  data-toggle="dropdown">${ map.key }</a>
 								    <div class="dropdown-menu">
 										<c:forEach var="cate" items="${ map.value }">
-											<a class="dropdown-item" href="${ pageContext.request.contextPath }/danh-muc/${ cate._id }">${ cate.categoryName }</a>
+											<a class="dropdown-item" href="${ pageContext.request.contextPath }/danh-muc/${ cate._id }?page=1&limit=20">${ cate.categoryName }</a>
 										</c:forEach>
 									</div>
 								  </div>								

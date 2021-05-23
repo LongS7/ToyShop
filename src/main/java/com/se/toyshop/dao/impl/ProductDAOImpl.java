@@ -77,6 +77,26 @@ public class ProductDAOImpl implements ProductDAO {
 		return products;
 	}
 
+	@Override
+	public List<Product> getProductByCategoryId(ObjectId caregory_id, int page, int limit) {
+		// TODO Auto-generated method stub
+		OgmSession session = sessionFactory.getCurrentSession();
+		List<Product> products = new ArrayList<Product>();
+		Transaction tran = session.beginTransaction();
+		int ofset = page -  1 * limit;
+		limit = limit - 1;
+		try {
+//			products  = session.createNativeQuery("db.products.find({category_id:ObjectId('"+caregory_id+"')}).skip('"+ofset+"').limit('"+limit+"')", Product.class).getResultList();
+			products  = session.createNativeQuery("db.products.aggregate([{$match:{category_id:ObjectId('"+caregory_id+"')}},{$skip:"+ofset+"},{$limit:"+limit+"}])", Product.class).getResultList();
+			tran.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		}
+		return products;
+	}
+
 	
 
 
