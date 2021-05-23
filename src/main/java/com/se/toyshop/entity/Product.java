@@ -17,7 +17,7 @@ import org.bson.types.ObjectId;
 
 @Entity
 @Table(name = "products")
-public class Product  implements Serializable {
+public class Product implements Serializable {
 	/**
 	 * 
 	 */
