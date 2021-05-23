@@ -165,7 +165,6 @@
 				</nav>
 				<c:if test="${empty products}">
 					<div class="container">
-						>
 						<div class="d-flex justify-content-center">
 							<h3>Không có sản phẩm nào</h3>
 						</div>

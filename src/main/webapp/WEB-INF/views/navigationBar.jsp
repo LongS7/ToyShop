@@ -48,7 +48,7 @@
     <nav class="navbar navbar-expand-md bg-1 navbar-dark second-nav">
         <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="#">Sản phẩm</a></li>
+                <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/san-pham?page=1&limit=20"">Sản phẩm</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Thương hiệu</a></li>
                 <li class="nav-item dropdown">
 				<div class="dropdown">

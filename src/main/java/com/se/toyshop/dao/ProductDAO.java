@@ -11,4 +11,5 @@ public interface ProductDAO {
 	List<Product> getProductByCategoryId(ObjectId caregory_id);
 	List<Product> getProductByCategoryId(ObjectId caregory_id,int page,int limit);
 	List<Product> getAllProducts();
+	List<Product> getAllProducts(int page,int limit);
 }
