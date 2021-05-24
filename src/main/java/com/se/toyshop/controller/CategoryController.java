@@ -46,6 +46,6 @@ public class CategoryController {
 		model.addAttribute("id",id);
 		model.addAttribute("totalPage",(int) Math.ceil((double) totalItem / limit)); // tính tổng số trang
 		model.addAttribute("page", page);
-		return "product";
+		return "product-category";
 	}
 }

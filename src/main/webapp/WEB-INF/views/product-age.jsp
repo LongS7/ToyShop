@@ -172,19 +172,19 @@
 
 				</c:if>
 				<c:if test="${products.size() gt 0}">
-					<form action="<c:url value='/danh-muc/${id}'/>" id="formSubmit" method="get">
+					<form action="<c:url value='/san-pham/'/>" id="formSubmit" method="get">
 					
 					<div class="container">
 						<div class="list-product row">
 							<c:forEach var="product" items="${ products }">
 								<div class="product col-6 col-sm-3 p-1">
 									<div class="border p-2">
-										<a class="product-image" href="<c:url value='/${product._id}'/>"> <img
+										<a class="product-image" href="<c:url value='/san-pham/${product._id}'/>"> <img
 											src="data:image/png;base64,${product.images[0] }"
 											style="width: 100%;">
 										</a>
 										<div class="product-name text-left">
-											<a href="">${ product.name }</a>
+											<a href="<c:url value='/san-pham/${product._id}'/>">${ product.name }</a>
 										</div>
 										<div class="rating text-left">
 											<span class="fa fa-star checked"></span> <span
@@ -204,10 +204,10 @@
 						</div>
 						<div class="d-flex justify-content-center">
 							<ul class="pagination" id="pagination"></ul>
+							<input type="hidden" value="" id="tuoi" name="tuoi"/>
 							<input type="hidden" value="" id="page" name="page"/>
 							<input type="hidden" value="" id="limit" name="limit"/>
 						</div>
-
 					</div>
 					</form>
 				</c:if>
@@ -233,7 +233,7 @@
 	<script>
 		var totalPages = ${totalPage};
 		var currentPage = ${page};
-	
+		var tuoi = ${age}
 		$(function() {
 			window.pagObj = $('#pagination').twbsPagination({
 				totalPages : totalPages,
@@ -241,6 +241,7 @@
 				startPage : currentPage,
 				onPageClick : function(event, page) {
 					if(currentPage != page){
+						$('#tuoi').val(tuoi);
 						$('#limit').val(20);
 						$('#page').val(page);
 						$('#formSubmit').submit();

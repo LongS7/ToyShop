@@ -48,7 +48,7 @@
     <nav class="navbar navbar-expand-md bg-1 navbar-dark second-nav">
         <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/san-pham?page=1&limit=20"">Sản phẩm</a></li>
+                <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/san-pham/tat-ca?page=1&limit=20"">Sản phẩm</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Thương hiệu</a></li>
                 <li class="nav-item dropdown">
 				<div class="dropdown">
@@ -71,11 +71,10 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">Độ tuổi</a>
                     <div class="dropdown-menu ">
-                      <a class="dropdown-item" href="#">0 - 12 tháng</a>
-                      <a class="dropdown-item" href="#">1 - 3 tuổi</a>
-                      <a class="dropdown-item" href="#">4 - 6 tuổi</a>
-                      <a class="dropdown-item" href="#">6 - 11 tuổi</a>
-                      <a class="dropdown-item" href="#">12 tuổi trở lên</a>
+                      <a class="dropdown-item" href="${ pageContext.request.contextPath }/san-pham/?tuoi=1-3-tuoi&page=1&limit=20">1 - 3 tuổi</a>
+                      <a class="dropdown-item" href="${ pageContext.request.contextPath }/san-pham/?tuoi=4-6-tuoi&page=1&limit=20">4 - 6 tuổi</a>
+                      <a class="dropdown-item" href="${ pageContext.request.contextPath }/san-pham/?tuoi=6-11-tuoi&page=1&limit=20">6 - 11 tuổi</a>
+                      <a class="dropdown-item" href="${ pageContext.request.contextPath }/san-pham/?tuoi=12-tuoi-tro-len&page=1&limit=20">12 tuổi trở lên</a>
                     </div>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="#">Giới thiệu</a></li>
