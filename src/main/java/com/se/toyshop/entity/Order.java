@@ -96,8 +96,7 @@ public class Order {
 	 * 
 	 * @return -1 nếu đơn hàng đã bị hủy
 	 * @return 0 nếu đơn hàng đang được xử lý
-	 * @return 1 nếu đơn hàng đang được giao
-	 * @return 2 nếu đơn hàng đã được giao
+	 * @return 1 nếu đơn hàng đã được giao
 	 */
 	public int getState() {
 		return state;

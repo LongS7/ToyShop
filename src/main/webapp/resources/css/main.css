@@ -8,6 +8,12 @@
 .bg-3 { background-color: #F7FBFC; }
 .bg-4 { background-color: #1D4851; }
 .bg-5 { background-color: #0098B3; }
+
+.dropdown:hover > .dropdown-menu {
+    display: block;
+    margin-top: 0;
+ }
+
 .navbar * {
   text-transform: capitalize;
 }

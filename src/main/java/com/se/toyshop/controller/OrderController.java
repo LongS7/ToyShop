@@ -10,9 +10,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,8 +39,8 @@ public class OrderController {
 	private UserDao userDao;
 	
 	@RequestMapping("/my-order")
-	public ModelAndView showMyOrders() {
-		User user = getCurrentUser();
+	public ModelAndView showMyOrders(HttpServletRequest req) {
+		User user = (User) req.getAttribute("currentUser");
 		if(user == null)
 			return new ModelAndView("redirect:/user/login");
 		
@@ -51,8 +48,8 @@ public class OrderController {
 	}
 	
 	@RequestMapping("/my-order/{id}")
-	public ModelAndView showMyOrders(@PathVariable String id) {
-		User user = getCurrentUser();
+	public ModelAndView showMyOrders(@PathVariable String id, HttpServletRequest req) {
+		User user = (User) req.getAttribute("currentUser");
 		if(user == null)
 			return new ModelAndView("redirect:/user/login");
 		
@@ -60,8 +57,8 @@ public class OrderController {
 	}
 	
 	@RequestMapping("/my-order/filter")
-	public ModelAndView showMyOrders(@RequestParam("state") int state) {
-		User user = getCurrentUser();
+	public ModelAndView showMyOrders(@RequestParam("state") int state, HttpServletRequest req) {
+		User user = (User) req.getAttribute("currentUser");
 		if(user == null)
 			return new ModelAndView("redirect:/user/login");
 		
@@ -74,8 +71,7 @@ public class OrderController {
 		
 		Order order = new Order();
 		
-		User user = getCurrentUser();
-		
+		User user = (User) req.getAttribute("currentUser");
 		if(user == null)
 			return new ModelAndView("redirect:/user/login");
 		
@@ -96,8 +92,11 @@ public class OrderController {
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addOrder(@Valid @ModelAttribute("order") Order order, @RequestParam("address") int pos, 
-			BindingResult bindingResult) throws IOException {
-		User user = getCurrentUser();
+			BindingResult bindingResult, HttpServletRequest req) throws IOException {
+		User user = (User) req.getAttribute("currentUser");
+		if(user == null)
+			return "redirect:/user/login";
+		
 		order.setUser(user);
 		
 		if(pos != -1)
@@ -125,7 +124,11 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value = "/cancel/{id}", method = RequestMethod.GET)
-	public String cancelOrder(@PathVariable String id) {
+	public String cancelOrder(@PathVariable String id, HttpServletRequest req) {
+		User user = (User) req.getAttribute("currentUser");
+		if(user == null)
+			return "redirect:/user/login";
+		
 		Order order = orderDAO.getOrder(id);
 		
 		if(order.getState() == 0) {
@@ -134,23 +137,5 @@ public class OrderController {
 		}
 		
 		return "redirect:/order/my-order";
-	}
-
-	private User getCurrentUser() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
-		if(authentication.isAuthenticated()) {
-			String username;
-			if(authentication.getPrincipal() instanceof UserDetails)
-				username = ((UserDetails) authentication.getPrincipal()).getUsername();
-			else
-				username = authentication.getPrincipal().toString();
-			
-			User user = userDao.findByUsername(username);
-			
-			return user;
-		}
-		
-		return null;
 	}
 }

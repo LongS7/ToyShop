@@ -24,7 +24,9 @@ public class MenuHandlerInteceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		request.setAttribute("categories", categoryDAO.getAllCategories());
+		
+		if(!request.getRequestURI().startsWith("/admin"))
+			request.setAttribute("categories", categoryDAO.getAllCategories());
 		
 		User user = getCurrentUser();
 		
