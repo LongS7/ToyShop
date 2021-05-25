@@ -1,12 +1,19 @@
 package com.se.toyshop.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
 @Embeddable
-public class ShippingAddress {
+public class ShippingAddress implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@NotNull(message = "Địa chỉ không được để trống")
 	private String street;
 	@Length(min = 2, message = "Không để trống")

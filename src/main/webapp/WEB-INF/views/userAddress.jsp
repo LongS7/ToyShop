@@ -59,8 +59,19 @@
 				<c:forEach items="${user.shippingAddresses }" var="address">
 					<br>
 					<div class="border border-success pt-2 pb-2 row">
-						<div class="col-10">Địa chỉ: ${address.street }, ${address.ward }, ${address.district }, ${address.province }</div>
-						<div class="col-2"><a href="#">Chỉnh sửa</a></div>
+						<div class="col-10">Địa chỉ: ${address.street },
+							${address.ward }, ${address.district }, ${address.province }</div>
+						<div class="col-2">
+							<form action="${context }/user/address/edit/${user._id }" method="POST">
+								<input type="hidden" name="province"
+									value="${address.province }"><input type="hidden"
+									name="district" value="${address.district }"><input
+									type="hidden" name="ward" value="${address.ward }"><input
+									type="hidden" name="street" value="${address.street }">
+								<input type="hidden" name="id" value="${user._id }">
+								<button type="submit" class="btn btn-info">Chỉnh sửa</button>
+							</form>
+						</div>
 					</div>
 				</c:forEach>
 			</div>

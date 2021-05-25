@@ -5,6 +5,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
 
@@ -47,7 +48,7 @@
 				</div>
 			</div>
 			<div class="col-8 align-self-center">
-				<h4>Tạo sổ địa chỉ</h4>
+				<h4>Chỉnh sửa địa chỉ</h4>
 			</div>
 		</div>
 		<div class="row">
@@ -61,28 +62,28 @@
 						<label for="province">Tỉnh/Thành phố:</label> <select
 							class="form-control" id="province" name="provinceList"
 							onchange="renderDistrictData();">
-							<option value="" selected disabled>Chọn Tỉnh/Thành phố</option>
+							<option>${shippingAddress.province}</option>
 						</select>
 					</div>
 					<div class="form-group">
 						<label for="district">Quận huyện:</label> <select
 							class="form-control" id="district" name="districtList"
 							onchange="renderWardData();">
-							<option value="" selected disabled>Chọn Quận/Huyện</option>
+							<option>${shippingAddress.district}</option>
 						</select>
 					</div>
 					<div class="form-group">
 						<label for="ward">Phường xã:</label> <select class="form-control"
 							id="ward" name="wardList">
-							<option value="" selected disabled>Chọn Phường/Xã</option>
+							<option>${shippingAddress.ward}</option>
 						</select>
 					</div>
 					<div class="form-group">
 						<label for="street">Địa chỉ:</label>
 						<textarea class="form-control" rows="4" id="street"
-							placeholder="Nhập địa chỉ" name="street" required></textarea>
+							placeholder="Nhập địa chỉ" name="street" required>${shippingAddress.street}</textarea>
 					</div>
-					<button type="submit" class="btn btn-warning">Cập nhật</button>
+					<button type="submit" class="btn btn-warning">Chỉnh sửa</button>
 				</form>
 			</div>
 		</div>

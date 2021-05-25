@@ -4,12 +4,10 @@ import org.bson.types.ObjectId;
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
-import org.hibernate.query.NativeQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.se.toyshop.dao.UserDao;
-import com.se.toyshop.entity.ShippingAddress;
 import com.se.toyshop.entity.User;
 
 public class UserImpl implements UserDao {
@@ -57,7 +55,6 @@ public class UserImpl implements UserDao {
 					User.class).getSingleResult();
 			trans.commit();
 		} catch (Exception e) {
-			e.printStackTrace();
 			trans.rollback();
 		}
 		return user;
@@ -89,6 +86,39 @@ public class UserImpl implements UserDao {
 
 		try {
 			user = session.find(User.class, new ObjectId(id));
+			trans.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			trans.rollback();
+		}
+		return user;
+	}
+
+	@Override
+	public User findByEmail(String email) {
+		User user = null;
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction trans = session.beginTransaction();
+
+		try {
+			user = session.createNativeQuery("db.users.aggregate([{'$match':{'email':'" + email + "'}}])", User.class)
+					.getSingleResult();
+			trans.commit();
+		} catch (Exception e) {
+			trans.rollback();
+		}
+		return user;
+	}
+
+	@Override
+	public User getUserByPasswordResetToken(String token) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		User user = null;
+		try {
+			user = session.createNativeQuery("db.passwordResetTokens.aggregate([{'$match':{'token':'" + token
+					+ "'}},{'$lookup':{from:'users',localField:'user__id',foreignField:'_id',as:'user'}},{'$unwind':'$user'},{'$replaceWith':'$user'}])",
+					User.class).getSingleResult();
 			trans.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

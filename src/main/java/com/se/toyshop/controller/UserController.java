@@ -1,12 +1,16 @@
 package com.se.toyshop.controller;
 
-import java.io.UnsupportedEncodingException;
+import java.util.Optional;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.core.env.Environment;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,9 +24,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.se.toyshop.dao.PasswordResetTokenDAO;
 import com.se.toyshop.dao.UserDao;
+import com.se.toyshop.dto.PasswordDto;
+import com.se.toyshop.entity.PasswordResetToken;
 import com.se.toyshop.entity.ShippingAddress;
 import com.se.toyshop.entity.User;
+import com.se.toyshop.service.ISecurityUserService;
 import com.se.toyshop.service.UserPrincipal;
 
 @Controller
@@ -34,6 +42,18 @@ public class UserController {
 
 	@Autowired
 	private UserDao userDao;
+
+	@Autowired
+	private PasswordResetTokenDAO passwordResetTokenDao;
+
+	@Autowired
+	private JavaMailSender mailSender;
+
+	@Autowired
+	private Environment env;
+
+	@Autowired
+	private ISecurityUserService securityService;
 
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
@@ -130,13 +150,13 @@ public class UserController {
 			@RequestParam(required = false) String districtList, @RequestParam(required = false) String wardList,
 			@RequestParam(required = false) String street) {
 		ShippingAddress shippingAddress = new ShippingAddress(street, wardList, districtList, provinceList);
-		
+
 		User user = userDao.getUser(id);
-		
+
 		user.getShippingAddresses().add(shippingAddress);
-		
+
 		boolean result = userDao.update(user);
-		
+
 		String message = null;
 		if (result) {
 			message = "Thêm địa chỉ thành công";
@@ -144,5 +164,101 @@ public class UserController {
 			message = "Thêm địa chỉ thất bại";
 		}
 		return new ModelAndView("addressForm", "message", message);
+	}
+
+	@RequestMapping(value = "/address/edit/{id}", method = RequestMethod.POST)
+	public ModelAndView showEditAddressForm(@PathVariable String id, @RequestParam(required = false) String province,
+			@RequestParam(required = false) String district, @RequestParam(required = false) String ward,
+			@RequestParam(required = false) String street) {
+		ShippingAddress shippingAddress = new ShippingAddress(street, ward, district, province);
+		return new ModelAndView("editAddressForm", "shippingAddress", shippingAddress);
+	}
+
+	@RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
+	public String showForgotPasswordForm() {
+		return "forgotPasswordForm";
+	}
+
+	@RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
+	public ModelAndView resetPassword(HttpServletRequest request, @RequestParam("email") String userEmail) {
+		User user = userDao.findByEmail(userEmail);
+		if (user == null) {
+			return new ModelAndView("forgotPasswordForm", "message", "Không tìm thấy tài khoản với email này");
+		}
+		String token = UUID.randomUUID().toString();
+		PasswordResetToken myToken = new PasswordResetToken(token, user);
+		passwordResetTokenDao.save(myToken);
+		mailSender.send(constructResetTokenEmail(getAppUrl(request), token, user));
+		return new ModelAndView("successPasswordForm", "message", "Chúng tôi đã gửi một hướng dẫn khôi phục mật khẩu đến email của bạn, vui lòng kiểm tra email.");
+	}
+
+	private SimpleMailMessage constructResetTokenEmail(final String contextPath, final String token, final User user) {
+		final String url = contextPath + "/user/changePassword?token=" + token;
+		final String message = "Nhấn vào liên kết để khôi phục mật khẩu";
+		return constructEmail("Khôi phục mật khẩu", message + " \r\n" + url, user);
+	}
+
+	// Check the PasswordResetToken
+	@RequestMapping(value = "/changePassword", method = RequestMethod.GET)
+	public ModelAndView showChangePasswordPage(@RequestParam("token") String token) {
+		String result = securityService.validatePasswordResetToken(token);
+		if (result != null) {
+			if (result.equals("invalidToken")) {
+				return new ModelAndView("forgotPasswordForm", "message", "Token không hợp lệ");
+			} else {
+				return new ModelAndView("forgotPasswordForm", "message", "Token đã hết hạn. Hãy đăng ký lại");
+			}
+		} else {
+			PasswordDto passwordDto = new PasswordDto();
+			passwordDto.setToken(token);
+			return new ModelAndView("updatePasswordForm", "passwordDto", passwordDto);
+		}
+	}
+
+	@RequestMapping(value = "/savePassword", method = RequestMethod.POST)
+	public ModelAndView savePassword(@Valid @ModelAttribute("passwordDto") PasswordDto passwordDto, BindingResult errors,
+			@RequestParam("reNewPassword") String reNewPassword) {
+
+		if (errors.hasErrors()) {
+			return new ModelAndView("updatePasswordForm");
+		}
+
+		if (!passwordDto.getNewPassword().equals(reNewPassword)) {
+			return new ModelAndView("updatePasswordForm", "message", "Mật khẩu nhập lại không giống nhau");
+		}
+
+		String result = securityService.validatePasswordResetToken(passwordDto.getToken());
+
+		if (result != null && result.equals("invalidToken")) {
+			if (result.equals("invalidToken")) {
+				return new ModelAndView("updatePasswordForm", "message", "Token không hợp lệ");
+			} else {
+				return new ModelAndView("updatePasswordForm", "message", "Token đã hết hạn. Hãy đăng ký lại");
+			}
+		}
+
+		User user = userDao.getUserByPasswordResetToken(passwordDto.getToken());
+
+		if (user != null) {
+			user.getAccount().setPassword(passwordEncoder.encode(passwordDto.getNewPassword()));
+			userDao.update(user);
+			return new ModelAndView("successPasswordForm", "message", "Khôi phục mật khẩu thành công");
+		} else {
+			return new ModelAndView("updatePasswordForm", "message",
+					"Không tìm thấy tài khoản - Khôi phục mật khẩu thất bại");
+		}
+	}
+
+	public String getAppUrl(HttpServletRequest request) {
+		return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+	}
+
+	private SimpleMailMessage constructEmail(String subject, String body, User user) {
+		final SimpleMailMessage email = new SimpleMailMessage();
+		email.setSubject(subject);
+		email.setText(body);
+		email.setTo(user.getEmail());
+		email.setFrom(env.getProperty("support.email"));
+		return email;
 	}
 }
