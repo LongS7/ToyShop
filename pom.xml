@@ -127,8 +127,6 @@
 			<artifactId>activation</artifactId>
 			<version>1.1.1</version>
 		</dependency>
-<<<<<<< HEAD
-
 		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -142,9 +140,5 @@
 			<version>1.6.2</version>
 		</dependency>
 
-
-=======
-		
->>>>>>> branch 'master' of https://github.com/LongS7/ToyShop.git
 	</dependencies>
 </project>
