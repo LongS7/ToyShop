@@ -172,6 +172,42 @@ public class ProductDAOImpl implements ProductDAO {
 		return products;
 	}
 
+	@Override
+	public List<Product> getProductByNameOrSku(String keyword) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		List<Product> products = new ArrayList();
+		Transaction tran = session.beginTransaction();
+		
+		try {
+			products  = session.createNativeQuery("db.products.find({'$text':{'$search':'\""+keyword+"\"'}})", Product.class).getResultList();
+			
+			tran.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		}
+		return products;
+	}
+
+	@Override
+	public List<Product> getProductByNameOrSku(String keyword, int page, int limit) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		List<Product> products = new ArrayList();
+		Transaction tran = session.beginTransaction();
+		int ofset = ( page -  1 )* limit;
+		try {
+			products  = session.createNativeQuery("db.products.aggregate([{'$match':{'$text':{'$search':'\""+keyword+"\"'}}},{'$skip':"+ofset+"},{'$limit':"+limit+"}])", Product.class).getResultList();
+			
+			tran.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		}
+		return products;
+	}
+
 	
 
 
