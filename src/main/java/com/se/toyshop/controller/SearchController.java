@@ -20,6 +20,8 @@ public class SearchController {
 	public String showProductNameOrSku(@RequestParam("query") String query, Model model,
 			@RequestParam("page") int page, @RequestParam("limit") int limit) {
 
+		
+
 		int totalItem = productDAO.getProductByNameOrSku(query).size();
 		
 //		System.out.println(totalItem);

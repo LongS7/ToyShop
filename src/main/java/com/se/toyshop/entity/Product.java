@@ -9,14 +9,19 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.bson.types.ObjectId;
+import org.hibernate.ogm.options.shared.IndexOption;
+import org.hibernate.ogm.options.shared.IndexOptions;
 
 @Entity
-@Table(name = "products")
+@Table(name="products",
+		indexes = @Index(columnList = "name, sku", name="product_name_sku"))
+@IndexOptions(@IndexOption(forIndex = "product_name_sku", options = "{text:true}"))
 public class Product implements Serializable {
 	/**
 	 * 
