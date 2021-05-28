@@ -95,8 +95,8 @@ public class Order {
 	/***
 	 * 
 	 * @return -1 nếu đơn hàng đã bị hủy
-	 * @return 0 nếu đơn hàng đang được xử lý
-	 * @return 1 nếu đơn hàng đã được giao
+	 * @return 1 nếu đơn hàng đang được xử lý
+	 * @return 2 nếu đơn hàng đã được giao
 	 */
 	public int getState() {
 		return state;
@@ -104,8 +104,8 @@ public class Order {
 
 	/***
 	 * state bằng -1 nếu đơn hàng đã bị hủy
-	 * state bằng 0 nếu đơn hàng đang được xử lý
-	 * state bằng 1 nếu đơn hàng đã được giao
+	 * state bằng 1 nếu đơn hàng đang được xử lý
+	 * state bằng 2 nếu đơn hàng đã được giao
 	 * @param state
 	 */
 	public void setState(int state) {

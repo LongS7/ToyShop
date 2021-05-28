@@ -48,8 +48,8 @@
 				<p><i class="far fa-calendar-alt"></i> Ngày đặt hàng: ${ order.orderDate }</p>
 				<p><i class="fas fa-tasks"></i>
 					<c:if test="${ order.state == -1 }">Đã hủy</c:if>
-					<c:if test="${ order.state == 0 }">Đang xử lý</c:if>
-					<c:if test="${ order.state == 1 }">Đã giao hàng</c:if>
+					<c:if test="${ order.state == 1 }">Đang xử lý</c:if>
+					<c:if test="${ order.state == 2 }">Đã giao hàng</c:if>
 				</p>
 				<p><i class="fas fa-money-check-alt"></i> Thanh toán: Tiền mặt</p>
 			</div>
@@ -89,7 +89,7 @@
 		</div>
 		<p style="font-size: 1.2rem; font-weight: bold;">Tổng cộng: <fmt:formatNumber value="${ order.getTotal() }" type="currency"/> </p>
 		
-		<c:if test="${ order.state == 0 }"><a class="btn btn-danger btn-block mt-5" href="${ context }/order/cancel/${ order._id }">Hủy đơn hàng</a></c:if>
+		<c:if test="${ order.state == 1 }"><a class="btn btn-danger btn-block mt-5" href="${ context }/order/cancel/${ order._id }">Hủy đơn hàng</a></c:if>
 	</div>
 	
 	<%@include file="footer.jsp" %>

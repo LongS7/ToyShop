@@ -38,8 +38,20 @@ public class CartController {
 		if(user != null) {			
 			//Get cart from DB
 			List<ShoppingCartItem> list = user.getListShoppingCartItem();
+			@SuppressWarnings("unchecked")
+			List<ShoppingCartItem> cartItems =  (List<ShoppingCartItem>) session.getAttribute("myCart");
+			
 			if(list == null)
 				list = new ArrayList<ShoppingCartItem>();
+			
+			if(cartItems != null) {
+				for(ShoppingCartItem item : cartItems) {
+					if(!list.contains(item))
+						list.add(item);
+				}
+			}
+			
+			session.setAttribute("myCart", new ArrayList<ShoppingCartItem>());
 			
 			modelAndView.addObject("cart", list);
 			
