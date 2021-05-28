@@ -40,10 +40,9 @@ public class ProductController {
 		int totalItem = productDAO.getAllProducts().size();
 
 		list = productDAO.getAllProducts(page, limit);
-		System.out.println(list.size());
 		model.addAttribute("products", list);
 		model.addAttribute("id", null);
-		model.addAttribute("totalPage", (int) Math.ceil((double) totalItem / limit)); // tính tổng số trang
+		model.addAttribute("totalPage", (int) Math.ceil((double) totalItem / limit)); // tÃ­nh tá»•ng sá»‘ trang
 		model.addAttribute("page", page);
 		return "product-full";
 	}
@@ -52,7 +51,6 @@ public class ProductController {
 	public String showProductDetail(@PathVariable("_id") ObjectId id, Model model) {
 
 		Product product = productDAO.getProductById(id);
-		System.out.println(product.toString());
 		model.addAttribute("product", product);
 
 		return "product-detail";
@@ -67,10 +65,10 @@ public class ProductController {
 			strAge = "1-3 tuổi";
 			break;
 		case "4-6-tuoi":
-			strAge = "1-3 tuổi";
+			strAge = "4-6 tuổi";
 			break;
 		case "6-11-tuoi":
-			strAge = "1-3 tuổi";
+			strAge = "6-11 tuổi";
 			break;
 		case "12-tuoi-tro-len":
 			strAge = "12 tuổi trở lên";
@@ -82,15 +80,11 @@ public class ProductController {
 
 		List<Product> list = new ArrayList<Product>();
 		int totalItem = productDAO.getProductByAge(strAge).size();
-//		int totalItem = productDAO.getAllProducts().size();
 		System.out.println("totaltem: " + totalItem);
-		
 		list = productDAO.getProductByAge(strAge,page,limit);
-//		list = productDAO.getAllProducts(page, limit);
-	
 	
 		model.addAttribute("products", list);
-		model.addAttribute("totalPage", (int) Math.ceil((double) totalItem / limit)); // tính tổng số trang
+		model.addAttribute("totalPage", (int) Math.ceil((double) totalItem / limit)); // tÃ­nh tá»•ng sá»‘ trang
 		model.addAttribute("page", page);
 		model.addAttribute("tuoi",value);
 		
