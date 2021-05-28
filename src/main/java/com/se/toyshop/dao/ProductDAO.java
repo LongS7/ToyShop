@@ -15,4 +15,6 @@ public interface ProductDAO {
 	List<Product> getAllProducts(int page,int limit);
 	List<Product> getProductByAge(String value,int page,int limit);
 	List<Product> getProductByAge(String value);
+	List<Product> getProductByNameOrSku(String keyword);
+	List<Product> getProductByNameOrSku(String keyword, int page, int limit);
 }

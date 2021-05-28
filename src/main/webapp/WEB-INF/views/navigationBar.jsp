@@ -12,10 +12,12 @@
 		<span class="navbar-toggler-icon"></span>
 	</button>
 	<div class="collapse navbar-collapse" id="collapsibleNavbar">
-		<form class="form-inline ml-auto" id="search-form">
+		<form class="form-inline ml-auto" id="search-form" method="get" action="<c:url value='/tim-kiem'/>">
 			<div class="input-group w-100">
 				<input type="text" class="form-control" placeholder="Search"
-					id="txtSearch">
+					id="txtSearch" name="query"> 
+				<input type="hidden" value="1" id="page_nav" name="page" />
+				<input type="hidden" value="20" id="limit_nav"name="limit" />
 				<div class="input-group-append">
 					<button class="btn btn-secondary" type="submit">
 						<i class="fas fa-search"></i>
