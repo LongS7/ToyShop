@@ -49,6 +49,9 @@ public class CartController {
 					if(!list.contains(item))
 						list.add(item);
 				}
+				
+				user.setListShoppingCartItem(list);
+				userDao.update(user);
 			}
 			
 			session.setAttribute("myCart", new ArrayList<ShoppingCartItem>());
@@ -70,10 +73,11 @@ public class CartController {
 	}
 
 	@RequestMapping("/add")
-	public ModelAndView addCartItem(HttpSession session, @RequestParam("productId") String id) {
+	public ModelAndView addCartItem(HttpSession session, @RequestParam("productId") String id, 
+			@RequestParam(name = "q", required = false) int quantity) {
 		User user = getCurrentUser();
 		
-		ShoppingCartItem cartItem = new ShoppingCartItem(cartDAO.getProduct(id), 1);
+		ShoppingCartItem cartItem = new ShoppingCartItem(cartDAO.getProduct(id), quantity);
 		
 		if(user == null) {
 			@SuppressWarnings("unchecked")

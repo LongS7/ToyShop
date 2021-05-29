@@ -28,15 +28,17 @@ function incrementValue() {
   value = isNaN(value) ? 0 : value;
   value++;
   document.getElementById("number").value = value;
+  return false;
 }
 function dncrementValue() {
   var value = parseInt(document.getElementById("number").value, 10);
   value = isNaN(value) ? 0 : value;
   value--;
-  if (value < 0) {
-    value = 0;
+  if (value < 1) {
+    value = 1;
   }
   document.getElementById("number").value = value;
+  return false;
 }
 
 let img1 = document.querySelector("#img1");

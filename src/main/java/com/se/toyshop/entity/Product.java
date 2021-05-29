@@ -1,6 +1,7 @@
 package com.se.toyshop.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -270,5 +271,23 @@ public class Product implements Serializable {
 		return true;
 	}
 	
+	public float getRating() {
+		if(comments == null || comments.size() == 0)
+			return 0;
+		
+		float sum = 0;
+		for(Comment comment : comments)
+			sum += comment.getRate();
+		
+		return sum / comments.size();
+	}
+
+	public void addComment(Comment comment) {
+		if(comments == null)
+			comments = new ArrayList<Comment>();
+		
+		comments.add(comment);
+		
+	}
 	
 }
