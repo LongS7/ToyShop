@@ -3,6 +3,7 @@ package com.se.toyshop.service;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.bson.types.ObjectId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -64,5 +65,8 @@ public class UserPrincipal implements UserDetails{
 		return this.user.getName();
 	}
 
+	public ObjectId getId() {
+		return this.user.get_id();
+	}
 	
 }

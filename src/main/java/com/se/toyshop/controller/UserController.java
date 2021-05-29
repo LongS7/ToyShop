@@ -1,5 +1,6 @@
 package com.se.toyshop.controller;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -85,13 +86,19 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-	public String processRegistration(@ModelAttribute("user") @Valid User user, BindingResult errors) {
+	public ModelAndView processRegistration(@ModelAttribute("user") @Valid User user, BindingResult errors) {
 		if (errors.hasErrors()) {
-			return "registerForm";
+			return new ModelAndView("registerForm", "result", "Tạo tài khoản thất bại");
 		}
 
-		userDao.addUser(user);
-		return "redirect:/";
+		User tempUser = userDao.findByUsername(user.getAccount().getUsername());
+
+		if (!Objects.isNull(tempUser)) {
+			return new ModelAndView("registerForm", "message", "Tên đăng nhập đã tồn tại");
+		} else {
+			userDao.addUser(user);
+			return new ModelAndView("registerForm", "result", "Tạo tài khoản thành công");
+		}
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
@@ -166,12 +173,36 @@ public class UserController {
 		return new ModelAndView("addressForm", "message", message);
 	}
 
-	@RequestMapping(value = "/address/edit/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/address/edit/{id}", method = RequestMethod.POST, params = { "province", "district",
+			"ward", "street" })
 	public ModelAndView showEditAddressForm(@PathVariable String id, @RequestParam(required = false) String province,
 			@RequestParam(required = false) String district, @RequestParam(required = false) String ward,
 			@RequestParam(required = false) String street) {
 		ShippingAddress shippingAddress = new ShippingAddress(street, ward, district, province);
 		return new ModelAndView("editAddressForm", "shippingAddress", shippingAddress);
+	}
+
+	@RequestMapping(value = "/address/edit/{id}", method = RequestMethod.POST, params = { "province", "district",
+			"ward", "street", "newProvince", "newDistrict", "newWard", "newStreet" })
+	public String processEditAddressForm(@PathVariable String id,
+			@ModelAttribute("shippingAddress") ShippingAddress shippingAddress,
+			@RequestParam(required = false) String province, @RequestParam(required = false) String district,
+			@RequestParam(required = false) String ward, @RequestParam(required = false) String street,
+			@RequestParam(required = false) String newProvince, @RequestParam(required = false) String newDistrict,
+			@RequestParam(required = false) String newWard, @RequestParam(required = false) String newStreet) {
+		ShippingAddress oldAddress = new ShippingAddress(street, ward, district, province);
+		ShippingAddress newAddress = new ShippingAddress(newStreet, newWard, newDistrict, newProvince);
+
+		User user = userDao.getUser(id);
+		for (int i = 0; i < user.getShippingAddresses().size(); i++) {
+			if (user.getShippingAddresses().get(i).equals(oldAddress)) {
+				user.getShippingAddresses().set(i, newAddress);
+				userDao.update(user);
+				break;
+			}
+		}
+
+		return "redirect:/user/address";
 	}
 
 	@RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
@@ -189,7 +220,8 @@ public class UserController {
 		PasswordResetToken myToken = new PasswordResetToken(token, user);
 		passwordResetTokenDao.save(myToken);
 		mailSender.send(constructResetTokenEmail(getAppUrl(request), token, user));
-		return new ModelAndView("successPasswordForm", "message", "Chúng tôi đã gửi một hướng dẫn khôi phục mật khẩu đến email của bạn, vui lòng kiểm tra email.");
+		return new ModelAndView("successPasswordForm", "message",
+				"Chúng tôi đã gửi một hướng dẫn khôi phục mật khẩu đến email của bạn, vui lòng kiểm tra email.");
 	}
 
 	private SimpleMailMessage constructResetTokenEmail(final String contextPath, final String token, final User user) {
@@ -216,8 +248,8 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/savePassword", method = RequestMethod.POST)
-	public ModelAndView savePassword(@Valid @ModelAttribute("passwordDto") PasswordDto passwordDto, BindingResult errors,
-			@RequestParam("reNewPassword") String reNewPassword) {
+	public ModelAndView savePassword(@Valid @ModelAttribute("passwordDto") PasswordDto passwordDto,
+			BindingResult errors, @RequestParam("reNewPassword") String reNewPassword) {
 
 		if (errors.hasErrors()) {
 			return new ModelAndView("updatePasswordForm");

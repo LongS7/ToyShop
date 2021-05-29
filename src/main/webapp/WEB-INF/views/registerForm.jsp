@@ -31,52 +31,81 @@
 	<%@include file="/WEB-INF/views/navigationBar.jsp"%>
 	<div class="container  pb-5 pt-5 col-lg-4">
 		<h4>ĐĂNG KÝ TÀI KHOẢN CỦA BẠN</h4>
+		<c:if test="${not empty result }">
+			<div class="alert alert-success">
+				<i class="fas fa-exclamation-circle"></i> ${result }
+			</div>
+		</c:if>
 		<form:form method="POST" modelAttribute="user">
 			<div class="form-group">
-				<form:label path="name" class="font-weight-bold">Họ tên <span class="text-danger">*</span></form:label>
+				<form:label path="name" class="font-weight-bold">Họ tên <span
+						class="text-danger">*</span>
+				</form:label>
 				<form:input path="name" placeholder="Nhập họ và tên"
 					class="form-control" />
-				<form:errors path="name" cssClass="error text-danger"/>
+				<form:errors path="name" cssClass="error text-danger" />
 			</div>
 			<div class="form-group">
-				<form:label path="phone" class="font-weight-bold">Số điện thoại <span class="text-danger">*</span></form:label>
+				<form:label path="phone" class="font-weight-bold">Số điện thoại <span
+						class="text-danger">*</span>
+				</form:label>
 				<form:input path="phone" placeholder="Nhập số điện thoại"
 					class="form-control" />
-				<form:errors path="phone" cssClass="error text-danger"/>
+				<form:errors path="phone" cssClass="error text-danger" />
 			</div>
 			<div class="form-group">
-				<form:label path="email" class="font-weight-bold">Email <span class="text-danger">*</span></form:label>
+				<form:label path="email" class="font-weight-bold">Email <span
+						class="text-danger">*</span>
+				</form:label>
 				<form:input path="email" placeholder="Nhập email"
 					class="form-control" />
-				<form:errors path="email" cssClass="error text-danger"/>
+				<form:errors path="email" cssClass="error text-danger" />
 			</div>
 			<div class="form-group">
-				<form:label path="account.username" class="font-weight-bold">Tên đăng nhập <span class="text-danger">*</span></form:label>
+				<form:label path="account.username" class="font-weight-bold">Tên đăng nhập <span
+						class="text-danger">*</span>
+				</form:label>
 				<form:input path="account.username" class="form-control"
 					placeholder="Tên đăng nhập từ 3 đến 16 ký tự" />
-				<form:errors path="account.username" cssClass="error text-danger"/>
+				<c:if test="${not empty message }">
+					<p class="text-danger">
+						<i>${message }</i>
+					</p>
+				</c:if>
 			</div>
 			<div class="form-group">
-				<form:label path="account.password" class="font-weight-bold">Mật khẩu <span class="text-danger">*</span></form:label>
+				<form:label path="account.password" class="font-weight-bold">Mật khẩu <span
+						class="text-danger">*</span>
+				</form:label>
 				<form:password path="account.password" class="form-control"
 					placeholder="Mật khẩu từ 6 đến 32 ký tự" />
-				<form:errors path="account.password" cssClass="error text-danger"/>
+				<form:errors path="account.password" cssClass="error text-danger" />
+			</div>
+			<form:label path="gender" class="font-weight-bold">Giới tính <span
+					class="text-danger">*</span>
+			</form:label>
+			<br>
+			<div class="custom-control custom-radio custom-control-inline">
+				<form:radiobutton path="gender" value="1" id="male" name="gender"
+					class="custom-control-input" />
+				<label class="custom-control-label" for="male">Nam</label>
+			</div>
+			<div class="custom-control custom-radio custom-control-inline">
+				<form:radiobutton path="gender" value="0" id="female" name="gender"
+					class="custom-control-input" />
+				<label class="custom-control-label" for="female">Nữ</label>
 			</div>
 			<div class="form-group">
-				<form:label path="gender" class="font-weight-bold">Giới tính <span class="text-danger">*</span></form:label>
-				<form:select path="gender" class="form-control">
-					<form:option value="1">Nam</form:option>
-					<form:option value="0">Nữ</form:option>
-				</form:select>
-			</div>
-			<div class="form-group">
-				<form:label path="birthday" class="font-weight-bold">Ngày sinh <span class="text-danger">*</span></form:label>
+				<form:label path="birthday" class="font-weight-bold">Ngày sinh <span
+						class="text-danger">*</span>
+				</form:label>
 				<form:input type="date" path="birthday"
 					placeholder="Nhập ngày tháng năm sinh" class="form-control" />
 				<form:errors path="birthday" cssClass="error text-danger" />
 			</div>
 			<form:hidden path="role" value="ROLE_USER" />
-			<button type="submit" class="btn btn-danger btn-block font-weight-bold">ĐĂNG KÝ</button>
+			<button type="submit"
+				class="btn btn-danger btn-block font-weight-bold">ĐĂNG KÝ</button>
 		</form:form>
 	</div>
 	<%@include file="/WEB-INF/views/footer.jsp"%>
