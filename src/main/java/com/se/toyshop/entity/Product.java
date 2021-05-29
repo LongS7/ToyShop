@@ -291,8 +291,23 @@ public class Product implements Serializable {
 		if(comments == null)
 			comments = new ArrayList<Comment>();
 		
+		for(Comment item : comments)
+			if(item.getUser().equals(comment.getUser()))
+				return;
+		
 		comments.add(comment);
 		
+	}
+	
+	public boolean hasCommentOfUser(User user) {
+		if(comments == null)
+			return false;
+		
+		for(Comment item : comments)
+			if(item.getUser().get_id().equals(user.get_id()))
+				return true;
+		
+		return false;
 	}
 	
 }

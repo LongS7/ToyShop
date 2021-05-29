@@ -82,9 +82,16 @@
 				            <td>${ item.quantity }</td>
 				            <td><fmt:formatNumber value="${ item.getTotalDiscount() }" type="currency"/></td>
 				            <td><fmt:formatNumber value="${ item.getLineTotal() }" type="currency"/></td>
-				            <td> <a class="btn btn-primary text-white" style="min-width: 150px;" 
-				            product-id="${ item.product._id }"
-				            data-toggle="modal" data-target="#myModal" onclick="return setProduct(this)"> Thêm nhận xét </a> </td>
+				            <td> 
+				            	<c:if test="${ item.product.hasCommentOfUser(currentUser) == true }">
+				            		<span class="btn disable">Bạn đã đánh giá</span>
+				            	</c:if>
+				            	<c:if test="${ item.product.hasCommentOfUser(currentUser) == false }">
+				            		<a class="btn btn-primary text-white" style="min-width: 150px;" 
+						            product-id="${ item.product._id }"
+						            data-toggle="modal" data-target="#myModal" onclick="return setProduct(this)"> Thêm nhận xét </a> 
+				            	</c:if> 
+				            </td>
 				        </tr>
 			        </c:forEach>
 		        </tbody>
@@ -121,7 +128,7 @@
 		        	<input type="hidden" id="rating" name="rating">
 				  	<div class="form-group">
 					  	<label for="comment">Nhận xét:</label>
-					  	<textarea class="form-control" rows="5" id="comment"></textarea>
+					  	<textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
 					</div>
 					<input class="btn btn-primary" type="submit" value="Đăng">
 				</form>
