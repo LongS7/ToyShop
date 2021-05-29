@@ -57,31 +57,35 @@
 				<c:if test="${not empty message}">
 					<div class="alert alert-success"><i class="fas fa-check-circle"></i> ${message}</div>
 				</c:if>
-				<form method="POST">
+				<form method="POST" action="${context }/user/address/edit/<sec:authentication property="principal.id"/>">
+					<input type="hidden" name="province" value="${shippingAddress.province}">
+					<input type="hidden" name="district" value="${shippingAddress.district}">
+					<input type="hidden" name="ward" value="${shippingAddress.ward}">
+					<input type="hidden" name="street" value="${shippingAddress.street}">
 					<div class="form-group">
-						<label for="province">Tỉnh/Thành phố:</label> <select
-							class="form-control" id="province" name="provinceList"
+						<label for="newProvince">Tỉnh/Thành phố:</label> <select
+							class="form-control" id="newProvince" name="newProvince"
 							onchange="renderDistrictData();">
-							<option>${shippingAddress.province}</option>
+							<option value="${shippingAddress.province}" selected>${shippingAddress.province}</option>
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="district">Quận huyện:</label> <select
-							class="form-control" id="district" name="districtList"
+						<label for="newDistrict">Quận huyện:</label> <select
+							class="form-control" id="newDistrict" name="newDistrict"
 							onchange="renderWardData();">
-							<option>${shippingAddress.district}</option>
+							<option value="${shippingAddress.district}" selected>${shippingAddress.district}</option>
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="ward">Phường xã:</label> <select class="form-control"
-							id="ward" name="wardList">
-							<option>${shippingAddress.ward}</option>
+						<label for="newWard">Phường xã:</label> <select class="form-control"
+							id="newWard" name="newWard">
+							<option value="${shippingAddress.ward}" selected>${shippingAddress.ward}</option>
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="street">Địa chỉ:</label>
-						<textarea class="form-control" rows="4" id="street"
-							placeholder="Nhập địa chỉ" name="street" required>${shippingAddress.street}</textarea>
+						<label for="newStreet">Địa chỉ:</label>
+						<textarea class="form-control" rows="4" id="newStreet"
+							placeholder="Nhập địa chỉ" name="newStreet" required>${shippingAddress.street}</textarea>
 					</div>
 					<button type="submit" class="btn btn-warning">Chỉnh sửa</button>
 				</form>
@@ -92,33 +96,28 @@
 	<script type="text/javascript">
 		async function getAPIData(name) {
 			let url;
-			if (name == 'province') {
+			if (name == 'newProvince') {
 				url = 'https://vapi.vnappmob.com/api/province';
-			} else if (name == 'district') {
-				let provinceID = await
-				getID('district');
+			} else if (name == 'newDistrict') {
+				let provinceID = await getID('newDistrict');
 				url = 'https://vapi.vnappmob.com/api/province/district/'
 						+ provinceID;
 			} else {
-				let districtID = await
-				getID('ward');
+				let districtID = await getID('newWard');
 				url = 'https://vapi.vnappmob.com/api/province/ward/'
 						+ districtID;
 			}
 			try {
-				let res = await
-				fetch(url);
-				return await
-				res.json();
+				let res = await fetch(url);
+				return await res.json();
 			} catch (error) {
 				console.log(error);
 			}
 		}
 
 		async function renderProvinceData() {
-			let provinces = await
-			getAPIData('province');
-			let provinceSelect = document.getElementById('province');
+			let provinces = await getAPIData('newProvince');
+			let provinceSelect = document.getElementById('newProvince');
 			let i;
 			for (i = 0; i < provinces.results.length; i++) {
 				let province = document.createElement('option');
@@ -128,11 +127,13 @@
 		}
 
 		async function renderDistrictData() {
-			removeOptions('district');
-			let districts = await
-			getAPIData('district');
-			let districtSelect = document.getElementById('district');
+			removeOptions('newDistrict');
+			let districts = await getAPIData('newDistrict');
+			let districtSelect = document.getElementById('newDistrict');
 			let i;
+			placeholderDistrict = document.createElement('option');
+			placeholderDistrict.text = "Chọn Quận/Huyện";
+			districtSelect.append(placeholderDistrict);
 			for (i = 0; i < districts.results.length; i++) {
 				let district = document.createElement('option');
 				district.text = districts.results[i].district_name;
@@ -141,11 +142,13 @@
 		}
 
 		async function renderWardData() {
-			removeOptions('ward');
-			let wards = await
-			getAPIData('ward');
-			let wardSelect = document.getElementById('ward');
+			removeOptions('newWard');
+			let wards = await getAPIData('newWard');
+			let wardSelect = document.getElementById('newWard');
 			let i;
+			placeholderWard = document.createElement('option');
+			placeholderWard.text = "Chọn Phường/Xã";
+			wardSelect.append(placeholderWard);
 			for (i = 0; i < wards.results.length; i++) {
 				let ward = document.createElement('option');
 				ward.text = wards.results[i].ward_name;
@@ -160,10 +163,9 @@
 			let id;
 			let option;
 			let i;
-			if (selectID == 'district') {
-				apiData = await
-				getAPIData('province');
-				select = document.getElementById('province');
+			if (selectID == 'newDistrict') {
+				apiData = await getAPIData('newProvince');
+				select = document.getElementById('newProvince');
 				option = select.options[select.selectedIndex].text;
 				for (i = 0; i < apiData.results.length; i++) {
 					if (apiData.results[i].province_name == option) {
@@ -171,10 +173,9 @@
 						return id;
 					}
 				}
-			} else if (selectID == 'ward') {
-				apiData = await
-				getAPIData('district');
-				select = document.getElementById('district');
+			} else if (selectID == 'newWard') {
+				apiData = await getAPIData('newDistrict');
+				select = document.getElementById('newDistrict');
 				option = select.options[select.selectedIndex].text;
 				for (i = 0; i < apiData.results.length; i++) {
 					if (apiData.results[i].district_name == option) {
@@ -189,18 +190,68 @@
 			let select;
 			let length;
 			let i;
-			if (selectID == 'district') {
-				select = document.getElementById('district');
-			} else if (selectID == 'ward') {
-				select = document.getElementById('ward');
+			if (selectID == 'newDistrict') {
+				select = document.getElementById('newDistrict');
+			} else if (selectID == 'newWard') {
+				select = document.getElementById('newWard');
 			}
 			length = select.options.length - 1;
 			for (i = length; i >= 0; i--) {
 				select.remove(i);
 			}
 		}
+		
+		async function renderOldDistrictData() {
+			removeOptions('newDistrict');
+			let districts = await getAPIData('newDistrict');
+			let districtSelect = document.getElementById('newDistrict');
+			let i;
+			placeholderDistrict = document.createElement('option');
+			placeholderDistrict.text = "${shippingAddress.district}";
+			districtSelect.append(placeholderDistrict);
+			for (i = 0; i < districts.results.length; i++) {
+				let district = document.createElement('option');
+				district.text = districts.results[i].district_name;
+				districtSelect.append(district);
+			}
+			removeDuplicateOptions('newDistrict', "${shippingAddress.district}");
+		}
+
+		async function renderOldWardData() {
+			removeOptions('newWard');
+			let wards = await getAPIData('newWard');
+			let wardSelect = document.getElementById('newWard');
+			let i;
+			placeholderWard = document.createElement('option');
+			placeholderWard.text = "${shippingAddress.ward}";
+			wardSelect.append(placeholderWard);
+			for (i = 0; i < wards.results.length; i++) {
+				let ward = document.createElement('option');
+				ward.text = wards.results[i].ward_name;
+				wardSelect.append(ward);
+			}
+			removeDuplicateOptions('newWard', "${shippingAddress.ward}");
+		}
+		
+		function removeDuplicateOptions(selectID, option) {
+			let select;
+			let length;
+			if (selectID == 'newDistrict') {
+				select = document.getElementById('newDistrict');
+			} else if (selectID == 'newWard') {
+				select = document.getElementById('newWard');
+			}
+			for(var i = select.length-1; i >= 0; i--) {
+				if(select.options[i].value == option) {
+					select.remove(i);
+					break;
+				}
+			}
+		}
 
 		renderProvinceData();
+		renderOldDistrictData();
+		renderOldWardData();
 	</script>
 </body>
 

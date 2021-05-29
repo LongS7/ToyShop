@@ -94,29 +94,25 @@
 			if (name == 'province') {
 				url = 'https://vapi.vnappmob.com/api/province';
 			} else if (name == 'district') {
-				let provinceID = await
-				getID('district');
+				let provinceID = await getID('district');
 				url = 'https://vapi.vnappmob.com/api/province/district/'
 						+ provinceID;
 			} else {
-				let districtID = await
-				getID('ward');
+				let districtID = await getID('ward');
 				url = 'https://vapi.vnappmob.com/api/province/ward/'
 						+ districtID;
 			}
 			try {
 				let res = await
 				fetch(url);
-				return await
-				res.json();
+				return await res.json();
 			} catch (error) {
 				console.log(error);
 			}
 		}
 
 		async function renderProvinceData() {
-			let provinces = await
-			getAPIData('province');
+			let provinces = await getAPIData('province');
 			let provinceSelect = document.getElementById('province');
 			let i;
 			for (i = 0; i < provinces.results.length; i++) {
@@ -128,10 +124,12 @@
 
 		async function renderDistrictData() {
 			removeOptions('district');
-			let districts = await
-			getAPIData('district');
+			let districts = await getAPIData('district');
 			let districtSelect = document.getElementById('district');
 			let i;
+			placeholderDistrict = document.createElement('option');
+			placeholderDistrict.text = "Chọn Quận/Huyện";
+			districtSelect.append(placeholderDistrict);
 			for (i = 0; i < districts.results.length; i++) {
 				let district = document.createElement('option');
 				district.text = districts.results[i].district_name;
@@ -141,10 +139,12 @@
 
 		async function renderWardData() {
 			removeOptions('ward');
-			let wards = await
-			getAPIData('ward');
+			let wards = await getAPIData('ward');
 			let wardSelect = document.getElementById('ward');
 			let i;
+			placeholderWard = document.createElement('option');
+			placeholderWard.text = "Chọn Phường/Xã";
+			wardSelect.append(placeholderWard);
 			for (i = 0; i < wards.results.length; i++) {
 				let ward = document.createElement('option');
 				ward.text = wards.results[i].ward_name;
@@ -160,8 +160,7 @@
 			let option;
 			let i;
 			if (selectID == 'district') {
-				apiData = await
-				getAPIData('province');
+				apiData = await getAPIData('province');
 				select = document.getElementById('province');
 				option = select.options[select.selectedIndex].text;
 				for (i = 0; i < apiData.results.length; i++) {
@@ -171,8 +170,7 @@
 					}
 				}
 			} else if (selectID == 'ward') {
-				apiData = await
-				getAPIData('district');
+				apiData = await getAPIData('district');
 				select = document.getElementById('district');
 				option = select.options[select.selectedIndex].text;
 				for (i = 0; i < apiData.results.length; i++) {

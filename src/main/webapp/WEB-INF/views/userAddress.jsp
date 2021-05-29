@@ -68,7 +68,6 @@
 									name="district" value="${address.district }"><input
 									type="hidden" name="ward" value="${address.ward }"><input
 									type="hidden" name="street" value="${address.street }">
-								<input type="hidden" name="id" value="${user._id }">
 								<button type="submit" class="btn btn-info">Chỉnh sửa</button>
 							</form>
 						</div>

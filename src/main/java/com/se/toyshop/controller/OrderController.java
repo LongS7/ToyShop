@@ -10,8 +10,10 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.se.toyshop.dao.CartDAO;
 import com.se.toyshop.dao.OrderDAO;
-import com.se.toyshop.dao.UserDao;
 import com.se.toyshop.entity.Order;
 import com.se.toyshop.entity.ShoppingCartItem;
 import com.se.toyshop.entity.User;
@@ -36,8 +37,11 @@ public class OrderController {
 	private CartDAO cartDAO;
 	
 	@Autowired
-	private UserDao userDao;
+	private JavaMailSender mailSender;
 	
+	@Autowired
+	private Environment env;
+		
 	@RequestMapping("/my-order")
 	public ModelAndView showMyOrders(HttpServletRequest req) {
 		User user = (User) req.getAttribute("currentUser");
@@ -66,7 +70,8 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public ModelAndView addOrder(HttpSession session, HttpServletRequest req) throws UnsupportedEncodingException {
+	public ModelAndView addOrder(HttpSession session, HttpServletRequest req,
+			@RequestParam(name = "message", required = false, defaultValue = "0") int message) throws UnsupportedEncodingException {
 		req.setCharacterEncoding("UTF-8");
 		
 		Order order = new Order();
@@ -91,21 +96,19 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addOrder(@Valid @ModelAttribute("order") Order order, @RequestParam("address") int pos, 
-			BindingResult bindingResult, HttpServletRequest req) throws IOException {
+	public String addOrder(@Valid @ModelAttribute("order") Order order, 
+			@RequestParam(name = "address", required = false, defaultValue = "-1") int pos, 
+			HttpServletRequest req) throws IOException {
 		User user = (User) req.getAttribute("currentUser");
 		if(user == null)
 			return "redirect:/user/login";
 		
 		order.setUser(user);
 		
-		if(pos != -1)
+		if(pos >= 0 && pos < user.getShippingAddresses().size())
 			order.setShippingAddress(user.getShippingAddresses().get(pos));
 		else {
-			if(bindingResult.hasErrors())
-				return "redirect:/order/add";
-			user.getShippingAddresses().add(order.getShippingAddress());
-			userDao.update(user);
+			return "redirect:/order/add?message=-1";
 		}
 		
 		List<ShoppingCartItem> cartItems = user.getListShoppingCartItem();
@@ -116,12 +119,22 @@ public class OrderController {
 		
 		order.setOrderDate(LocalDate.now());
 		
-		orderDAO.addOrder(order);
-		
-		cartDAO.removeCartItems(user, cartItems);
+		if(orderDAO.addOrder(order)) {
+			cartDAO.removeCartItems(user, cartItems);
+			
+			SimpleMailMessage mailMessage = new SimpleMailMessage();
+			mailMessage.setSubject("Toy Shop - Đặt hàng thành công!");
+			mailMessage.setText("Đơn hàng của quý khách hiện đang được xử lý!\nXem chi tiết hóa đơn tại " + "http://localhost:8080/" + req.getContextPath() + "/order/my-order");
+			mailMessage.setTo(user.getEmail());
+			mailMessage.setFrom(env.getProperty("support.email"));
+			
+			mailSender.send(mailMessage);
+		}
 		
 		return "redirect:/order/my-order";
 	}
+	
+	
 	
 	@RequestMapping(value = "/cancel/{id}", method = RequestMethod.GET)
 	public String cancelOrder(@PathVariable String id, HttpServletRequest req) {
