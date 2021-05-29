@@ -154,9 +154,9 @@
 			</p>
 			<p style="text-align: justify;">${product.description}</p>
 		</div>
-		<div class=" pl-5 pr-5">
+		<div class="pl-5 pr-5">
 			<p>
-				<b>Mô tả sản phẩm</b>
+				<b>Thông tin sản phẩm</b>
 			</p>
 			<div class="table-responsive">
 				<table class="table table-hover">
@@ -198,14 +198,14 @@
 		<div class="comments p-5">
 			<div class="h5"> Nhận xét từ khách hàng (${ product.comments.size() }) </div>
 			<hr>
-			<div class="row">
-				<c:forEach var="comment" items="${ product.comments }">
+			<c:forEach var="comment" items="${ product.comments }">
+				<div class="row comment">
 					<div class="col-sm-4">
 						<div class="row">
 							<div class="col-2">
-								<i class="fas fa-user-circle fa-3x"></i>
+								<i class="fas fa-user-circle fa-3x text-secondary"></i>
 							</div>
-							<div class="col-10 mt-auto mb-auto">
+							<div class="col-9 ml-auto mt-auto mb-auto">
 								<strong>${ comment.user.name }</strong>
 								<p> 
 									${ comment.date.toLocalDate() } ${ comment.date.toLocalTime() }
@@ -219,19 +219,18 @@
 						<span class="fa fa-star <c:if test="${ comment.rate >= 3 }">checked</c:if> "></span>
 						<span class="fa fa-star <c:if test="${ comment.rate >= 4 }">checked</c:if> "></span>
 						<span class="fa fa-star <c:if test="${ comment.rate >= 5 }">checked</c:if> "></span> - 
-						<c:if test="${ comment.rate <= 1 }"> <c:set var="rv" value="Quá tệ"/></c:if>
-						<c:if test="${ comment.rate <= 2 }"> <c:set var="rv" value="Tệ"/></c:if>
-						<c:if test="${ comment.rate <= 3 }"> <c:set var="rv" value="Bình thường"/></c:if>
-						<c:if test="${ comment.rate <= 4 }"> <c:set var="rv" value="Hài lòng"/></c:if>
-						<c:if test="${ comment.rate <= 5 }"> <c:set var="rv" value="Cực kì hài hòng"/></c:if>
+						<c:if test="${ comment.rate == 1 }"> <c:set var="rv" value="Quá tệ"/></c:if>
+						<c:if test="${ comment.rate == 2 }"> <c:set var="rv" value="Tệ"/></c:if>
+						<c:if test="${ comment.rate == 3 }"> <c:set var="rv" value="Bình thường"/></c:if>
+						<c:if test="${ comment.rate == 4 }"> <c:set var="rv" value="Hài lòng"/></c:if>
+						<c:if test="${ comment.rate == 5 }"> <c:set var="rv" value="Cực kì hài hòng"/></c:if>
 						<span> ${ rv } </span>
-						<div class="mt-3">
+						<div class="mt-3" style="text-align: justify;">
 							${ comment.content }
 						</div>
 					</div>
-					<hr>
-				</c:forEach>
-			</div>
+				</div>
+			</c:forEach>
 		</div>
 	
 	</div>
