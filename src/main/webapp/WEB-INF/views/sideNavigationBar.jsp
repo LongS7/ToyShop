@@ -69,7 +69,7 @@ i {
 					class="fas fa-user fa-fw"></i> Thông tin tài khoản</a></li>
 			<li class="nav-item"><a class="nav-link" href="#2"><i
 					class="fas fa-bell fa-fw"></i> Thông báo của tôi</a></li>
-			<li class="nav-item"><a class="nav-link" href=""><i
+			<li class="nav-item"><a class="nav-link" href="${context }/order/my-order"><i
 					class="fas fa-file-invoice-dollar fa-fw"></i> Quản lý đơn hàng</a></li>
 			<li class="nav-item"><a class="nav-link" href="${context }/user/address"><i
 					class="fas fa-map-marker-alt fa-fw"></i> Sổ địa chỉ</a></li>

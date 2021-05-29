@@ -74,5 +74,49 @@ public class ShippingAddress implements Serializable{
 		
 		return street + ", " + ward + ", " + district + ", " + province;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((district == null) ? 0 : district.hashCode());
+		result = prime * result + ((province == null) ? 0 : province.hashCode());
+		result = prime * result + ((street == null) ? 0 : street.hashCode());
+		result = prime * result + ((ward == null) ? 0 : ward.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ShippingAddress other = (ShippingAddress) obj;
+		if (district == null) {
+			if (other.district != null)
+				return false;
+		} else if (!district.equals(other.district))
+			return false;
+		if (province == null) {
+			if (other.province != null)
+				return false;
+		} else if (!province.equals(other.province))
+			return false;
+		if (street == null) {
+			if (other.street != null)
+				return false;
+		} else if (!street.equals(other.street))
+			return false;
+		if (ward == null) {
+			if (other.ward != null)
+				return false;
+		} else if (!ward.equals(other.ward))
+			return false;
+		return true;
+	}
+	
 	
 }
