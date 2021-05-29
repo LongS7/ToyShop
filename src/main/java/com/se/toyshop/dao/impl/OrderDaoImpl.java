@@ -65,7 +65,7 @@ public class OrderDaoImpl implements OrderDAO {
 	}
 
 	@Override
-	public void addOrder(Order order) {
+	public boolean addOrder(Order order) {
 		OgmSession session = sessionFactory.getCurrentSession();
 
 		Transaction tran = session.beginTransaction();
@@ -75,10 +75,13 @@ public class OrderDaoImpl implements OrderDAO {
 
 			tran.commit();
 
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			tran.rollback();
 		}
+		
+		return false;
 	}
 
 	@Override
@@ -107,7 +110,7 @@ public class OrderDaoImpl implements OrderDAO {
 		Transaction tran = session.beginTransaction();
 
 		try {
-			result = session.createNativeQuery("db.orders.find({'state': " + state + "})", Order.class).getResultList();
+			result = session.createNativeQuery("db.orders.find({userId: ObjectId('" + userId + "'), 'state': " + state + "})", Order.class).getResultList();
 
 			tran.commit();
 
