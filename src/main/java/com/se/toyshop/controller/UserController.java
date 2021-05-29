@@ -1,5 +1,6 @@
 package com.se.toyshop.controller;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -85,13 +86,19 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-	public String processRegistration(@ModelAttribute("user") @Valid User user, BindingResult errors) {
+	public ModelAndView processRegistration(@ModelAttribute("user") @Valid User user, BindingResult errors) {
 		if (errors.hasErrors()) {
-			return "registerForm";
+			return new ModelAndView("registerForm", "result", "Tạo tài khoản thất bại");
 		}
 
-		userDao.addUser(user);
-		return "redirect:/";
+		User tempUser = userDao.findByUsername(user.getAccount().getUsername());
+
+		if (!Objects.isNull(tempUser)) {
+			return new ModelAndView("registerForm", "message", "Tên đăng nhập đã tồn tại");
+		} else {
+			userDao.addUser(user);
+			return new ModelAndView("registerForm", "result", "Tạo tài khoản thành công");
+		}
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
@@ -185,7 +192,7 @@ public class UserController {
 			@RequestParam(required = false) String newWard, @RequestParam(required = false) String newStreet) {
 		ShippingAddress oldAddress = new ShippingAddress(street, ward, district, province);
 		ShippingAddress newAddress = new ShippingAddress(newStreet, newWard, newDistrict, newProvince);
-		
+
 		User user = userDao.getUser(id);
 		for (int i = 0; i < user.getShippingAddresses().size(); i++) {
 			if (user.getShippingAddresses().get(i).equals(oldAddress)) {
@@ -194,7 +201,7 @@ public class UserController {
 				break;
 			}
 		}
-		
+
 		return "redirect:/user/address";
 	}
 

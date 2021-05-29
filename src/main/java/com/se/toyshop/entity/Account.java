@@ -2,6 +2,7 @@ package com.se.toyshop.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -19,7 +20,8 @@ public class Account implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
+	@Column(unique = true)
 	@NotNull(message = "Tên đăng nhập không được để trống")
 	@Pattern(regexp = "^[a-zA-Z0-9_-]{3,16}$", message = "Tên đăng nhập phải đúng định dạng")
 	private String username;
