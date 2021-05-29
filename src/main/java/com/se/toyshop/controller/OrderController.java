@@ -131,7 +131,7 @@ public class OrderController {
 		
 		Order order = orderDAO.getOrder(id);
 		
-		if(order.getState() == 0) {
+		if(order.getState() == 1) {
 			order.setState(-1);
 			orderDAO.updateOrder(order);
 		}

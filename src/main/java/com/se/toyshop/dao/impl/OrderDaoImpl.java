@@ -356,4 +356,36 @@ public class OrderDaoImpl implements OrderDAO {
 		return result;
 	}
 
+	@Override
+	public List<Order> getOrders(LocalDate dateFrom, LocalDate dateTo, int state, int page, int sortDate) {
+		int maxSize = 10;
+		
+		OgmSession session = sessionFactory.getCurrentSession();
+
+		List<Order> result = null;
+		
+		if(dateFrom == null)
+			dateFrom = LocalDate.EPOCH;
+		if(dateTo == null)
+			dateTo = LocalDate.of(9999, 12, 12);
+
+		Transaction tran = session.beginTransaction();
+
+		try {
+			result = session.createQuery("from Order where orderDate >= :fromDate and orderDate <= :toDate " + (state != -2 ? " and state = " + state : ""), Order.class)
+					.setParameter("fromDate", dateFrom)
+					.setParameter("toDate", dateTo)
+					.setFirstResult((page - 1) * maxSize)
+					.setMaxResults(maxSize).list();
+			
+			tran.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		}
+
+		return result;
+	}
+
 }

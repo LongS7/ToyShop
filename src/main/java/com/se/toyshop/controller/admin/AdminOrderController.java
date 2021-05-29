@@ -1,5 +1,7 @@
 package com.se.toyshop.controller.admin;
 
+import java.time.LocalDate;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +23,29 @@ public class AdminOrderController {
 	@RequestMapping(value = {"/", "/list-order"})
 	public ModelAndView manageOrder(@RequestParam(name = "p", required = false, defaultValue = "1") int page,
 			@RequestParam(name = "sort_date", required = false, defaultValue = "-1") int sortDate,
-			HttpServletRequest req) {
+			HttpServletRequest req,
+			@RequestParam(required = false) String dateFrom,
+			@RequestParam(required = false) String dateTo,
+			@RequestParam(required = false, defaultValue = "-2") int state) {
+		
 		if(req.getAttribute("currentUser") == null)
 			return new ModelAndView("redirect:/user/login");
+		
+		LocalDate fromDate = null;
+		LocalDate toDate = null;
+		if(dateFrom != null && !dateFrom.isBlank())
+			fromDate = LocalDate.parse(dateFrom);
+		if(dateTo != null && !dateTo.isBlank())
+			toDate = LocalDate.parse(dateTo);
 		
 		if(page < 1)
 			page = 1;
 		
-		return new ModelAndView("admin/order-list", "orders", orderDAO.getAll(page, sortDate));
+		if(fromDate == null && toDate == null && state == -2)
+			return new ModelAndView("admin/order-list", "orders", orderDAO.getAll(page, sortDate));
+		else {
+			return new ModelAndView("admin/order-list", "orders", orderDAO.getOrders(fromDate, toDate, state, page, sortDate));
+		}
 	}
 	
 	@RequestMapping(value = {"/{id}", "/list-order/{id}"})

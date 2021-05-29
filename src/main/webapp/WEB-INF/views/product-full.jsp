@@ -177,28 +177,7 @@
 					<div class="container">
 						<div class="list-product row">
 							<c:forEach var="product" items="${ products }">
-								<div class="product col-6 col-sm-3 p-1">
-									<div class="border p-2">
-										<a class="product-image" href="<c:url value='/san-pham/${product._id}'/>"> <img
-											src="data:image/png;base64,${product.images[0] }"
-											style="width: 100%;">
-										</a>
-										<div class="product-name text-left">
-											<a href="<c:url value='san-pham/${product._id}'/>">${ product.name }</a>
-										</div>
-										<div class="rating text-left">
-											<span class="fa fa-star checked"></span> <span
-												class="fa fa-star checked"></span> <span
-												class="fa fa-star checked"></span> <span
-												class="fa fa-star checked"></span> <span class="fa fa-star"></span>
-											<span class="num-of-rate">(7)</span>
-										</div>
-										<div class="product-price text-left font-weight-bold">
-											<span>${ product.price } VNĐ</span>
-											
-										</div>
-									</div>
-								</div>
+								<%@ include file="product.jsp" %>
 							</c:forEach>
 
 						</div>

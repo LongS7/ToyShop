@@ -481,3 +481,9 @@ a:hover { text-decoration: none; color: black; cursor: pointer;}
 .brand img { width: 90%; }
 .brand { padding: 5px; }
 .link { color: #8000ff; }
+
+.comment, .product-description {
+	padding: 5px;
+	margin-bottom: 5px;
+	box-shadow: 3px 2px 5px graytext;
+}

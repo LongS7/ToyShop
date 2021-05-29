@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.se.toyshop.dao.AddressDao;
@@ -39,7 +38,6 @@ import com.se.toyshop.service.impl.UserSecurityService;
 
 @Configuration
 @ComponentScan("com.se.toyshop")
-@EnableTransactionManagement
 public class ApplicationConfig {
 	@Bean(name = "viewResolver")
 	public InternalResourceViewResolver getViewResolver() {

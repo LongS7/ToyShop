@@ -208,6 +208,24 @@ public class ProductDAOImpl implements ProductDAO {
 		return products;
 	}
 
+	@Override
+	public void updateProduct(Product product) {
+		OgmSession session = sessionFactory.getCurrentSession();
+
+		Transaction tran = session.beginTransaction();
+		
+		try {
+			session.update(product);
+			
+			tran.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		}
+		
+	}
+
 	
 
 

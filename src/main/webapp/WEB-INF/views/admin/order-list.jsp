@@ -74,23 +74,29 @@
 						</div>
 						<div class="row">
 						    <div class="col">
-						      <input type="date" class="form-control" name="dateFrom">
+						      <input type="date" class="form-control" name="dateFrom" value="${ param.dateFrom }">
 						    </div>
 						    <div class="col">
-						      <input type="date" class="form-control" name="dateTo">
+						      <input type="date" class="form-control" name="dateTo" value="${ param.dateTo }">
 						    </div>
 						</div>
 						<select name="state" class="custom-select mt-2 mb-2">
-						    <option selected value="">Chọn trạng thái</option>
-						    <option value="0">Đang xử lý</option>
-						    <option value="1">Đã giao</option>
-						    <option value="-1">Đã hủy</option>
+						    <option <c:if test="${ param.state == 0 }" >selected</c:if> value="">Chọn trạng thái</option>
+						    <option <c:if test="${ param.state == 1 }" >selected</c:if> value="1">Đang xử lý</option>
+						    <option <c:if test="${ param.state == 2 }" >selected</c:if> value="2">Đã giao</option>
+						    <option <c:if test="${ param.state == -1 }" >selected</c:if> value="-1">Đã hủy</option>
 						  </select>
 						<button class="btn btn-primary mt-2 mb-2" type="submit">
 							<span class="icon text-white-50">
                                 <i class="fas fa-filter"></i>
                             </span>
                             <span class="text">Lọc</span>
+						</button>
+						<button class="btn btn-warning mt-2 mb-2 ml-2" type="reset">
+							<span class="icon text-white-50">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                            <span class="text">Xóa bộ lọc</span>
 						</button>
 					</form>
                     <!-- DataTales Example -->
@@ -121,11 +127,11 @@
                                     			<td> <fmt:formatNumber value="${ order.getTotal() }" type="currency" /> </td>
                                     			<td>
                                     				<c:if test="${ order.state eq -1 }">Đã hủy</c:if> 
-							                    	<c:if test="${ order.state eq 0}">Đang xử lý</c:if> 
-							                    	<c:if test="${ order.state eq 1 }">Đã giao</c:if> 
+							                    	<c:if test="${ order.state eq 1}">Đang xử lý</c:if> 
+							                    	<c:if test="${ order.state eq 2 }">Đã giao</c:if> 
                                     			</td>
                                     			<td class="text-center"> 
-                                    				<c:if test="${ order.state == 0 }">
+                                    				<c:if test="${ order.state == 1 }">
                                     					<a class="btn btn-primary" href="${ context }/admin/manage-orders/update/${ order._id }">Cập nhật trạng thái</a> 
                                    					</c:if>
                                    				</td>
@@ -141,10 +147,10 @@
                             	<c:if test="${ page == null || page <= 1 }">
                            			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                             	</c:if>
-							  	<li class="page-item active"><a class="page-link" href="list-order?p=${ page }">${ page }</a></li>
-							  	<li class="page-item"><a class="page-link" href="list-order?p=${ page + 1 }">${ page + 1 }</a></li>
-							  	<li class="page-item"><a class="page-link" href="list-order?p=${ page + 2 }">${ page + 2 }</a></li>
-							  	<li class="page-item"><a class="page-link" href="list-order?p=${ page + 1 }">Next</a></li>
+							  	<li class="page-item active"><a class="page-link" href="list-order?p=${ page }&sort_date=${ param.sort_date }&dateFrom=${ param.dateFrom }&&dateTo=${ param.dateTo }&&state=${ param.state }">${ page }</a></li>
+							  	<li class="page-item"><a class="page-link" href="list-order?p=${ page + 1 }&sort_date=${ param.sort_date }&dateFrom=${ param.dateFrom }&&dateTo=${ param.dateTo }&&state=${ param.state }">${ page + 1 }</a></li>
+							  	<li class="page-item"><a class="page-link" href="list-order?p=${ page + 2 }&sort_date=${ param.sort_date }&dateFrom=${ param.dateFrom }&&dateTo=${ param.dateTo }&&state=${ param.state }">${ page + 2 }</a></li>
+							  	<li class="page-item"><a class="page-link" href="list-order?p=${ page + 1 }&sort_date=${ param.sort_date }&dateFrom=${ param.dateFrom }&&dateTo=${ param.dateTo }&&state=${ param.state }">Next</a></li>
 							</ul>
                         </div>
                     </div>

@@ -53,10 +53,10 @@
 	                  <a class="nav-link <c:if test="${ param.state == null }">active</c:if>" href="${ context }/order/my-order/">Tất cả</a>
 	                </li>
 	                <li class="nav-item">
-	                  <a class="nav-link <c:if test="${ param.state == '0' }">active</c:if>" href="${ context }/order/my-order/filter?state=0">Đang xử lý</a>
+	                  <a class="nav-link <c:if test="${ param.state == '1' }">active</c:if>" href="${ context }/order/my-order/filter?state=1">Đang xử lý</a>
 	                </li>
 	                <li class="nav-item">
-	                  <a class="nav-link <c:if test="${ param.state == '1' }">active</c:if>" href="${ context }/order/my-order/filter?state=1">Đã giao hàng</a>
+	                  <a class="nav-link <c:if test="${ param.state == '2' }">active</c:if>" href="${ context }/order/my-order/filter?state=2">Đã giao hàng</a>
 	                </li>
 	                <li class="nav-item">
 	                  <a class="nav-link <c:if test="${ param.state == '-1' }">active</c:if>" href="${ context }/order/my-order/filter?state=-1">Đã hủy</a>
@@ -79,8 +79,8 @@
 			                    <td> <fmt:formatNumber value="${ order.getTotal() }" type="currency"/> </td>
 			                    <td> 
 			                    	<c:if test="${ order.state eq -1 }">Đã hủy</c:if> 
-			                    	<c:if test="${ order.state eq 0}">Đang xử lý</c:if> 
-			                    	<c:if test="${ order.state eq 1 }">Đã giao</c:if> 
+			                    	<c:if test="${ order.state eq 1}">Đang xử lý</c:if> 
+			                    	<c:if test="${ order.state eq 2 }">Đã giao</c:if> 
 		                    	</td>
 			                </tr>
 		                </c:forEach>

@@ -1,6 +1,7 @@
 package com.se.toyshop.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -9,14 +10,19 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.bson.types.ObjectId;
+import org.hibernate.ogm.options.shared.IndexOption;
+import org.hibernate.ogm.options.shared.IndexOptions;
 
 @Entity
-@Table(name = "products")
+@Table(name="products",
+		indexes = @Index(columnList = "name, sku", name="product_name_sku"))
+@IndexOptions(@IndexOption(forIndex = "product_name_sku", options = "{text:true}"))
 public class Product implements Serializable {
 	/**
 	 * 
@@ -270,5 +276,38 @@ public class Product implements Serializable {
 		return true;
 	}
 	
+	public float getRating() {
+		if(comments == null || comments.size() == 0)
+			return 0;
+		
+		float sum = 0;
+		for(Comment comment : comments)
+			sum += comment.getRate();
+		
+		return sum / comments.size();
+	}
+
+	public void addComment(Comment comment) {
+		if(comments == null)
+			comments = new ArrayList<Comment>();
+		
+		for(Comment item : comments)
+			if(item.getUser().equals(comment.getUser()))
+				return;
+		
+		comments.add(comment);
+		
+	}
+	
+	public boolean hasCommentOfUser(User user) {
+		if(comments == null)
+			return false;
+		
+		for(Comment item : comments)
+			if(item.getUser().get_id().equals(user.get_id()))
+				return true;
+		
+		return false;
+	}
 	
 }
