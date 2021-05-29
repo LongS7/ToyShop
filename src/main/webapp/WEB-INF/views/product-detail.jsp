@@ -196,7 +196,7 @@
 			</div>
 		</div>
 		<div class="comments p-5">
-			<div class="h5"> Nhận xét từ khách hàng </div>
+			<div class="h5"> Nhận xét từ khách hàng (${ product.comments.size() }) </div>
 			<hr>
 			<div class="row">
 				<c:forEach var="comment" items="${ product.comments }">
