@@ -43,15 +43,20 @@
                 </div>
                 <form:input type="text" path="phone" class="form-control text-right" readonly="true" />
             </div>
-            <div class="w-100"><label>Địa chỉ giao hàng</label><a class="btn btn-primary float-right" href="${ context }/user/address/create/${ order.user._id }">Thêm địa chỉ mới</a></div>
-            <c:forEach var="i" begin="0" end="${ order.user.shippingAddresses.size() - 1 }">
-            	<div class="form-check">
-				  <label class="form-check-label">
-				    <input type="radio" class="form-check-input" name="address" value="${ i }" <c:if test="${ i == 0 }">checked="checked"</c:if> />
-				    	${ order.user.shippingAddresses[i].street }, ${ order.user.shippingAddresses[i].ward }, ${ order.user.shippingAddresses[i].district }, ${ order.user.shippingAddresses[i].province }
-				  </label>
-				</div>
-            </c:forEach>
+            <div class="w-100">
+           		<label>Địa chỉ giao hàng</label> <c:if test="${ param.message == -1 }"><span class="error"> Vui lòng thêm địa chỉ mới </span></c:if>
+           		<a class="btn btn-primary float-right" href="${ context }/user/address/create/${ order.user._id }">Thêm địa chỉ mới</a>
+        	</div>
+            <c:if test="${ order.user.shippingAddresses != null and order.user.shippingAddresses.size() > 0 }">
+            	<c:forEach var="i" begin="0" end="${ order.user.shippingAddresses.size() - 1 }">
+	            	<div class="form-check">
+					  <label class="form-check-label">
+					    <input type="radio" class="form-check-input" name="address" value="${ i }" <c:if test="${ i == 0 }">checked="checked"</c:if> />
+					    	${ order.user.shippingAddresses[i].street }, ${ order.user.shippingAddresses[i].ward }, ${ order.user.shippingAddresses[i].district }, ${ order.user.shippingAddresses[i].province }
+					  </label>
+					</div>
+	            </c:forEach>
+            </c:if>
             <br>            
             <div class="input-group mb-3">
                 <div class="input-group-prepend">

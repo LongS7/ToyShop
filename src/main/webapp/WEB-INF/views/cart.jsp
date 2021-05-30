@@ -79,7 +79,7 @@ img {
 								
 								<td></td>
 								<td >
-									<form action="list" method="post">
+									<form action="list" method="post" style="min-width: 150px;">
 										<input name="productId" type="text" value="${ item.product._id }" hidden="hidden">
 										<div class="input-group">
 											<div class="input-group-append">
