@@ -5,6 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <c:set var="context" value="${ pageContext.request.contextPath }" />
 <c:set var="formAction" value="${ context }/admin/manage-products/" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,9 +73,10 @@
 					<h1 class="h3 mb-2 text-gray-800 row justify-content-center">Thêm/Cập
 						nhật sản phẩm</h1>
 
+					<c:url var="saveUrl" value="/admin/manage-products/saveProduct" />
 
-					<form:form action="#" modelAttribute="product" class="form"
-						id="form">
+					<form:form action="${saveUrl}" modelAttribute="product"
+						class="form" id="form" method="POST">
 						<div class="form-group">
 							<form:label path="name">Tên sản phẩm:</form:label>
 							<form:input type="text" path="name" class="form-control"></form:input>
@@ -89,15 +91,16 @@
 								<form:input type="text" path="sku" class="form-control"></form:input>
 							</div>
 							<div class="form-group col-md-4">
-								<form:label path="brand">Thương hiệu:</form:label>
-								<form:select id="inputState" path="gender" class="form-control">
+								<form:label path="brand._id">Thương hiệu:</form:label>
+								<form:select id="inputState" path="brand._id"
+									class="form-control">
 									<c:forEach var="brand" items="${listBrand}">
 										<form:option value="${brand._id}">${brand.name}</form:option>
 									</c:forEach>
 								</form:select>
 							</div>
 						</div>
-						
+
 						<div class="form-group">
 							<form:label path="description">Mô tả sản phẩm:</form:label>
 							<form:textarea path="description" class="form-control" rows="3"></form:textarea>
@@ -125,15 +128,11 @@
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<form:label path="ages">Tuổi: </form:label>
-								<c:forEach var="age" items="${listAge}">
-									<div class="form-check-inline">
-										<form:label path="ages" class="form-check-label">
-											<input type="checkbox" class="form-check-input"
-												value="${age}">
-											${age}
-										</form:label>
-									</div>
-								</c:forEach>
+								<div class="form-check-inline">
+									<form:label path="ages" class="form-check-label">
+										<form:checkboxes items="${listAge }" path="ages" />
+									</form:label>
+								</div>
 								<form:input type="file" path="images" name="Image" id="image"
 									multiple="" class="d-none" onchange="image_select()"></form:input>
 								<form:button class="btn btn-sm btn-primary" type="button"
@@ -142,10 +141,10 @@
 							</div>
 							<div class="form-group col-md-6">
 								<form:label path="category">Thể loại:</form:label>
-								<form:select id="inputState" path="category"
+								<form:select id="inputState" path="category._id"
 									class="form-control">
 									<c:forEach var="cate" items="${listCategory}">
-										<form:option value="${cate_id}">${cate.categoryName}</form:option>
+										<form:option value="${cate._id}">${cate.categoryName}</form:option>
 									</c:forEach>
 								</form:select>
 							</div>

@@ -3,9 +3,11 @@ package com.se.toyshop.controller.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -24,7 +26,7 @@ public class AdminProductController {
 	@Autowired
 	private CategoryDAO categoryDAO;
 	
-	@RequestMapping(value = "/add")
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String showFormForAdd(Model model) {
 	
 		// gender
@@ -50,5 +52,24 @@ public class AdminProductController {
 		
 		
 		return "admin/product-form";
+	}
+	
+	
+	@RequestMapping("/list")
+	public String showListProduct(Model model) {
+		
+		
+		return "admin/list-product";
+	}
+	
+	@RequestMapping(value = "/saveProduct",method = RequestMethod.POST)
+	public String saveProduct(@ModelAttribute("product") Product product) {
+		
+//		product.setGender(Gender.valueOf(String.valueOf(product.getGender())));
+		
+		System.out.println(product);
+		productDAO.saveProduct(product);
+		
+		return "redirect:/admin/manage-products/list";
 	}
 }
