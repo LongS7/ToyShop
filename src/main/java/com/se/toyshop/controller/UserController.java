@@ -86,17 +86,22 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-	public ModelAndView processRegistration(@ModelAttribute("user") @Valid User user, BindingResult errors) {
+	public ModelAndView processRegistration(@ModelAttribute("user") @Valid User user, BindingResult errors,
+			HttpServletRequest request) {
 		if (errors.hasErrors()) {
 			return new ModelAndView("registerForm", "result", "Tạo tài khoản thất bại");
 		}
 
-		User tempUser = userDao.findByUsername(user.getAccount().getUsername());
+		User tempUser1 = userDao.findByUsername(user.getAccount().getUsername());
+		User tempUser2 = userDao.findByEmail(user.getEmail());
 
-		if (!Objects.isNull(tempUser)) {
-			return new ModelAndView("registerForm", "message", "Tên đăng nhập đã tồn tại");
+		if (!Objects.isNull(tempUser1)) {
+			return new ModelAndView("registerForm", "usernameError", "Tên đăng nhập đã tồn tại");
+		} else if (!Objects.isNull(tempUser2)) {
+			return new ModelAndView("registerForm", "emailError", "Email đã tồn tại");
 		} else {
 			userDao.addUser(user);
+			mailSender.send(constructRegisterEmail(getAppUrl(request), user));
 			return new ModelAndView("registerForm", "result", "Tạo tài khoản thành công");
 		}
 	}
@@ -218,7 +223,7 @@ public class UserController {
 		}
 
 		PasswordResetToken pResetToken = passwordResetTokenDao.findByUserId(user.get_id());
-		
+
 		String token = UUID.randomUUID().toString();
 		if (pResetToken == null) {
 			PasswordResetToken myToken = new PasswordResetToken(token, user);
@@ -237,6 +242,13 @@ public class UserController {
 		final String url = contextPath + "/user/changePassword?token=" + token;
 		final String message = "Nhấn vào liên kết để khôi phục mật khẩu";
 		return constructEmail("Khôi phục mật khẩu", message + " \r\n" + url, user);
+	}
+
+	private SimpleMailMessage constructRegisterEmail(final String contextPath, final User user) {
+		final String message = "Xin chào " + user.getName() + ",\r\n" + "\r\n"
+				+ "Cám ơn bạn đã đăng ký tài khoản của bạn tại website của chúng tôi. Chúng tôi hi vọng bạn sẽ có những trải nghiệm tốt nhất.\r\n"
+				+ "Hãy liên lạc với chúng tôi nếu bạn có bất cứ câu hỏi nào.\r\n" + "Xin cảm ơn,\r\n" + "Toy Shop";
+		return constructEmail("Đăng ký tài khoản thành công", message, user);
 	}
 
 	// Check the PasswordResetToken

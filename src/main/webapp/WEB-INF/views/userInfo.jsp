@@ -94,7 +94,7 @@
 					<div class="form-group">
 						<form:label class="font-weight-bold" path="email">Email:</form:label>
 						<form:input class="form-control" path="email"
-							value="${user.email }" />
+							value="${user.email }" readonly="true"/>
 						<form:errors path="email" cssClass="error text-danger" />
 					</div>
 					<form:label class="font-weight-bold" path="gender">Giới tính:</form:label>
