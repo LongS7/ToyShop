@@ -166,7 +166,7 @@
 					</tr>
 					<tr>
 						<td>Xuất xứ</td>
-						<td>${product.origin}</td>
+						<td>${product.brand.origin}</td>
 					</tr>
 					<tr>
 						<td>Ma VT</td>

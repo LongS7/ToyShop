@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.se.toyshop.dao.CategoryDAO;
 import com.se.toyshop.dao.ProductDAO;
+import com.se.toyshop.entity.Brand;
 import com.se.toyshop.entity.Product;
 
 @Controller
@@ -51,6 +52,11 @@ public class ProductController {
 	public String showProductDetail(@PathVariable("_id") ObjectId id, Model model) {
 
 		Product product = productDAO.getProductById(id);
+		product.setBrand(productDAO.getBrandById(product.getBrand().get_id()));
+		product.setCategory(productDAO.getCategoryById(product.getCategory().get_id()));
+		
+		System.out.println(product.toString());
+		
 		model.addAttribute("product", product);
 
 		return "product-detail";

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.se.toyshop.dao.CategoryDAO;
 import com.se.toyshop.entity.Category;
+import com.se.toyshop.entity.Product;
 
 
 public class CategoryDAOImpl implements CategoryDAO{
@@ -61,6 +62,26 @@ public class CategoryDAOImpl implements CategoryDAO{
 			transaction.rollback();
 		}
 		return map;
+	}
+
+	@Override
+	public List<Category> getAllCateroty() {
+		OgmSession session = sessionFactory.getCurrentSession();
+		
+		Transaction tran = session.beginTransaction();
+
+		List<Category> categories = null;
+		try {
+			categories  = session.createNativeQuery("db.categories.find({})", Category.class).getResultList();
+			
+			tran.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		}
+
+		return categories;
 	}
 
 }
