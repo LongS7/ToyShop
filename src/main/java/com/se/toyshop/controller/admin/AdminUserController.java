@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,6 +32,21 @@ public class AdminUserController {
 		map.put("users", users);
 
 		return new ModelAndView("admin/user-list", map);
+	}
+
+	@RequestMapping(value = "/info/{userId}", method = RequestMethod.GET)
+	public ModelAndView showDetailUserInfo(@PathVariable String userId) {
+		List<User> users = userDao.findAll();
+		User user = userDao.getUser(userId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("totalUser", users.size());
+		map.put("totalFemaleUser", userDao.getQuantityFemaleUser());
+		map.put("totalMaleUser", userDao.getQuantityMaleUser());
+		map.put("totalUserNotOrder", userDao.getQuantityUserNotOrder());
+		map.put("users", users);
+		map.put("user", user);
+
+		return new ModelAndView("admin/detail-user-info", map);
 	}
 
 }

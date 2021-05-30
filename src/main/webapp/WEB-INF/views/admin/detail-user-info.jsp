@@ -134,7 +134,7 @@
 
 					<!-- Content Row -->
 					<div class="row">
-						<div class="col-xl-12 col-lg-12">
+						<div class="col-xl-6 col-lg-6">
 							<div class="card shadow mb-4">
 								<!-- Card Header - Dropdown -->
 								<div
@@ -144,39 +144,68 @@
 								</div>
 								<!-- Card Body -->
 								<div class="card-body">
-									<table class="table table-striped">
-										<thead class="thead-light">
-											<tr>
-												<th>STT</th>
-												<th>Họ tên</th>
-												<th>Email</th>
-												<th>Giới tính</th>
-												<th>Ngày sinh</th>
-												<th>Hành động</th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach items="${users }" var="user" varStatus="loop">
-												<tr>
-													<td>${loop.index }</td>
-													<td>${user.name }</td>
-													<td>${user.email }</td>
-													<td><c:choose>
-															<c:when test="${user.gender == '0'}">
+									<div class="row">
+										<div class="col-xl-6 col-lg-6">
+										<p>
+											<strong>Họ tên:</strong>
+										</p>
+										<p>${user.name }</p>
+										<p>
+											<strong>Số điện thoại:</strong>
+										</p>
+										<p>${user.phone }</p>
+										<p>
+											<strong>Email:</strong>
+										</p>
+										<p>${user.email }</p>
+									</div>
+									<div class="col-xl-6 col-lg-6">
+										<p>
+											<strong>Tên đăng nhập:</strong>
+										</p>
+										<p>${user.account.username }</p>
+										<p>
+											<strong>Giới tính:</strong>
+										</p>
+										<p>
+											<c:choose>
+												<c:when test="${user.gender == '0'}">
 																Nữ
 															</c:when>
-															<c:otherwise>
+												<c:otherwise>
 																Nam
 															</c:otherwise>
-														</c:choose></td>
-													<td>${user.birthday }</td>
-													<td><a class="btn btn-outline-info">Chỉnh
-															sửa</a> &nbsp; <a class="btn btn-outline-success" href="${context }/admin/manage-users/info/${user._id}">Xem
-															chi tiết</a></td>
-												</tr>
-											</c:forEach>
-										</tbody>
-									</table>
+											</c:choose>
+										</p>
+										<p>
+											<strong>Ngày sinh:</strong>
+										</p>
+										<p>${user.birthday }</p>
+									</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-6 col-lg-6">
+							<div class="card shadow mb-4">
+								<!-- Card Header - Dropdown -->
+								<div
+									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+									<h6 class="m-0 font-weight-bold text-primary">Thông tin
+										địa chỉ</h6>
+								</div>
+								<!-- Card Body -->
+								<div class="card-body">
+									<c:forEach items="${user.shippingAddresses }"
+										var="shippingAddress" varStatus="loop">
+										<div class="border border-info rounded-lg p-2">
+											<h6>Địa chỉ thứ ${loop.index + 1}</h6>
+											<p>Địa chỉ: ${shippingAddress.street },
+												${shippingAddress.ward }, ${shippingAddress.district },
+												${shippingAddress.province }</p>
+										</div>
+									</c:forEach>
 								</div>
 							</div>
 						</div>
