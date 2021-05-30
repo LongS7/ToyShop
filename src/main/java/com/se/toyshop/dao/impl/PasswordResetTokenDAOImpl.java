@@ -3,6 +3,7 @@ package com.se.toyshop.dao.impl;
 import java.util.Date;
 import java.util.stream.Stream;
 
+import org.bson.types.ObjectId;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -35,7 +36,9 @@ public class PasswordResetTokenDAOImpl implements PasswordResetTokenDAO {
 		Transaction trans = session.beginTransaction();
 		PasswordResetToken passwordResetToken = null;
 		try {
-			passwordResetToken = session.createNativeQuery("db.passwordResetTokens.find({token:'" + token + "'})", PasswordResetToken.class).getSingleResult();
+			passwordResetToken = session
+					.createNativeQuery("db.passwordResetTokens.find({token:'" + token + "'})", PasswordResetToken.class)
+					.getSingleResult();
 			trans.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -60,6 +63,35 @@ public class PasswordResetTokenDAOImpl implements PasswordResetTokenDAO {
 	public void deleteAllExpiredSince(Date now) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public PasswordResetToken findByUserId(ObjectId userId) {
+		PasswordResetToken passwordResetToken = null;
+		Session session = sessionFactory.getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		try {
+			passwordResetToken = session
+					.createNativeQuery("db.passwordResetTokens.find({'userId': ObjectId('" + userId + "')})", PasswordResetToken.class)
+					.getSingleResult();
+			trans.commit();
+		} catch (Exception e) {
+			trans.rollback();
+		}
+		return passwordResetToken;
+	}
+
+	@Override
+	public void update(PasswordResetToken passwordResetToken) {
+		Session session = sessionFactory.getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		try {
+			session.update(passwordResetToken);
+			trans.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			trans.rollback();
+		}
 	}
 
 }

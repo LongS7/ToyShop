@@ -60,6 +60,11 @@
 				<form:input path="email" placeholder="Nhập email"
 					class="form-control" />
 				<form:errors path="email" cssClass="error text-danger" />
+				<c:if test="${not empty emailError }">
+					<p class="text-danger">
+						<i>${emailError }</i>
+					</p>
+				</c:if>
 			</div>
 			<div class="form-group">
 				<form:label path="account.username" class="font-weight-bold">Tên đăng nhập <span
@@ -67,9 +72,9 @@
 				</form:label>
 				<form:input path="account.username" class="form-control"
 					placeholder="Tên đăng nhập từ 3 đến 16 ký tự" />
-				<c:if test="${not empty message }">
+				<c:if test="${not empty usernameError }">
 					<p class="text-danger">
-						<i>${message }</i>
+						<i>${usernameError }</i>
 					</p>
 				</c:if>
 			</div>
