@@ -29,26 +29,38 @@
 
 <body>
 	<%@include file="/WEB-INF/views/navigationBar.jsp"%>
-	<div class="container pb-5 pt-5 col-lg-4">
-		<h2 style="text-align:center;">Quên mật khẩu</h2>
-		<p style="text-align:center;">Không vấn đề! Nhập email của bạn và chúng tôi sẽ gửi bạn một
-			email với hướng dẫn để khôi phục mật khẩu của bạn.</p>
-		<c:if test="${not empty message }">
-				<h6 class="text-success">${message }</h6>
-		</c:if>
-		<form method="POST">
-			<c:if test="${not empty errorMessage }">
-				<div style="color: red; font-weight: bold; margin: 10px 0px;">${errorMessage}</div>
-			</c:if>
-			<div class="form-group">
-				<input type="email" class="form-control" id="email"
-					placeholder="Nhập địa chỉ email" name="email" required/>
+	<div class="container pb-5 pt-5">
+		<div class="row">
+			<div class="col-lg-6">
+				<img alt="Lock"
+					src="${context }/resources/images/leonie-zettl-0vGohk5aw6E-unsplash.jpg"
+					width="100%" height="400px">
 			</div>
-			<button type="submit"
-				class="btn btn-danger btn-block font-weight-bold">Gửi</button>
-		</form>
-		<br>
-		<p style="text-align:center;">Quay về <a href="${context }/user/login">Đăng nhập</a></p>
+			<div class="container pb-5 pt-5 col-lg-6">
+				<h2 style="text-align: center;">Quên mật khẩu</h2>
+				<p style="text-align: center;">Không vấn đề! Nhập email của bạn
+					và chúng tôi sẽ gửi bạn một email với hướng dẫn để khôi phục mật
+					khẩu của bạn.</p>
+				<c:if test="${not empty message }">
+					<h6 class="text-success">${message }</h6>
+				</c:if>
+				<form method="POST">
+					<c:if test="${not empty errorMessage }">
+						<div style="color: red; font-weight: bold; margin: 10px 0px;">${errorMessage}</div>
+					</c:if>
+					<div class="form-group">
+						<input type="email" class="form-control" id="email"
+							placeholder="Nhập địa chỉ email" name="email" required />
+					</div>
+					<button type="submit"
+						class="btn btn-danger btn-block font-weight-bold">Gửi</button>
+				</form>
+				<br>
+				<p style="text-align: center;">
+					Quay về <a href="${context }/user/login">Đăng nhập</a>
+				</p>
+			</div>
+		</div>
 	</div>
 	<%@include file="/WEB-INF/views/footer.jsp"%>
 </body>

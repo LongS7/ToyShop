@@ -53,7 +53,7 @@
 	</li>
 	<!-- Nav Item - Pages Collapse Menu -->
 	<li class="nav-item">
-		<a class="nav-link" href="#"> <i class="fas fa-users"></i> <span>Khách hàng</span></a>
+		<a class="nav-link" href="${context }/admin/manage-users/"> <i class="fas fa-users"></i> <span>Khách hàng</span></a>
 	</li>
 	<!-- Divider -->
 	<hr class="sidebar-divider">

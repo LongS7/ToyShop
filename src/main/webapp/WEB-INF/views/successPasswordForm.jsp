@@ -29,13 +29,14 @@
 
 <body>
 	<%@include file="/WEB-INF/views/navigationBar.jsp"%>
-	<div class="container pb-5 pt-5 col-lg-4">
+	<div style="text-align:center" class="container pb-5 pt-5 col-lg-4">
+		<img alt="Checked icon" src="${context }/resources/images/ic_checked.png">
 		<h2 class="text-center">Xác nhận</h2>
 		<c:if test="${not empty message }">
 			<h6 class="text-success text-center">${message }</h6>
 		</c:if>
 		<br>
-		<h5 class="text-center"><a href="${context }" class="btn btn-success">Đồng ý</a></h5>
+		<h5 class="text-center"><a href="${context }" class="btn btn-outline-success">Đồng ý</a></h5>
 	</div>
 	<%@include file="/WEB-INF/views/footer.jsp"%>
 </body>

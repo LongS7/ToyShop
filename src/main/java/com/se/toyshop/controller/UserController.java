@@ -102,7 +102,7 @@ public class UserController {
 		} else {
 			userDao.addUser(user);
 			mailSender.send(constructRegisterEmail(getAppUrl(request), user));
-			return new ModelAndView("registerForm", "result", "Tạo tài khoản thành công");
+			return new ModelAndView("successPasswordForm", "message", "Xin chúc mừng, bạn đã tạo tài khoản thành công");
 		}
 	}
 

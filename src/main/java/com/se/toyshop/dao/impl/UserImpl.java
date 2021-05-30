@@ -1,5 +1,7 @@
 package com.se.toyshop.dao.impl;
 
+import java.util.List;
+
 import org.bson.types.ObjectId;
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
@@ -125,6 +127,70 @@ public class UserImpl implements UserDao {
 			trans.rollback();
 		}
 		return user;
+	}
+
+	@Override
+	public List<User> findAll() {
+		List<User> users = null;
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		try {
+			users = session.createNativeQuery("db.users.find({})", User.class).getResultList();
+			trans.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			trans.rollback();
+		}
+		return users;
+	}
+
+	@Override
+	public int getQuantityFemaleUser() {
+		int quantity = 0;
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		try {
+			quantity = Integer
+					.parseInt(session.createNativeQuery("db.users.count({gender:0})").getSingleResult().toString());
+			trans.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			trans.rollback();
+		}
+		return quantity;
+	}
+
+	@Override
+	public int getQuantityMaleUser() {
+		int quantity = 0;
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		try {
+			quantity = Integer
+					.parseInt(session.createNativeQuery("db.users.count({gender:1})").getSingleResult().toString());
+			trans.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			trans.rollback();
+		}
+		return quantity;
+	}
+
+	@Override
+	public int getQuantityUserNotOrder() {
+		int quantity = 0;
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		try {
+			quantity = Integer.parseInt(session.createNativeQuery(
+					"db.users.aggregate([{'$lookup':{'from':'orders', 'localField':'_id', 'foreignField':'userId', 'as':'rs'}}, {'$match':{'rs':{'$size':0}}}, {'$count':'rs'}])")
+					.getSingleResult().toString());
+			trans.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			trans.rollback();
+		}
+		return quantity;
 	}
 
 }

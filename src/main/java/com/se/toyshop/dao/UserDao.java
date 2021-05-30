@@ -1,5 +1,7 @@
 package com.se.toyshop.dao;
 
+import java.util.List;
+
 import com.se.toyshop.entity.User;
 
 public interface UserDao {
@@ -14,4 +16,12 @@ public interface UserDao {
 	User findByEmail(String email);
 	
 	User getUserByPasswordResetToken(String token);
+	
+	List<User> findAll();
+	
+	int getQuantityFemaleUser();
+	
+	int getQuantityMaleUser();
+	
+	int getQuantityUserNotOrder();
 }
