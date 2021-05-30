@@ -24,7 +24,30 @@
 <!-- Custom styles for this template-->
 <link href="${ context }/resources/css/sb-admin-2.min.css"
 	rel="stylesheet">
+<style type="text/css">
+.image_container {
+	height: 120px;
+	width: 200px;
+	border-radius: 6px;
+	overflow: hidden;
+	margin: 10px;
+}
 
+.image_container img {
+	height: 100%;
+	width: auto;
+	object-fit: cover;
+}
+
+.image_container span {
+	top: -6px;
+	right: 8px;
+	color: red;
+	font-size: 28px;
+	font-weight: normal;
+	cursor: pointer;
+}
+</style>
 </head>
 
 <body>
@@ -50,50 +73,95 @@
 						nhật sản phẩm</h1>
 
 
-					<form:form action="#" modelAttribute="product">
+					<form:form action="#" modelAttribute="product" class="form"
+						id="form">
 						<div class="form-group">
-							<form:label path="name">Name:</form:label>
-							<form:input type="text" path="name" class="form-control"
-								placeholder="Enter name"></form:input>
+							<form:label path="name">Tên sản phẩm:</form:label>
+							<form:input type="text" path="name" class="form-control"></form:input>
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-4">
-								<form:label path="price">Price:</form:label>
-								<form:input type="text" path="price" class="form-control"
-									placeholder="Enter price"></form:input>
+								<form:label path="price">Giá:</form:label>
+								<form:input type="text" path="price" class="form-control"></form:input>
 							</div>
 							<div class="form-group col-md-4">
 								<form:label path="sku">Sku:</form:label>
-								<form:input type="text" path="sku" class="form-control"
-									placeholder="Enter sku"></form:input>
+								<form:input type="text" path="sku" class="form-control"></form:input>
 							</div>
 							<div class="form-group col-md-4">
-								<form:label path="origin">Origin:</form:label>
-								<form:input type="text" path="origin" class="form-control"
-									placeholder="Enter origin"></form:input>
+								<form:label path="brand">Thương hiệu:</form:label>
+								<form:select id="inputState" path="gender" class="form-control">
+									<c:forEach var="brand" items="${listBrand}">
+										<form:option value="${brand._id}">${brand.name}</form:option>
+									</c:forEach>
+								</form:select>
 							</div>
 						</div>
+						
 						<div class="form-group">
-							<form:label path="description">Description:</form:label>
-							<form:textarea path="description" class="form-control"
-								placeholder="Enter description" rows="3"></form:textarea>
+							<form:label path="description">Mô tả sản phẩm:</form:label>
+							<form:textarea path="description" class="form-control" rows="3"></form:textarea>
 						</div>
+
 						<div class="form-row">
 							<div class="form-group col-md-4">
-								<form:label path="materials">Materials:</form:label>
-								<form:input type="text" path="materials" class="form-control"
-									placeholder="Enter materials"></form:input>
+								<form:label path="materials">Chất liệu:</form:label>
+								<form:input type="text" path="materials" class="form-control"></form:input>
 							</div>
 							<div class="form-group col-md-4">
-								<form:label path="discount">Discount:</form:label>
+								<form:label path="discount">Giảm giá:</form:label>
 								<form:input type="text" path="discount" class="form-control"
 									placeholder="Enter discount"></form:input>
 							</div>
-					
+							<div class="form-group col-md-4">
+								<form:label path="gender">Giới tính:</form:label>
+								<form:select id="inputState" path="gender" class="form-control">
+									<c:forEach var="gen" items="${listGender}">
+										<form:option value="${gen}">${gen}</form:option>
+									</c:forEach>
+								</form:select>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<form:label path="ages">Tuổi: </form:label>
+								<c:forEach var="age" items="${listAge}">
+									<div class="form-check-inline">
+										<form:label path="ages" class="form-check-label">
+											<input type="checkbox" class="form-check-input"
+												value="${age}">
+											${age}
+										</form:label>
+									</div>
+								</c:forEach>
+								<form:input type="file" path="images" name="Image" id="image"
+									multiple="" class="d-none" onchange="image_select()"></form:input>
+								<form:button class="btn btn-sm btn-primary" type="button"
+									onclick="document.getElementById('image').click()">Chọn hình ảnh:</form:button>
+
+							</div>
+							<div class="form-group col-md-6">
+								<form:label path="category">Thể loại:</form:label>
+								<form:select id="inputState" path="category"
+									class="form-control">
+									<c:forEach var="cate" items="${listCategory}">
+										<form:option value="${cate_id}">${cate.categoryName}</form:option>
+									</c:forEach>
+								</form:select>
+							</div>
 						</div>
 
+						<div class="card-body d-flex flex-wrap justify-content-start"
+							id="container">
+							<!-- image preview -->
+						</div>
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary">Lưu sản
+								phẩm</button>
+						</div>
 
 					</form:form>
+
 				</div>
 				<!-- /.container-fluid -->
 
@@ -112,7 +180,55 @@
 
 	<%@include file="end.jsp"%>
 
+	<script type="text/javascript">
+	var images = [];
+ 	  function image_select() {
+ 	  	  var image = document.getElementById('image').files;
+ 	  	  for (i = 0; i < image.length; i++) {
+ 	  	  	  if (check_duplicate(image[i].name)) {
+              images.push({
+ 	  	  	  	    "name" : image[i].name,
+ 	  	  	  	    "url" : URL.createObjectURL(image[i]),
+ 	  	  	  	    "file" : image[i],
+ 	  	  	    })
+ 	  	  	  } else 
+ 	  	  	  {
+ 	  	  	  	 alert(image[i].name + " is already added to the list");
+ 	  	  	  }
+ 	  	  }
+ 	  	  document.getElementById('form').reset();
+ 	  	  document.getElementById('container').innerHTML = image_show();
+ 	  }
 
+ 	  function image_show() {
+ 	  	  var image = "";
+ 	  	  images.forEach((i) => {
+ 	  	  	 image += `<div class="image_container d-flex justify-content-center position-relative">
+ 	  	  	  	  <img src="`+ i.url +`" alt="Image">
+ 	  	  	  	  <span class="position-absolute" onclick="delete_image(`+ images.indexOf(i) +`)">&times;</span>
+ 	  	  	  </div>`;
+ 	  	  })
+ 	  	  return image;
+ 	  }
+ 	  function delete_image(e) {
+ 	  	  images.splice(e, 1);
+ 	  	  document.getElementById('container').innerHTML = image_show();
+ 	  }
+
+ 	  function check_duplicate(name) {
+ 	  	var image = true;
+ 	  	if (images.length > 0) {
+ 	  		for (e = 0; e < images.length; e++) {
+ 	  			if (images[e].name == name) {
+ 	  				image = false;
+ 	  				break;
+ 	  			}
+ 	  		}
+ 	  	}
+ 	  	return image;
+ 	  }
+
+	</script>
 
 </body>
 </html>

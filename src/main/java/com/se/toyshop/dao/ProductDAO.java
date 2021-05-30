@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
+import com.se.toyshop.entity.Brand;
 import com.se.toyshop.entity.Product;
 
 public interface ProductDAO {
@@ -18,4 +19,9 @@ public interface ProductDAO {
 	List<Product> getProductByNameOrSku(String keyword);
 	List<Product> getProductByNameOrSku(String keyword, int page, int limit);
 	void updateProduct(Product product);
+	List<String> getAllGender();
+	List<Brand> getAllBrand();
+	List<String> getAllAge();
+	List<String> getAllMaterial();
+	void  saveProduct(Product product);
 }

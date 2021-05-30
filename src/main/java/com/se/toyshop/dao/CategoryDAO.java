@@ -8,4 +8,5 @@ import com.se.toyshop.entity.Category;
 public interface CategoryDAO {
 	List<String> getAllDescriptions();
 	Map<String, List<Category>> getAllCategories();
+	List<Category> getAllCateroty();
 }

@@ -10,6 +10,8 @@ import org.hibernate.ogm.OgmSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.se.toyshop.dao.ProductDAO;
+import com.se.toyshop.entity.Brand;
+import com.se.toyshop.entity.Gender;
 import com.se.toyshop.entity.Product;
 
 public class ProductDAOImpl implements ProductDAO {
@@ -225,6 +227,77 @@ public class ProductDAOImpl implements ProductDAO {
 		}
 		
 	}
+
+	@Override
+	public List<String> getAllGender() {
+		List<String> list = new ArrayList();
+		for(Gender g : Gender.values()) {
+			list.add(g.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public List<Brand> getAllBrand() {
+		OgmSession session = sessionFactory.getCurrentSession();
+		List<Brand> brands = null;
+		Transaction tran = session.beginTransaction();
+		
+		try {
+			brands  = session.createNativeQuery("db.brands.find({})", Brand.class).getResultList();
+			
+			tran.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		}
+		return brands;
+	}
+
+	@Override
+	public List<String> getAllAge() {
+		OgmSession session = sessionFactory.getCurrentSession();
+		List<String> ages = null;
+		Transaction tran = session.beginTransaction();
+		
+		try {
+			ages  = (List<String>) session.createNativeQuery("db.products.distinct('ages')").getSingleResult();
+			
+			tran.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		}
+		return ages;
+	}
+
+	@Override
+	public List<String> getAllMaterial() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void saveProduct(Product product) {
+		OgmSession session = sessionFactory.getCurrentSession();
+
+		Transaction tran = session.beginTransaction();
+		
+		try {
+			session.saveOrUpdate(product);
+			
+			tran.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		}
+		
+	}
+
+
 
 	
 
