@@ -117,7 +117,7 @@ public class UserImpl implements UserDao {
 		User user = null;
 		try {
 			user = session.createNativeQuery("db.passwordResetTokens.aggregate([{'$match':{'token':'" + token
-					+ "'}},{'$lookup':{from:'users',localField:'user__id',foreignField:'_id',as:'user'}},{'$unwind':'$user'},{'$replaceWith':'$user'}])",
+					+ "'}},{'$lookup':{from:'users',localField:'userId',foreignField:'_id',as:'user'}},{'$unwind':'$user'},{'$replaceWith':'$user'}])",
 					User.class).getSingleResult();
 			trans.commit();
 		} catch (Exception e) {

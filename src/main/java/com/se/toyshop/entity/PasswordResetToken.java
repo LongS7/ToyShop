@@ -29,8 +29,8 @@ public class PasswordResetToken implements Serializable {
 
 	private String token;
 
-	@OneToOne
-	@JoinColumn(nullable = false)
+	@OneToOne(targetEntity = User.class)
+	@JoinColumn(nullable = false, name = "userId")
 	private User user;
 
 	private Date expiryDate;
@@ -88,7 +88,7 @@ public class PasswordResetToken implements Serializable {
 		return EXPIRATION;
 	}
 
-	private Date calculateExpiryDate(final int expiryTimeInMinutes) {
+	public Date calculateExpiryDate(final int expiryTimeInMinutes) {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(new Date().getTime());
 		cal.add(Calendar.MINUTE, expiryTimeInMinutes);

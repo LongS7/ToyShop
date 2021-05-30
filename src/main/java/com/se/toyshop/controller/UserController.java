@@ -216,9 +216,18 @@ public class UserController {
 		if (user == null) {
 			return new ModelAndView("forgotPasswordForm", "message", "Không tìm thấy tài khoản với email này");
 		}
+
+		PasswordResetToken pResetToken = passwordResetTokenDao.findByUserId(user.get_id());
+		
 		String token = UUID.randomUUID().toString();
-		PasswordResetToken myToken = new PasswordResetToken(token, user);
-		passwordResetTokenDao.save(myToken);
+		if (pResetToken == null) {
+			PasswordResetToken myToken = new PasswordResetToken(token, user);
+			passwordResetTokenDao.save(myToken);
+		} else {
+			pResetToken.updateToken(token);
+			passwordResetTokenDao.update(pResetToken);
+		}
+
 		mailSender.send(constructResetTokenEmail(getAppUrl(request), token, user));
 		return new ModelAndView("successPasswordForm", "message",
 				"Chúng tôi đã gửi một hướng dẫn khôi phục mật khẩu đến email của bạn, vui lòng kiểm tra email.");
