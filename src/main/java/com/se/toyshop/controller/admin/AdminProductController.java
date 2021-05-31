@@ -58,6 +58,8 @@ public class AdminProductController {
 	@RequestMapping("/list")
 	public String showListProduct(Model model) {
 		
+		List<Product> list = productDAO.getAllProducts();
+		model.addAttribute("products",list);
 		
 		return "admin/list-product";
 	}
