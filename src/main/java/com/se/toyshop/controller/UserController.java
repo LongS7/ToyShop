@@ -121,10 +121,14 @@ public class UserController {
 		if (errors.hasErrors()) {
 			return new ModelAndView("userInfo");
 		}
-
+		
 		boolean isUpdated = false;
 
 		User tempUser = userDao.findByUsername(user.getAccount().getUsername());
+		
+		user.setRole(tempUser.getRole());
+		user.setShippingAddresses(tempUser.getShippingAddresses());
+		user.setListShoppingCartItem(tempUser.getListShoppingCartItem());
 
 		if (oldPassword != null && newPassword != null && reNewPassword != null) {
 			if (passwordEncoder.matches(oldPassword, tempUser.getAccount().getPassword())

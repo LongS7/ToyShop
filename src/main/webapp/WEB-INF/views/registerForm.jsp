@@ -32,7 +32,7 @@
 	<div class="container  pb-5 pt-5">
 		<div class="row">
 			<div class="col-lg-6">
-				<img alt="Toy" src="${context }/resources/images/baby-natur-Hld-gd-WN7k-unsplash.jpg" width="100%" height="100%">
+				<img alt="Toy" src="${context }/resources/images/baby-natur-Hld-gd-WN7k-unsplash.jpg" width="100%" height="100%" class="rounded">
 			</div>
 			<div class="col-lg-6">
 				<h4>ĐĂNG KÝ TÀI KHOẢN CỦA BẠN</h4>
