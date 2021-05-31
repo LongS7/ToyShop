@@ -31,6 +31,8 @@ public class AdminHomeController {
 		
 		mav.addObject("totalOfMonth", orderDAO.getTotalMoneyOfMonth(LocalDate.now()));
 		mav.addObject("totalOfDay", orderDAO.getTotalMoneyOfDay(LocalDate.now()));
+		mav.addObject("orderCount", orderDAO.getOrderCount());
+		mav.addObject("userCount", userDao.getQuantityFemaleUser() + userDao.getQuantityMaleUser());
 		
 		Map<Integer, Double> map = orderDAO.getTotalMoneyOfYear(LocalDate.now().getYear());
 		

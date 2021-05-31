@@ -20,7 +20,7 @@
 <script src="${ context }/resources/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="${ context }/resources/fontawesome-free-5.15.3-web/css/all.css">
-<title>Insert title here</title>
+<title> Chi tiết đơn hàng </title>
 <style>
 	.order-product-name {
 		font-size: 1.1rem;
