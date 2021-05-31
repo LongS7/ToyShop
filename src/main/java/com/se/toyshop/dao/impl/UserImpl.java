@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.se.toyshop.dao.UserDao;
+import com.se.toyshop.dto.UserDto;
 import com.se.toyshop.entity.User;
 
 public class UserImpl implements UserDao {
@@ -135,7 +136,9 @@ public class UserImpl implements UserDao {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction trans = session.beginTransaction();
 		try {
-			users = session.createNativeQuery("db.users.find({})", User.class).getResultList();
+			users = session.createNativeQuery(
+					"db.users.aggregate([{'$lookup':{'from':'orders', 'localField':'_id', 'foreignField':'userId', 'as':'rs'}}, {'$addFields':{'totalOrder':{'$size':'$rs'}}}, {'$project':{'rs':0, 'listShoppingCartItem':0}}])",
+					User.class).getResultList();
 			trans.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -187,10 +190,39 @@ public class UserImpl implements UserDao {
 					.getSingleResult().toString());
 			trans.commit();
 		} catch (Exception e) {
-			e.printStackTrace();
 			trans.rollback();
 		}
 		return quantity;
+	}
+
+	@Override
+	public List<Integer> getTotalOrder() {
+		List<Integer> totalOrder = null;
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		try {
+			totalOrder = session.createNativeQuery(
+					"db.users.aggregate([{'$lookup':{'from':'orders', 'localField':'_id', 'foreignField':'userId', 'as':'rs'}}, {'$project':{'totalOrder':{'$size':'$rs'}, '_id':0}}])")
+					.getResultList();
+			trans.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			trans.rollback();
+		}
+		return totalOrder;
+	}
+
+	@Override
+	public void delete(User user) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		try {
+			session.delete(user);
+			trans.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			trans.rollback();
+		}
 	}
 
 }

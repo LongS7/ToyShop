@@ -89,6 +89,9 @@ public class OrderController {
 			return new ModelAndView("redirect:/mycart/");
 		
 		for(ShoppingCartItem item : cartItems) {
+			if(item.getQuantity() > item.getProduct().getUnitInStock())
+				return new ModelAndView("redirect:/mycart/");
+			
 			order.addOrderDetail(item.getProduct(), item.getQuantity());
 		}
 		

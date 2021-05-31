@@ -21,7 +21,7 @@
 <script src="${ context }/resources/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="${ context }/resources/fontawesome-free-5.15.3-web/css/all.css">
-<title>Document</title>
+<title> Giỏ hàng của tôi </title>
 <style>
 .thematic_break {
 	border-top: 1px solid black;
@@ -57,49 +57,55 @@ img {
 			<div class="row p-3">
 				<div class="col-sm-6">
 					<h5>THÔNG TIN GIỎ HÀNG (${ cart.size() } sản phẩm)</h5>
-					<table style="width: 100%">
-						<c:forEach var="item" items="${ cart }">
-							<c:set var="total" value="${ total + item.product.price * item.quantity }"></c:set>
-							<c:set var="totalDiscount" value="${ totalDiscount + item.product.price * item.product.discount * item.quantity }"></c:set>
-							<tr>
-								<td colspan="4">
-									<hr>
-								</td>
-							</tr>
-							<tr>
-								<td rowspan="2"><img src="data:image/png;base64,${ item.product.images[0] }" alt="${ item.product.name }"></td>
-								<td><a href="${ context }/product?${ item.product._id }">${ item.product.name }</a></td>
-								<td class="text-danger"><strong><fmt:formatNumber value="${ item.product.price * (1 - item.product.discount)}" type="currency"/> </strong></td>
-								<c:if test="${ item.product.discount > 0 }">
-									<td class="text-danger"><strong  style="text-decoration: line-through;"><fmt:formatNumber value="${ item.product.price }" type="currency"/> </strong></td>									
-								</c:if>
-							</tr>
-							<tr>
-								<td><a href="remove?productId=${ item.product._id }" type="button" class="btn btn-light">Xóa</a></td>
-								
-								<td></td>
-								<td >
-									<form action="list" method="post" style="min-width: 150px;">
-										<input name="productId" type="text" value="${ item.product._id }" hidden="hidden">
-										<div class="input-group">
-											<div class="input-group-append">
-										    	<button class="btn btn-secondary" onclick="decreaseQuantity(this)"><i class="fas fa-minus"></i></button>
-										  	</div>
-										  	<input name="q" type="text" class="form-control text-center" value="${ item.quantity }" style="width: 20px;" >
-										  	<div class="input-group-append">
-										    	<button class="btn btn-secondary" onclick="increaseQuantity(this)"><i class="fas fa-plus"></i></button>
-										  	</div>
-										</div>
-									</form>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="4">
-									<hr>
-								</td>
-							</tr>
-						</c:forEach>
-					</table> 
+					<div class="table-responsive">
+						<table style="width: 100%">
+							<c:forEach var="item" items="${ cart }">
+								<c:set var="total" value="${ total + item.product.price * item.quantity }"></c:set>
+								<c:set var="totalDiscount" value="${ totalDiscount + item.product.price * item.product.discount * item.quantity }"></c:set>
+								<tr>
+									<td colspan="4">
+										<hr>
+									</td>
+								</tr>
+								<tr>
+									<td rowspan="2"><img src="data:image/png;base64,${ item.product.images[0] }" alt="${ item.product.name }"></td>
+									<td style="min-width: 200px;"><a href="${ context }/product?${ item.product._id }">${ item.product.name }</a></td>
+									<td class="text-danger"><strong><fmt:formatNumber value="${ item.product.price * (1 - item.product.discount)}" type="currency"/> </strong></td>
+									<c:if test="${ item.product.discount > 0 }">
+										<td class="text-danger"><strong  style="text-decoration: line-through;"><fmt:formatNumber value="${ item.product.price }" type="currency"/> </strong></td>									
+									</c:if>
+								</tr>
+								<tr>
+									<td><a href="remove?productId=${ item.product._id }" type="button" class="btn btn-light">Xóa</a></td>
+									
+									<td></td>
+									<td >
+										<form action="list" method="post" style="min-width: 150px;">
+											<input name="productId" type="text" value="${ item.product._id }" hidden="hidden">
+											<div class="input-group">
+												<div class="input-group-append">
+											    	<button class="btn btn-secondary" onclick="decreaseQuantity(this)"><i class="fas fa-minus"></i></button>
+											  	</div>
+											  	<input name="q" type="text" class="form-control text-center" value="${ item.quantity }" style="width: 20px;" onkeypress="return onKeyPress(this, event)" >
+											  	<div class="input-group-append">
+											    	<button class="btn btn-secondary" onclick="increaseQuantity(this)"><i class="fas fa-plus"></i></button>
+											  	</div>
+											</div>
+										</form>
+										
+										<c:if test="${ item.quantity > item.product.unitInStock }">
+											<span class="error"> Số lượng còn lại không đủ </span>
+										</c:if>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4">
+										<hr>
+									</td>
+								</tr>
+							</c:forEach>
+						</table> 
+					</div>
 					<a href="${ context }" class="btn btn-outline-danger">Tiếp tục mua sắm</a>
 				</div>
 				<div class="col-sm-6">

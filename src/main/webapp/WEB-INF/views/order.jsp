@@ -20,7 +20,7 @@
 <script src="${ context }/resources/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="${ context }/resources/fontawesome-free-5.15.3-web/css/all.css">
-<title>Insert title here</title>
+<title> Đơn hàng của tôi </title>
 </head>
 <body>
 	<fmt:setLocale value="vi_VN"/>
