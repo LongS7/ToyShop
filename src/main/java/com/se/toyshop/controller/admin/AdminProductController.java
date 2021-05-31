@@ -3,10 +3,13 @@ package com.se.toyshop.controller.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -100,8 +103,31 @@ public class AdminProductController {
 	
 	
 	@RequestMapping(value = "/saveProduct",method = RequestMethod.POST)
-	public String saveProduct(@ModelAttribute("product") Product product) {
-		
+	public String saveProduct(@Valid @ModelAttribute("product") Product product,Errors errors,Model model) {
+		if(errors.hasErrors()) {
+			// gender
+			List<String> listGender = productDAO.getAllGender();
+			
+			//brands
+			List<Brand> listBrand = productDAO.getAllBrand();
+			
+			//age
+			List<String> listAge = productDAO.getAllAge();
+			
+			//category
+			List<Category> listCategory = categoryDAO.getAllCateroty();
+			
+			
+			
+			
+			model.addAttribute("product",product);
+			model.addAttribute("listGender",listGender);
+			model.addAttribute("listBrand",listBrand);
+			model.addAttribute("listAge",listAge);
+			model.addAttribute("listCategory",listCategory);
+			
+			return "admin/product-form";
+		}
 //		product.setGender(Gender.valueOf(String.valueOf(product.getGender())));
 		
 		System.out.println(product);

@@ -16,6 +16,11 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.bson.types.ObjectId;
 import org.hibernate.ogm.options.shared.IndexOption;
@@ -33,17 +38,27 @@ public class Product implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private ObjectId _id;
+	
+	@NotBlank(message = "Vui lòng nhập mã Sku")
 	private String sku;
+	
+	@NotBlank(message = "Vui lòng nhập tên sản phẩm")
 	private String name;
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> images;
+	
+	@DecimalMin(value = "0.0",message = "Giá sản phẩm phải lớn hơn 0")
 	private double price;
+	
+	@NotBlank(message = "Vui lòng nhập mô tả sản phẩm")
 	private String description;
 	private String origin;
 	
 	@ElementCollection(fetch = FetchType.EAGER)
+	@NotEmpty(message = "Vui lòng nhập chất liệu sản phẩm")
 	private List<String> materials;
+	@DecimalMin(value = "0.0",message = "Giảm giá phải lớn hơn 0")
 	private float discount;
 	private int unitInStock;
 	

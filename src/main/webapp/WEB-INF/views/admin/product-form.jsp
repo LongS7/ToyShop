@@ -80,15 +80,18 @@
 						<div class="form-group">
 							<form:label path="name">Tên sản phẩm:</form:label>
 							<form:input type="text" path="name" class="form-control"></form:input>
-						</div>
+							<form:errors path="name" cssClass="text-danger"/>
+						</div> 
 						<div class="form-row">
 							<div class="form-group col-md-4">
 								<form:label path="price">Giá:</form:label>
 								<form:input type="text" path="price" class="form-control"></form:input>
+								<form:errors path="price" cssClass="text-danger"/>
 							</div>
 							<div class="form-group col-md-4">
 								<form:label path="sku">Sku:</form:label>
 								<form:input type="text" path="sku" class="form-control"></form:input>
+								<form:errors path="sku" cssClass="text-danger"/>
 							</div>
 							<div class="form-group col-md-4">
 								<form:label path="brand._id">Thương hiệu:</form:label>
@@ -104,17 +107,20 @@
 						<div class="form-group">
 							<form:label path="description">Mô tả sản phẩm:</form:label>
 							<form:textarea path="description" class="form-control" rows="3"></form:textarea>
+							<form:errors path="description" cssClass="text-danger"/>
 						</div>
 
 						<div class="form-row">
 							<div class="form-group col-md-4">
 								<form:label path="materials">Chất liệu:</form:label>
 								<form:input type="text" path="materials" class="form-control"></form:input>
+								<form:errors path="materials" cssClass="text-danger"/>
 							</div>
 							<div class="form-group col-md-4">
 								<form:label path="discount">Giảm giá:</form:label>
 								<form:input type="text" path="discount" class="form-control"
 									placeholder="Enter discount"></form:input>
+								<form:errors path="discount" cssClass="text-danger"/>
 							</div>
 							<div class="form-group col-md-4">
 								<form:label path="gender">Giới tính:</form:label>
@@ -180,7 +186,7 @@
 	<%@include file="end.jsp"%>
 
 	<script type="text/javascript">
-	var images = [];
+		var images = [];
  	  function image_select() {
  	  	  var image = document.getElementById('image').files;
  	  	  for (i = 0; i < image.length; i++) {
@@ -195,7 +201,6 @@
  	  	  	  	 alert(image[i].name + " is already added to the list");
  	  	  	  }
  	  	  }
- 	  	  document.getElementById('form').reset();
  	  	  document.getElementById('container').innerHTML = image_show();
  	  }
 
