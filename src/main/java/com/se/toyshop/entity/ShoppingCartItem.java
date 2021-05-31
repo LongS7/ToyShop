@@ -68,7 +68,7 @@ public class ShoppingCartItem implements Serializable {
 		if (product == null) {
 			if (other.product != null)
 				return false;
-		} else if (!product.equals(other.product))
+		} else if (!product.get_id().equals(other.product.get_id()))
 			return false;
 		return true;
 	}

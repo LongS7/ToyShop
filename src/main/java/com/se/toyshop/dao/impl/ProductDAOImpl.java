@@ -339,4 +339,19 @@ public class ProductDAOImpl implements ProductDAO {
 		return category;
 	}
 
+	@Override
+	public void deleteProduct(ObjectId id) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tran = session.beginTransaction();
+		try {
+			Product temp = session.find(Product.class, id);
+			session.delete(temp);
+			tran.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		}
+		
+	}
+
 }

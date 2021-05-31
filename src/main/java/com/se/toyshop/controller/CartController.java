@@ -143,12 +143,12 @@ public class CartController {
 			
 			session.setAttribute("myCart", cartItems);
 			
-			return new ModelAndView("cart", "cart", cartItems);
+			return new ModelAndView("redirect:/mycart/");
 		} 
-		
+				
 		cartDAO.updateCartItem(user, cartItem);
 		
-		return new ModelAndView("cart", "cart", user.getListShoppingCartItem());
+		return new ModelAndView("redirect:/mycart/");
 	}
 	
 	private User getCurrentUser() {

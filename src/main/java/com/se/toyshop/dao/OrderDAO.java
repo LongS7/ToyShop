@@ -18,7 +18,7 @@ public interface OrderDAO {
 	double getTotalMoneyOfDay(LocalDate date);
 	double getTotalMoneyOfMonth(LocalDate date);
 	Map<Integer, Double> getTotalMoneyOfYear(int year);
-	int getOrderCount();
+	long getOrderCount();
 	List<Order> find(String keyword);
 	List<Order> getOrders(LocalDate dateFrom, LocalDate dateTo, int state, int page, int sortDate);
 }

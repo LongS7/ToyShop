@@ -38,6 +38,8 @@ public interface ProductDAO {
 	List<String> getAllAge();
 
 	List<String> getAllMaterial();
+	
+	void deleteProduct(ObjectId id);
 
 	void saveProduct(Product product);
 	

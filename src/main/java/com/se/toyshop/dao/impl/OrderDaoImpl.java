@@ -331,8 +331,23 @@ public class OrderDaoImpl implements OrderDAO {
 	}
 
 	@Override
-	public int getOrderCount() {
-		// TODO Auto-generated method stub
+	public long getOrderCount() {
+		OgmSession session = sessionFactory.getCurrentSession();
+
+		Transaction tran = session.beginTransaction();
+		
+		try {
+			long rs = (long)(session.createNativeQuery("db.orders.count()").getSingleResult());
+			
+			tran.commit();
+			
+			return rs;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		}
+		
 		return 0;
 	}
 

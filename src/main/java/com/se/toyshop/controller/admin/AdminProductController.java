@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.se.toyshop.dao.CategoryDAO;
 import com.se.toyshop.dao.ProductDAO;
@@ -53,14 +54,50 @@ public class AdminProductController {
 		
 		return "admin/product-form";
 	}
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public String showFormForEdit(@RequestParam("productId") ObjectId productId,Model model) {
+		Product product = productDAO.getProductById(productId);
+		model.addAttribute("product",product);
+		
+		
+		
+		// gender
+		List<String> listGender = productDAO.getAllGender();
+		
+		//brands
+		List<Brand> listBrand = productDAO.getAllBrand();
+		
+		//age
+		List<String> listAge = productDAO.getAllAge();
+		
+		//category
+		List<Category> listCategory = categoryDAO.getAllCateroty();
+		
 	
+		
+		
+	
+		model.addAttribute("listGender",listGender);
+		model.addAttribute("listBrand",listBrand);
+		model.addAttribute("listAge",listAge);
+		model.addAttribute("listCategory",listCategory);
+		return "admin/product-form";
+	}
+	@RequestMapping(value = "/delete",method = RequestMethod.GET)
+	public String deleteProduct(@RequestParam("productId") ObjectId productId) {
+		productDAO.deleteProduct(productId);
+		return "redirect:/admin/manage-products/list";
+	}
 	
 	@RequestMapping("/list")
 	public String showListProduct(Model model) {
 		
+		List<Product> list = productDAO.getAllProducts();
+		model.addAttribute("products",list);
 		
 		return "admin/list-product";
 	}
+	
 	
 	@RequestMapping(value = "/saveProduct",method = RequestMethod.POST)
 	public String saveProduct(@ModelAttribute("product") Product product) {

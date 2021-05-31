@@ -11,3 +11,11 @@ function decreaseQuantity(btn){
 	else
 		return
 }
+
+function onKeyPress(q, e) {
+	if (e.keyCode == 13) {
+        q.form.submit()
+        return false
+    } else
+    	return true
+}
