@@ -57,8 +57,7 @@ div.dataTables_wrapper {
 						sách sản phẩm</h1>
 
 
-					<table id="example" class="display nowrap"
-						style="width: 100%">
+					<table id="example" class="display nowrap" style="width: 100%">
 						<thead>
 							<tr>
 								<th>#</th>
@@ -73,23 +72,39 @@ div.dataTables_wrapper {
 						</thead>
 						<tbody>
 							<c:forEach var="product" items="${products }" varStatus="stt">
+								<c:url var="editUrl" value="/admin/manage-products/edit">
+									<c:param name="productId" value="${product._id}" />
+								</c:url>
+								<c:url var="deleteUrl" value="/admin/manage-products/delete">
+									<c:param name="productId" value="${product._id}" />
+								</c:url>
 								<tr>
 									<td>${stt.index + 1}</td>
 									<td>${product.name}</td>
 									<td>${product.sku}</td>
 									<td>${product.price}</td>
 									<td>${product.brand.name}</td>
-									<td><button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#editUserInfoModal">Chỉnh sửa</button>
-														&nbsp; <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#detailUserInfoModal">Xem chi tiết</button>
-													</td>
-
+									<td>
+										<a href="${editUrl}"><button type="button"
+												class="btn btn-outline-info" data-toggle="modal"
+												data-target="#editUserInfoModal">Cập nhật</button></a> 
+										&nbsp;
+										<button type="button" class="btn btn-outline-success"
+											data-toggle="modal" data-target="#detailUserInfoModal">Xem
+											chi tiết</button>
+										&nbsp;
+										<a href="${deleteUrl}"><button type="button"
+												class="btn btn-outline-danger" data-toggle="modal"
+												data-target="#deleteUserInfoModal">Xóa</button></a> 
+									</td>
+										
 								</tr>
 							</c:forEach>
 
 						</tbody>
 					</table>
 
-					
+
 				</div>
 				<!-- /.container-fluid -->
 
