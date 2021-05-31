@@ -77,6 +77,9 @@ div.dataTables_wrapper {
 								<c:url var="deleteUrl" value="/admin/manage-products/delete">
 									<c:param name="productId" value="${product._id}" />
 								</c:url>
+								<c:url var="viewUrl" value="/admin/manage-products/view">
+									<c:param name="productId" value="${product._id}" />
+								</c:url>
 								<tr>
 									<td>${stt.index + 1}</td>
 									<td>${product.name}</td>
@@ -88,9 +91,9 @@ div.dataTables_wrapper {
 												class="btn btn-outline-info" data-toggle="modal"
 												data-target="#editUserInfoModal">Cập nhật</button></a> 
 										&nbsp;
-										<button type="button" class="btn btn-outline-success"
+										<a href="${viewUrl}"><button type="button" class="btn btn-outline-success"
 											data-toggle="modal" data-target="#detailUserInfoModal">Xem
-											chi tiết</button>
+											chi tiết</button></a>
 										&nbsp;
 										<a href="${deleteUrl}"><button type="button"
 												class="btn btn-outline-danger" data-toggle="modal"
