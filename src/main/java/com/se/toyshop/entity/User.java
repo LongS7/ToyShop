@@ -53,7 +53,6 @@ public class User implements Serializable{
 
 	@Column(unique = true)
 	@NotNull(message = "Email không được để trống")
-//	@Pattern(regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", message = "Email phải đúng định dạng")
 	@Email(message = "Email không đúng định dạng")
 	private String email;
 
@@ -67,7 +66,6 @@ public class User implements Serializable{
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<ShippingAddress> shippingAddresses = new ArrayList<ShippingAddress>();
 
-//	@OneToOne(cascade = { CascadeType.ALL })
 	@Embedded
 	@NotNull()
 	@Valid

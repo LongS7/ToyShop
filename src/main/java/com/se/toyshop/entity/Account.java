@@ -8,13 +8,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-//@Entity
-//@Table(name = "accounts", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
 @Embeddable
 public class Account implements Serializable{
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private ObjectId _id;
 	
 /**
 	 * 
