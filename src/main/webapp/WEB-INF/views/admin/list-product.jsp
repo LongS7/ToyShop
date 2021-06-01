@@ -56,55 +56,67 @@ div.dataTables_wrapper {
 					<h1 class="h3 mb-2 text-gray-800 row justify-content-center">Danh
 						sách sản phẩm</h1>
 
-					<div class="table-responsive">
-					<table id="example" class="table" style="width: 100%">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Tên sản phẩm</th>
-								<th>Sku</th>
-								<th>Giá</th>
-								<th colspan="" style="min-width: 280px;text-align: center;">Hành động</th>
-
-							</tr>
-
-						</thead>
-						<tbody>
-							<c:forEach var="product" items="${products }" varStatus="stt">
-								<c:url var="editUrl" value="/admin/manage-products/edit">
-									<c:param name="productId" value="${product._id}" />
-								</c:url>
-								<c:url var="deleteUrl" value="/admin/manage-products/delete">
-									<c:param name="productId" value="${product._id}" />
-								</c:url>
-								<c:url var="viewUrl" value="/admin/manage-products/view">
-									<c:param name="productId" value="${product._id}" />
-								</c:url>
-								<tr>
-									<td>${stt.index + 1}</td>
-									<td>${product.name}</td>
-									<td>${product.sku}</td>
-									<td>${product.price}</td>
-				
-									<td>
-										<a href="${editUrl}"><button type="button"
-												class="btn btn-outline-info" data-toggle="modal"
-												data-target="#editUserInfoModal">Cập nhật</button></a> 
-										&nbsp;
-										<a href="${viewUrl}"><button type="button" class="btn btn-outline-success"
-											data-toggle="modal" data-target="#detailUserInfoModal">Xem
-											chi tiết</button></a>
-										&nbsp;
-										<a href="${deleteUrl}"><button type="button"
-												class="btn btn-outline-danger" data-toggle="modal"
-												data-target="#deleteUserInfoModal">Xóa</button></a> 
-									</td>
-										
-								</tr>
-							</c:forEach>
-
-						</tbody>
-					</table>
+					<div class="row">
+						<div class="col-xl-12 col-lg-12">
+							<div class="card shadow mb-4">
+								<!-- Card Header - Dropdown -->
+								<div
+									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+									<h6 class="m-0 font-weight-bold text-primary">Danh sách sản phẩm</h6>
+								</div>
+								<!-- Card Body -->
+								<div class="card-body">
+										<table id="example" class="table table-hover">
+											<thead class="thead-light">
+												<tr>
+													<th>#</th>
+													<th>Tên sản phẩm</th>
+													<th>Sku</th>
+													<th>Giá</th>
+													<th colspan="" style="min-width: 280px;text-align: center;">Hành động</th>
+					
+												</tr>
+					
+											</thead>
+											<tbody>
+												<c:forEach var="product" items="${products }" varStatus="stt">
+													<c:url var="editUrl" value="/admin/manage-products/edit">
+														<c:param name="productId" value="${product._id}" />
+													</c:url>
+													<c:url var="deleteUrl" value="/admin/manage-products/delete">
+														<c:param name="productId" value="${product._id}" />
+													</c:url>
+													<c:url var="viewUrl" value="/admin/manage-products/view">
+														<c:param name="productId" value="${product._id}" />
+													</c:url>
+													<tr>
+														<td>${stt.index + 1}</td>
+														<td>${product.name}</td>
+														<td>${product.sku}</td>
+														<td>${product.price}</td>
+									
+														<td>
+															<a href="${editUrl}"><button type="button"
+																	class="btn btn-outline-info" data-toggle="modal"
+																	data-target="#editUserInfoModal">Cập nhật</button></a> 
+															&nbsp;
+															<a href="${viewUrl}"><button type="button" class="btn btn-outline-success"
+																data-toggle="modal" data-target="#detailUserInfoModal">Xem
+																chi tiết</button></a>
+															&nbsp;
+															<a href="${deleteUrl}"><button type="button"
+																	class="btn btn-outline-danger" data-toggle="modal"
+																	data-target="#deleteUserInfoModal">Xóa</button></a> 
+														</td>
+															
+													</tr>
+												</c:forEach>
+					
+											</tbody>
+										</table>
+								</div>
+							</div>
+						</div>
 					</div>
 
 				</div>
