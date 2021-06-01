@@ -107,6 +107,7 @@ public class OrderController {
 			return "redirect:/user/login";
 		
 		order.setUser(user);
+		order.setState(1);
 		
 		if(pos >= 0 && pos < user.getShippingAddresses().size())
 			order.setShippingAddress(user.getShippingAddresses().get(pos));
@@ -119,6 +120,9 @@ public class OrderController {
 		for(ShoppingCartItem item : cartItems) {
 			order.addOrderDetail(item.getProduct(), item.getQuantity());
 		}
+		
+		if(order.getOrderDetails() == null || order.getOrderDetails().size() == 0)
+			return "redirect:/mycart/list";
 		
 		order.setOrderDate(LocalDate.now());
 		

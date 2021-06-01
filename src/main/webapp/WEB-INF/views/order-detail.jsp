@@ -72,7 +72,7 @@
 				                <div class="order-item row">
 				                    <div class="col-sm-2 col-5 mt-auto mb-auto"><img src="data:image/png;base64,${ item.product.images[0] }" style="width: 100%;"/></div>
 				                    <div class="col-sm-10 col-7 mt-auto mb-auto">
-				                        <div class="order-product-name"> <a href="${ context }/product/${ item.product._id }">${ item.product.name }</a> </div>
+				                        <div class="order-product-name"> <a href="${ context }/san-pham/${ item.product._id }">${ item.product.name }</a> </div>
 				                        <div class="order-product-origin"> Xuất xứ: ${ item.product.origin } </div>
 				                        <div class="order-product-sku"> Sku: ${ item.product.sku } </div>
 				                    </div>
