@@ -94,14 +94,13 @@
 					<tr>
 						<th>Hình ảnh</th>
 						<c:if test="${fn:length(product.images) gt 0}">
-							<c:forEach items="${product.images}" var="image">
-								<td>
-								
-									<img src="data:image/png;base64,${image}" alt=""/>
-								
-									
-								</td>
-							</c:forEach>
+							<td>
+								<div class="row">
+									<c:forEach items="${product.images}" var="image">
+										<img src="data:image/png;base64,${image}" alt="" class="col-3 mb-1"/>
+									</c:forEach>
+								</div>
+							</td>
 						</c:if>
 					</tr>
 				</table>
