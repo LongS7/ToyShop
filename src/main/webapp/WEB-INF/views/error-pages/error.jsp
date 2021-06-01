@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Không thể truy cập</title>
+<title>Lỗi</title>
 <c:set var="context" value="${ pageContext.request.contextPath }" />
 <link rel="shortcut icon" href='<c:url value="/resources/images/favicon.ico" />' type="image/x-icon">
 <link rel="icon" href='<c:url value="/resources/images/favicon.ico" />' type="image/x-icon">
@@ -22,8 +22,8 @@
 	<%@include file="/WEB-INF/views/navigationBar.jsp"%>
 		
 	<div class="text-center p-5" style="height: 300px;">
-	<h3 class="mb-5" style="">404</h3>
-		<h4 class="mb-5">Không thể truy cập vào nguồn này!</h4>
+	<h3 class="mb-5" style="">500</h3>
+		<h4 class="mb-5">Có lỗi đã xảy ra trong quá trình xử lý!</h4>
 		<a href="${ context }" class="btn btn-outline-danger ml-auto mr-auto">Quay lại trang chủ</a>
 	</div>
 	

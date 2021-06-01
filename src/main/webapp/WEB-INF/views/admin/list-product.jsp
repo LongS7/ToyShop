@@ -56,16 +56,15 @@ div.dataTables_wrapper {
 					<h1 class="h3 mb-2 text-gray-800 row justify-content-center">Danh
 						sách sản phẩm</h1>
 
-
-					<table id="example" class="display nowrap" style="width: 100%">
+					<div class="table-responsive">
+					<table id="example" class="table" style="width: 100%">
 						<thead>
 							<tr>
 								<th>#</th>
 								<th>Tên sản phẩm</th>
 								<th>Sku</th>
 								<th>Giá</th>
-								<th>Thương hiệu</th>
-								<td colspan="">Hành động</td>
+								<th colspan="" style="min-width: 280px;text-align: center;">Hành động</th>
 
 							</tr>
 
@@ -78,20 +77,23 @@ div.dataTables_wrapper {
 								<c:url var="deleteUrl" value="/admin/manage-products/delete">
 									<c:param name="productId" value="${product._id}" />
 								</c:url>
+								<c:url var="viewUrl" value="/admin/manage-products/view">
+									<c:param name="productId" value="${product._id}" />
+								</c:url>
 								<tr>
 									<td>${stt.index + 1}</td>
 									<td>${product.name}</td>
 									<td>${product.sku}</td>
 									<td>${product.price}</td>
-									<td>${product.brand.name}</td>
+				
 									<td>
 										<a href="${editUrl}"><button type="button"
 												class="btn btn-outline-info" data-toggle="modal"
 												data-target="#editUserInfoModal">Cập nhật</button></a> 
 										&nbsp;
-										<button type="button" class="btn btn-outline-success"
+										<a href="${viewUrl}"><button type="button" class="btn btn-outline-success"
 											data-toggle="modal" data-target="#detailUserInfoModal">Xem
-											chi tiết</button>
+											chi tiết</button></a>
 										&nbsp;
 										<a href="${deleteUrl}"><button type="button"
 												class="btn btn-outline-danger" data-toggle="modal"
@@ -103,7 +105,7 @@ div.dataTables_wrapper {
 
 						</tbody>
 					</table>
-
+					</div>
 
 				</div>
 				<!-- /.container-fluid -->
@@ -129,7 +131,7 @@ div.dataTables_wrapper {
 	<script>
 		$(document).ready(function() {
 			$('#example').DataTable({
-				"scrollY" : 200,
+				"scrollY" : 450,
 				"scrollX" : true
 			});
 		});

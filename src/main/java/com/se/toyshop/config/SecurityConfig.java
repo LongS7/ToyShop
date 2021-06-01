@@ -45,12 +45,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.rememberMe() //Default token valid for up to two weeks, default private key is SpringSecured
 		.userDetailsService(new CustomUserDetailsService(userImpl))
 		.and()
+		.exceptionHandling().accessDeniedPage("/403")
+		.and()
 		.logout()
 		.logoutSuccessUrl("/")
 		.and()
 		.authorizeRequests()
-		.antMatchers("/user/edit", "/order/my-order", "/order/add", "/admin", "/admin/manage-orders/", "/admin/manage-users/").hasAnyRole("USER", "ADMIN")
-		.antMatchers("/user/address").hasAnyRole("USER","ADMIN")
+		.antMatchers("/user/edit", "/user/address", "/order/**").hasAnyRole("USER", "ADMIN")
+		.antMatchers("/admin", "/admin/**").hasRole("ADMIN")
 		.anyRequest().permitAll();
 	}
 
