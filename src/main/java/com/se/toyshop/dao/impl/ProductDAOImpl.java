@@ -301,7 +301,7 @@ public class ProductDAOImpl implements ProductDAO {
 		Transaction tran = session.beginTransaction();
 
 		try {
-			session.saveOrUpdate(product);
+			session.save(product);
 			tran.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -30,6 +30,7 @@ public class AdminProductController {
 	@Autowired
 	private CategoryDAO categoryDAO;
 
+	private ObjectId currentId = null;
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String showFormForAdd(Model model) {
 
@@ -46,13 +47,13 @@ public class AdminProductController {
 		List<Category> listCategory = categoryDAO.getAllCateroty();
 
 		Product product = new Product();
-		
 
 		model.addAttribute("product", product);
 		model.addAttribute("listGender", listGender);
 		model.addAttribute("listBrand", listBrand);
 		model.addAttribute("listAge", listAge);
 		model.addAttribute("listCategory", listCategory);
+		model.addAttribute("isUpdate", false);
 
 		return "admin/product-form";
 	}
@@ -60,6 +61,7 @@ public class AdminProductController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String showFormForEdit(@RequestParam("productId") ObjectId productId, Model model) {
 		Product product = productDAO.getProductById(productId);
+		currentId = productId;
 		model.addAttribute("product", product);
 
 		// gender
@@ -74,11 +76,11 @@ public class AdminProductController {
 		// category
 		List<Category> listCategory = categoryDAO.getAllCateroty();
 
-		
 		model.addAttribute("listGender", listGender);
 		model.addAttribute("listBrand", listBrand);
 		model.addAttribute("listAge", listAge);
 		model.addAttribute("listCategory", listCategory);
+		model.addAttribute("isUpdate", true);
 		return "admin/product-form";
 	}
 
@@ -87,11 +89,11 @@ public class AdminProductController {
 		productDAO.deleteProduct(productId);
 		return "redirect:/admin/manage-products/list";
 	}
-	
+
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public String viewProduct(@RequestParam("productId") ObjectId productId,Model model) {
+	public String viewProduct(@RequestParam("productId") ObjectId productId, Model model) {
 		Product product = productDAO.getProductById(productId);
-		model.addAttribute("product",product);
+		model.addAttribute("product", product);
 		return "admin/product-detail";
 	}
 
@@ -129,10 +131,44 @@ public class AdminProductController {
 		}
 //		product.setGender(Gender.valueOf(String.valueOf(product.getGender())));
 		else {
-				productDAO.saveProduct(product);
-
+			productDAO.saveProduct(product);
+			System.out.println(product.get_id());
 			return "redirect:/admin/manage-products/list";
 		}
+	}
+
+	@RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
+	public String updateProduct(@Valid @ModelAttribute("product") Product product, Errors errors, Model model) {
 		
+		if (errors.hasErrors()) {
+			// gender
+			List<String> listGender = productDAO.getAllGender();
+
+			// brands
+			List<Brand> listBrand = productDAO.getAllBrand();
+
+			// age
+			List<String> listAge = productDAO.getAllAge();
+
+			// category
+			List<Category> listCategory = categoryDAO.getAllCateroty();
+
+			model.addAttribute("product", product);
+			model.addAttribute("listGender", listGender);
+			model.addAttribute("listBrand", listBrand);
+			model.addAttribute("listAge", listAge);
+			model.addAttribute("listCategory", listCategory);
+
+			return "admin/product-form";
+		}
+
+		else {
+			product.set_id(currentId);
+			productDAO.updateProduct(product);
+			System.out.println(product.get_id());
+			System.out.println(product.getName());
+			return "redirect:/admin/manage-products/list";
+		}
+
 	}
 }
