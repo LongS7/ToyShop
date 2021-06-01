@@ -27,6 +27,10 @@ public class AdminHomeController {
 	
 	@RequestMapping("/admin")
 	public ModelAndView home() {
+		User user = getCurrentUser();
+		if(user == null)
+			return new ModelAndView("redirect:/user/login");
+		
 		ModelAndView mav = new ModelAndView("admin/home");
 		
 		mav.addObject("totalOfMonth", orderDAO.getTotalMoneyOfMonth(LocalDate.now()));
@@ -95,11 +99,7 @@ public class AdminHomeController {
 		
 		mav.addObject("labels", labels);
 		mav.addObject("data", data);
-		
-		User user = getCurrentUser();
-		if(user == null)
-			return new ModelAndView("redirect:/user/login");
-		
+				
 		return mav;
 	}
 	

@@ -1,10 +1,13 @@
 package com.se.toyshop.interceptor;
 
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -29,6 +32,8 @@ public class MenuHandlerInteceptor implements HandlerInterceptor {
 			request.setAttribute("categories", categoryDAO.getAllCategories());
 		
 		User user = getCurrentUser();
+		
+		Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		
 		request.setAttribute("currentUser", user);
 		

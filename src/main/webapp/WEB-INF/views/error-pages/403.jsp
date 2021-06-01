@@ -22,7 +22,7 @@
 	<%@include file="/WEB-INF/views/navigationBar.jsp"%>
 		
 	<div class="text-center p-5" style="height: 300px;">
-	<h3 class="mb-5" style="">404</h3>
+	<h3 class="mb-5" style="">403</h3>
 		<h4 class="mb-5">Không thể truy cập vào nguồn này!</h4>
 		<a href="${ context }" class="btn btn-outline-danger ml-auto mr-auto">Quay lại trang chủ</a>
 	</div>
