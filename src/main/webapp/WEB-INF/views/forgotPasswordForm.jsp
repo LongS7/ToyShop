@@ -33,7 +33,7 @@
 		<div class="row">
 			<div class="col-lg-6">
 				<img alt="Lock"
-					src="${context }/resources/images/leonie-zettl-0vGohk5aw6E-unsplash.jpg"
+					src="${context }/resources/images/leonie-zettl-0vGohk5aw6E-unsplash.jpg" class="rounded"
 					width="100%" height="400px">
 			</div>
 			<div class="container pb-5 pt-5 col-lg-6">

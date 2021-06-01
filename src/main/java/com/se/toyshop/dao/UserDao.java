@@ -2,6 +2,7 @@ package com.se.toyshop.dao;
 
 import java.util.List;
 
+import com.se.toyshop.dto.UserDto;
 import com.se.toyshop.entity.User;
 
 public interface UserDao {
@@ -24,4 +25,8 @@ public interface UserDao {
 	int getQuantityMaleUser();
 	
 	int getQuantityUserNotOrder();
+	
+	List<Integer> getTotalOrder();
+	
+	void delete(User user);
 }

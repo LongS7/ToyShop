@@ -23,6 +23,15 @@
 <!-- Custom styles for this template-->
 <link href="${ context }/resources/css/sb-admin-2.min.css"
 	rel="stylesheet">
+<link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet">
+<script type="text/javascript" src="${context }/resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js" defer></script>
+<style type="text/css">
+	div.dataTables_wrapper {
+        width: 100%;
+        margin: 0 auto;
+    }
+</style>
 </head>
 <body>
 	<div id="wrapper">
@@ -144,7 +153,7 @@
 								</div>
 								<!-- Card Body -->
 								<div class="card-body">
-									<table class="table table-striped">
+									<table id="listUserInfo" class="display nowrap table table-striped table-hover" style="width:100%">
 										<thead class="thead-light">
 											<tr>
 												<th>STT</th>
@@ -152,6 +161,7 @@
 												<th>Email</th>
 												<th>Giới tính</th>
 												<th>Ngày sinh</th>
+												<th>Hóa đơn</th>
 												<th>Hành động</th>
 											</tr>
 										</thead>
@@ -170,9 +180,16 @@
 															</c:otherwise>
 														</c:choose></td>
 													<td>${user.birthday }</td>
-													<td><a class="btn btn-outline-info">Chỉnh
-															sửa</a> &nbsp; <a class="btn btn-outline-success" href="${context }/admin/manage-users/info/${user._id}">Xem
-															chi tiết</a></td>
+													<td>${totalOrder[loop.index] }</td>
+													<td>
+													<a class="btn btn-outline-info" href="${context }/admin/manage-users/edit/${user._id}">Chỉnh sửa</a>
+														&nbsp; <a class="btn btn-outline-success"
+														href="${context }/admin/manage-users/info/${user._id}">Xem
+															chi tiết</a>
+															<c:if test="${totalOrder[loop.index] == 0 }">
+																 &nbsp;<a class="btn btn-outline-danger" href="${context }/admin/manage-users/delete/${user._id}" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">Xóa</a>
+															</c:if>
+															</td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -189,8 +206,19 @@
 			<!-- End of Content Wrapper -->
 
 		</div>
-		<!-- End of Page Wrapper -->
 
-		<%@include file="end.jsp"%>
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<%@include file="end.jsp"%>
+	
+	<script type="text/javascript">
+$(document).ready(function() {
+    $('#listUserInfo').DataTable( {
+        "scrollY": 400,
+        "scrollX": true
+    } );
+} );
+</script>
 </body>
 </html>

@@ -33,7 +33,7 @@
 	<div class="container pb-5 pt-5">
 		<div class="row">
 			<div class="col-lg-6">
-				<img alt="" src="${context }/resources/images/train_toy.jpg" width="100%">
+				<img alt="" src="${context }/resources/images/train_toy.jpg" class="rounded" width="100%">
 			</div>
 			<div class="col-lg-6">
 				<p>Đăng nhập để mua hàng và sử dụng những tiện ích mới nhất từ
