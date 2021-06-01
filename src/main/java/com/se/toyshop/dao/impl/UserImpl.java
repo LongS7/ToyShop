@@ -225,4 +225,20 @@ public class UserImpl implements UserDao {
 		}
 	}
 
+	@Override
+	public List<ObjectId> getListUserIdNotOrder() {
+		List<ObjectId> objectIds = null;
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		try {
+			objectIds = session.createNativeQuery(
+					"db.users.aggregate([{'$lookup':{'from':'orders', 'localField':'_id', 'foreignField':'userId', 'as':'rs'}}, {'$addFields':{'totalOrder':{'$size':'$rs'}}}, {'$match':{'totalOrder':0}}, {'$project':{'_id':1}}])")
+					.getResultList();
+			trans.commit();
+		} catch (Exception e) {
+			trans.rollback();
+		}
+		return objectIds;
+	}
+
 }

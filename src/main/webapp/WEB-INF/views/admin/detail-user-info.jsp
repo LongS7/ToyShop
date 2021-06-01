@@ -9,7 +9,7 @@
 				<head>
 					<meta charset="UTF-8">
 					<meta name="viewport" content="width=device-width, initial-scale=1.0">
-					<title>Quản lý</title>
+					<title>Thông tin người dùng chi tiết</title>
 					<link rel="shortcut icon" href='<c:url value="/resources/images/favicon.ico" />'
 						type="image/x-icon">
 					<link rel="icon" href='<c:url value="/resources/images/favicon.ico" />' type="image/x-icon">

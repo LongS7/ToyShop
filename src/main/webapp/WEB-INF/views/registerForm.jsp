@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cửa hàng đồ chơi</title>
+<title>Đăng ký tài khoản</title>
 <link rel="shortcut icon"
 	href='<c:url value="/resources/images/favicon.ico" />'
 	type="image/x-icon">
@@ -113,7 +113,7 @@
 							placeholder="Nhập ngày tháng năm sinh" class="form-control" />
 						<form:errors path="birthday" cssClass="error text-danger" />
 					</div>
-					<form:hidden path="role" value="ROLE_USER" />
+					<form:hidden path="role" value="ROLE_USER"/>
 					<button type="submit"
 						class="btn btn-danger btn-block font-weight-bold">ĐĂNG KÝ</button>
 				</form:form>

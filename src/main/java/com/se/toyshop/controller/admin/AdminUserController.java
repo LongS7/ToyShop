@@ -85,15 +85,14 @@ public class AdminUserController {
 		if (errors.hasErrors()) {
 			return new ModelAndView("/admin/edit-user-form");
 		}
-
+		
 		boolean isUpdated = false;
-
+		
 		User tempUser = userDao.findByUsername(user.getAccount().getUsername());
 		
-		user.setRole(tempUser.getRole());
 		user.setShippingAddresses(tempUser.getShippingAddresses());
 		user.setListShoppingCartItem(tempUser.getListShoppingCartItem());
-		
+
 		if (oldPassword != null && newPassword != null && reNewPassword != null) {
 			if (passwordEncoder.matches(oldPassword, tempUser.getAccount().getPassword())
 					&& newPassword.equals(reNewPassword)) {
@@ -119,8 +118,13 @@ public class AdminUserController {
 	public ModelAndView deleteUser(@PathVariable String userId) {
 		User user = new User();
 		user.set_id(new ObjectId(userId));
-		userDao.delete(user);
-
+		List<ObjectId> objectIds = userDao.getListUserIdNotOrder();
+		for (ObjectId objectId : objectIds) {
+			if (user.get_id().equals(objectId)) {
+				userDao.delete(user);
+				return new ModelAndView("redirect:/admin/manage-users/");
+			}
+		}
 		return new ModelAndView("redirect:/admin/manage-users/");
 	}
 

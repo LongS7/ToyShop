@@ -10,7 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quản lý</title>
+<title>Thông tin người dùng chi tiết</title>
 <link rel="shortcut icon"
 	href='<c:url value="/resources/images/favicon.ico" />'
 	type="image/x-icon">
@@ -217,6 +217,27 @@
 												<form:errors path="birthday" cssClass="error text-danger" />
 											</div>
 											<div class="col-xl-6 col-lg-6">
+												<form:label class="font-weight-bold" path="role">Role:
+												</form:label>
+												<br>
+												<div
+													class="custom-control custom-radio custom-control-inline">
+													<form:radiobutton path="role" value="ROLE_USER"
+														class="custom-control-input" id="role_user" name="role" />
+													<form:label path="role" class="custom-control-label"
+														for="role_user">
+														USER
+													</form:label>
+												</div>
+												<div
+													class="custom-control custom-radio custom-control-inline">
+													<form:radiobutton path="role" value="ROLE_ADMIN"
+														class="custom-control-input" id="role_admin" name="role" />
+													<form:label path="role" class="custom-control-label"
+														for="role_admin">
+														ADMIN
+													</form:label>
+												</div>
 												<div class="form-group">
 													<form:label class="font-weight-bold"
 														path="account.username">Tên
@@ -256,7 +277,6 @@
 													</div>
 													<form:input path="account.password"
 														value="${user.account.password }" type="hidden" />
-													<form:input path="role" value="${user.role }" type="hidden" />
 												</div>
 											</div>
 										</div>

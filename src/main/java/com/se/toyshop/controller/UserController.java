@@ -102,7 +102,7 @@ public class UserController {
 		} else {
 			userDao.addUser(user);
 			mailSender.send(constructRegisterEmail(getAppUrl(request), user));
-			return new ModelAndView("successPasswordForm", "message", "Xin chúc mừng, bạn đã tạo tài khoản thành công");
+			return new ModelAndView("successForm", "message", "Xin chúc mừng, bạn đã tạo tài khoản thành công");
 		}
 	}
 
@@ -126,7 +126,9 @@ public class UserController {
 
 		User tempUser = userDao.findByUsername(user.getAccount().getUsername());
 		
-		user.setRole(tempUser.getRole());
+		if (user.getRole().isEmpty()) {
+			user.setRole(tempUser.getRole());
+		}
 		user.setShippingAddresses(tempUser.getShippingAddresses());
 		user.setListShoppingCartItem(tempUser.getListShoppingCartItem());
 
@@ -238,7 +240,7 @@ public class UserController {
 		}
 
 		mailSender.send(constructResetTokenEmail(getAppUrl(request), token, user));
-		return new ModelAndView("successPasswordForm", "message",
+		return new ModelAndView("successForm", "message",
 				"Chúng tôi đã gửi một hướng dẫn khôi phục mật khẩu đến email của bạn, vui lòng kiểm tra email.");
 	}
 
@@ -299,7 +301,7 @@ public class UserController {
 		if (user != null) {
 			user.getAccount().setPassword(passwordEncoder.encode(passwordDto.getNewPassword()));
 			userDao.update(user);
-			return new ModelAndView("successPasswordForm", "message", "Khôi phục mật khẩu thành công");
+			return new ModelAndView("successForm", "message", "Khôi phục mật khẩu thành công");
 		} else {
 			return new ModelAndView("updatePasswordForm", "message",
 					"Không tìm thấy tài khoản - Khôi phục mật khẩu thất bại");

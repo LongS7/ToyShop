@@ -2,6 +2,8 @@ package com.se.toyshop.dao;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 import com.se.toyshop.dto.UserDto;
 import com.se.toyshop.entity.User;
 
@@ -29,4 +31,6 @@ public interface UserDao {
 	List<Integer> getTotalOrder();
 	
 	void delete(User user);
+	
+	List<ObjectId> getListUserIdNotOrder();
 }
